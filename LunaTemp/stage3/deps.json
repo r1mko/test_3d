@@ -1,0 +1,17 @@
+{
+  "ignores": [],
+  "groups": [
+    [
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Test.cs"
+    ],
+    [
+      "C:/Users/r1mko/Desktop/Luna/pipeline/templates/LunaCompiler/Scripts/Properties/AssemblyInfo.cs"
+    ],
+    [
+      "C:/Users/r1mko/Desktop/Luna/pipeline/templates/LunaCompiler/Scripts/Sources/OtherDummyScript.cs"
+    ],
+    [
+      "C:/Users/r1mko/Desktop/Luna/pipeline/templates/LunaCompiler/Scripts/obj/Debug/.NETFramework,Version=v4.7.AssemblyAttributes.cs"
+    ]
+  ]
+}
