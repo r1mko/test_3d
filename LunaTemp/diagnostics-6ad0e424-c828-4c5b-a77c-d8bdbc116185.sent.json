@@ -1,12 +1,12 @@
 {
-    "BuildID": "8ee66b51-6c08-4410-8c62-39e77d098652",
+    "BuildID": "6ad0e424-c828-4c5b-a77c-d8bdbc116185",
     "Command": "project:build",
     "ProjectID": "c4c25e8ac02e28242b71a38d2f7d0a01",
-    "ProjectStateHash": "fb597800d44f1a8a61363665facd94bfd943d9705ebd7a157a558f0570416a6a",
+    "ProjectStateHash": "3d3208ec5d6a8b50ff7df5769739d5f30be65c1aeb48e67388a11edd24845753",
     "StageCompletedAt": 3,
     "EarliestFatalError": 0,
-    "StartTime": 1775325871707,
-    "EndTime": 1775325889949,
+    "StartTime": 1775395125071,
+    "EndTime": 1775395157797,
     "PlaygroundUserID": 34503,
     "OperatingSystem": "win32",
     "UnityPackageID": null,
@@ -16,9 +16,9 @@
     "LogCount": 4,
     "Logs": [
         {
-            "LogID": "8a97adbb-74cc-4bbf-98ee-0b83c6263780",
+            "LogID": "d38c31b8-7ea5-4a12-81bb-b79fb8af05ce",
             "Order": 1,
-            "Timestamp": 1775325890111,
+            "Timestamp": 1775395157953,
             "Stage": 3,
             "ErrorType": 1,
             "ErrorCode": "LP3006",
@@ -42,9 +42,9 @@
             "Severity": 0
         },
         {
-            "LogID": "9e113e02-6968-4aaa-9f23-00f7a2ea08c4",
+            "LogID": "9aa47d2d-5f54-4275-bbde-2c1466cffce5",
             "Order": 1,
-            "Timestamp": 1775325890114,
+            "Timestamp": 1775395157953,
             "Stage": 3,
             "ErrorType": 1,
             "ErrorCode": "LP3015",
@@ -68,9 +68,9 @@
             "Severity": 0
         },
         {
-            "LogID": "d6247c1c-fcc1-49f0-a53b-2d753c75a50e",
+            "LogID": "93bb90c6-f3ad-4f18-9ae9-1e73bdf32ed7",
             "Order": 1,
-            "Timestamp": 1775325890114,
+            "Timestamp": 1775395157953,
             "Stage": 3,
             "ErrorType": 3,
             "ErrorCode": "LP3007",
@@ -92,9 +92,9 @@
             "Severity": 0
         },
         {
-            "LogID": "8bc00a63-834d-4eea-b68c-d44f97532950",
+            "LogID": "8c6e0a1a-db63-457d-87d1-f1cf1215f699",
             "Order": 1,
-            "Timestamp": 1775325890115,
+            "Timestamp": 1775395157953,
             "Stage": 3,
             "ErrorType": 3,
             "ErrorCode": "LP3011",

@@ -216,7 +216,7 @@ MonoBehaviour:
     - _SUNDISK_SIMPLE
   _includedShaderVariants: []
   _excludedShaderVariants: []
-  version: 31
+  version: 34
   _shaderParsedShaders:
   - ParsedSubShaders:
     - Index: 0
@@ -3231,4 +3231,4 @@ MonoBehaviour:
       - UNITY_UI_ALPHACLIP
       - UNITY_UI_CLIP_RECT
   _modifiedShaders: []
-  invalidShaders: 0
+  invalidShaders: 1

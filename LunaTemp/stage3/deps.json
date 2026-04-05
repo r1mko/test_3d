@@ -2,9 +2,6 @@
   "ignores": [],
   "groups": [
     [
-      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Test.cs"
-    ],
-    [
       "C:/Users/r1mko/Desktop/Luna/pipeline/templates/LunaCompiler/Scripts/Properties/AssemblyInfo.cs"
     ],
     [

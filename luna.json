@@ -129,7 +129,7 @@
             ]
         },
         "scenes": [
-            "Assets/Scenes/SampleScene.unity"
+            "Assets/Scenes/Main.unity"
         ],
         "disabledScenes": [],
         "startupScene": 0,
@@ -2619,10 +2619,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.MeshRenderer",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.ParticleSystemRenderer",
                 "excluded": true
             },
@@ -4444,7 +4440,7 @@
             },
             {
                 "name": "UnityEngine.LightmapsMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.LightmapsModeLegacy",
@@ -4452,7 +4448,7 @@
             },
             {
                 "name": "UnityEngine.LightRenderMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.LightShadowCasterMode",
@@ -5080,7 +5076,7 @@
             },
             {
                 "name": "UnityEngine.Rendering.LightProbeUsage",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Rendering.MeshUpdateFlags",
@@ -5136,7 +5132,7 @@
             },
             {
                 "name": "UnityEngine.Rendering.ReflectionProbeUsage",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Rendering.RenderBufferLoadAction",
@@ -5204,7 +5200,7 @@
             },
             {
                 "name": "UnityEngine.Rendering.ShadowCastingMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Rendering.ShadowMapPass",
@@ -15394,7 +15390,7 @@
                 "instanceMethods": [
                     {
                         "name": "GetInterpolatedProbe",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "HasProbes#get",
@@ -15406,7 +15402,7 @@
                     },
                     {
                         "name": "GetInterpolatedProbeForRenderer",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetBarycentricCoordinatesInTetrahedron",
@@ -15838,7 +15834,7 @@
                 "instanceMethods": [
                     {
                         "name": "GetInterpolatedProbes",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -15866,11 +15862,11 @@
                     },
                     {
                         "name": "GetEnvironmentProbeForRenderer",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetInterpolatedProbesForRenderer",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "InitializeEnvironmentProbe",
@@ -16258,7 +16254,7 @@
                     },
                     {
                         "name": "GetLayerValueFromID",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetLayerIDFromValue",
@@ -18640,11 +18636,11 @@
                 "instanceMethods": [
                     {
                         "name": "handle#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "handle#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "receiveShadows#get",
@@ -18780,27 +18776,27 @@
                     },
                     {
                         "name": "lightProbeUsage#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "lightProbeUsage#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "reflectionProbeUsage#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "reflectionProbeUsage#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -18808,15 +18804,15 @@
                     },
                     {
                         "name": "UpdateProbes",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "UpdateLightProbes",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "UpdateReflectionProbes",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetPropertyBlock",
@@ -22839,6 +22835,24 @@
                         "excluded": true
                     }
                 ]
+            },
+            {
+                "className": "UnityEngine.MeshRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDidApplyAnimationProperties",
+                        "excluded": true
+                    }
+                ]
             }
         ],
         "stubberDataList": [],
@@ -22922,13 +22936,13 @@
     },
     "postprocesses": {
         "ssao": {
-            "isActive": false,
-            "samplingQuality": 1,
-            "normalsQuality": 0,
+            "isActive": true,
+            "samplingQuality": 2,
+            "normalsQuality": 1,
             "blurQuality": 0,
             "radius": 0.1,
             "intensity": 1.0,
-            "falloff": 100.0
+            "falloff": 500.0
         }
     },
     "logLevel_Cs": "error",
