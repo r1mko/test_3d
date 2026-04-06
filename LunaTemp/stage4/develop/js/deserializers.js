@@ -880,7 +880,7 @@ Deserializers.productName = "test_3d";
 
 Deserializers.lunaInitializationTime = "04/04/2026 17:22:47";
 
-Deserializers.lunaDaysRunning = "0.8";
+Deserializers.lunaDaysRunning = "1.6";
 
 Deserializers.lunaVersion = "7.1.0";
 
@@ -910,9 +910,9 @@ Deserializers.isAntiAliasingEnabled = "False";
 
 Deserializers.isRuntimeAnalysisEnabledForCode = "True";
 
-Deserializers.runtimeAnalysisExcludedClassesCount = "1846";
+Deserializers.runtimeAnalysisExcludedClassesCount = "1840";
 
-Deserializers.runtimeAnalysisExcludedMethodsCount = "3050";
+Deserializers.runtimeAnalysisExcludedMethodsCount = "3034";
 
 Deserializers.runtimeAnalysisExcludedModules = "physics3d, physics2d, particle-system, reflection, prefabs, mecanim-wasm";
 
@@ -936,7 +936,7 @@ Deserializers.graphicsConstraint = 24;
 
 Deserializers.linearColorSpace = true;
 
-Deserializers.buildID = "6ad0e424-c828-4c5b-a77c-d8bdbc116185";
+Deserializers.buildID = "c6b4b74c-5907-43e6-b9d2-87925f74ed8f";
 
 Deserializers.runtimeInitializeOnLoadInfos = [[["UnityEngine","Experimental","Rendering","ScriptableRuntimeReflectionSystemSettings","ScriptingDirtyReflectionSystemInstance"]],[["Unity","VisualScripting","RuntimeVSUsageUtility","RuntimeInitializeOnLoadBeforeSceneLoad"]],[],[],[]];
 

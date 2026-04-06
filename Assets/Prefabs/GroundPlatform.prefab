@@ -43,7 +43,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1297893843207449293, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_Name
-      value: TopHexagon
+      value: BotHexagon
       objectReference: {fileID: 0}
     - target: {fileID: 1682834578224641672, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.x
@@ -103,19 +103,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.x
-      value: 58.6245
+      value: 62.999996
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.y
-      value: 58.6245
+      value: 62.999996
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.z
-      value: 124.3
+      value: 134.4
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3547417077294052763, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -141,7 +141,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1297893843207449293, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_Name
-      value: BotHexagon
+      value: TopHexagon
       objectReference: {fileID: 0}
     - target: {fileID: 1682834578224641672, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalPosition.x
@@ -189,15 +189,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.x
-      value: 52.5
+      value: 54.5
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.y
-      value: 52.5
+      value: 54.5
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_LocalScale.z
-      value: 157.5
+      value: 163.5
       objectReference: {fileID: 0}
     - target: {fileID: 2409946787799092980, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
       propertyPath: m_ConstrainProportionsScale

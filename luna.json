@@ -22937,7 +22937,7 @@
     "postprocesses": {
         "ssao": {
             "isActive": true,
-            "samplingQuality": 2,
+            "samplingQuality": 0,
             "normalsQuality": 1,
             "blurQuality": 0,
             "radius": 0.1,
