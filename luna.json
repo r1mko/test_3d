@@ -8581,6 +8581,10 @@
             {
                 "name": "TMPro.HorizontalAlignmentOptions",
                 "excluded": false
+            },
+            {
+                "name": "Stack",
+                "excluded": false
             }
         ],
         "unusedMethods": [
@@ -23471,9 +23475,9 @@
     "postprocesses": {
         "ssao": {
             "isActive": true,
-            "samplingQuality": 2,
-            "normalsQuality": 1,
-            "blurQuality": 1,
+            "samplingQuality": 0,
+            "normalsQuality": 0,
+            "blurQuality": 0,
             "radius": 0.1,
             "intensity": 0.0,
             "falloff": 500.0

@@ -1,12 +1,12 @@
 {
-    "BuildID": "f23cc7c4-7f0e-4278-9355-f750bbd88df8",
+    "BuildID": "f62d64ed-b699-4c28-9e63-25816f062936",
     "Command": "project:build",
     "ProjectID": "c4c25e8ac02e28242b71a38d2f7d0a01",
-    "ProjectStateHash": "36bd5f76104a7be65a752cada136dc17cac111dcbd7c9755258f65d89ac1db23",
+    "ProjectStateHash": "779869b536ffb758fa19023ba2834fb1aa3548a26f7fcef7993050f07af6d726",
     "StageCompletedAt": 3,
     "EarliestFatalError": 0,
-    "StartTime": 1775466408152,
-    "EndTime": 1775466434206,
+    "StartTime": 1775488225175,
+    "EndTime": 1775488251678,
     "PlaygroundUserID": 34503,
     "OperatingSystem": "win32",
     "UnityPackageID": null,
@@ -16,9 +16,9 @@
     "LogCount": 5,
     "Logs": [
         {
-            "LogID": "0fa287b4-dcb0-4086-a94c-799b4d9333bc",
+            "LogID": "904429b4-3961-4605-b418-c36dedbc2950",
             "Order": 2,
-            "Timestamp": 1775466434363,
+            "Timestamp": 1775488251858,
             "Stage": 3,
             "ErrorType": 1,
             "ErrorCode": "LP3006",
@@ -42,9 +42,9 @@
             "Severity": 0
         },
         {
-            "LogID": "2aa09c1c-c64b-4339-9f75-8736f4133170",
+            "LogID": "2ce2dfd0-b470-43bc-9f68-a80f4cb0e5bb",
             "Order": 2,
-            "Timestamp": 1775466434365,
+            "Timestamp": 1775488251860,
             "Stage": 3,
             "ErrorType": 1,
             "ErrorCode": "LP3015",
@@ -68,9 +68,9 @@
             "Severity": 0
         },
         {
-            "LogID": "7971757b-ffed-4e88-92fc-4e099c0a63ee",
+            "LogID": "196804a1-2ff2-4a26-8d4c-9838e7cb3e3f",
             "Order": 2,
-            "Timestamp": 1775466434365,
+            "Timestamp": 1775488251860,
             "Stage": 3,
             "ErrorType": 3,
             "ErrorCode": "LP3007",
@@ -92,9 +92,9 @@
             "Severity": 0
         },
         {
-            "LogID": "dc6991e5-b3bc-40cd-9341-3df2a07a2e64",
+            "LogID": "29010ac3-3294-40c6-81da-11a498ff4404",
             "Order": 2,
-            "Timestamp": 1775466434369,
+            "Timestamp": 1775488251861,
             "Stage": 3,
             "ErrorType": 3,
             "ErrorCode": "LP3011",
@@ -112,9 +112,9 @@
             "Severity": 0
         },
         {
-            "LogID": "850b27ba-8cf4-4561-91e0-5efc78d616f5",
+            "LogID": "3fbd3913-ae3c-4b98-8d0d-ca193af22698",
             "Order": 0,
-            "Timestamp": 1775466414752,
+            "Timestamp": 1775488232959,
             "Stage": 1,
             "ErrorType": 2,
             "ErrorCode": "LP1010",
@@ -179,11 +179,12 @@
                 "Collider",
                 "Collider",
                 "Collider",
-                "Collider"
+                "Collider",
+                "Cube"
             ],
             "DescriptionValues": [],
             "DetailsValues": [],
-            "LogCount": 60,
+            "LogCount": 61,
             "LinePosition": 0,
             "FilePath": "",
             "ClassName": "",

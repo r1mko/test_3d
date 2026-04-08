@@ -124,6 +124,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8874408391698292575}
+  - component: {fileID: 4393902384693857920}
+  - component: {fileID: 162539228325092039}
   m_Layer: 0
   m_Name: GroundPlatform
   m_TagString: Untagged
@@ -150,6 +152,42 @@ Transform:
   - {fileID: 21311982100183218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4393902384693857920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2786491528729096403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc73895bccc4c14eaac12f3ea9ad3f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Container: {fileID: 5295122778797261793}
+  glowMaterial: {fileID: 2100000, guid: 1a8bbe885fe062f4080a320905fa608f, type: 2}
+  platformRenderer: {fileID: 994558332607898611}
+--- !u!135 &162539228325092039
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2786491528729096403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.8
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &3355012106974561649
 GameObject:
   m_ObjectHideFlags: 0

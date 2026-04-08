@@ -1,6 +1,6 @@
 if ( TRACE ) { TRACE( JSON.parse( '["DragAndDrop#init","DragAndDrop#Awake","DragAndDrop#OnMouseDown","DragAndDrop#OnMouseUp","DragAndDrop#Update"]' ) ); }
 /**
- * @version 1.0.9592.23610
+ * @version 1.0.9592.34519
  * @copyright anton
  * @compiler Bridge.NET 17.9.42-luna
  */
@@ -86,6 +86,12 @@ if ( TRACE ) { TRACE( "DragAndDrop#Update", this ); }
     });
     /*IAmAnEmptyScriptJustToMakeCodelessProjectsCompileProperty end.*/
 
+    /*Stack start.*/
+    Bridge.define("Stack", {
+        inherits: [UnityEngine.MonoBehaviour]
+    });
+    /*Stack end.*/
+
     if ( MODULE_reflection ) {
     var $m = Bridge.setMetadata,
         $n = ["System","UnityEngine"];
@@ -93,6 +99,10 @@ if ( TRACE ) { TRACE( "DragAndDrop#Update", this ); }
     /*DragAndDrop start.*/
     $m("DragAndDrop", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"OnMouseDown","t":8,"sn":"OnMouseDown","rt":$n[0].Void},{"a":1,"n":"OnMouseUp","t":8,"sn":"OnMouseUp","rt":$n[0].Void},{"a":1,"n":"Update","t":8,"sn":"Update","rt":$n[0].Void},{"a":1,"n":"isDragging","t":4,"rt":$n[0].Boolean,"sn":"isDragging","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainCamera","t":4,"rt":$n[1].Camera,"sn":"mainCamera"},{"a":1,"n":"originalPosition","t":4,"rt":$n[1].Vector3,"sn":"originalPosition"}]}; }, $n);
     /*DragAndDrop end.*/
+
+    /*Stack start.*/
+    $m("Stack", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"}]}; }, $n);
+    /*Stack end.*/
 
     /*IAmAnEmptyScriptJustToMakeCodelessProjectsCompileProperty start.*/
     $m("IAmAnEmptyScriptJustToMakeCodelessProjectsCompileProperty", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"}]}; }, $n);
