@@ -7,6 +7,9 @@ public class Stack : MonoBehaviour
     [SerializeField] private float moveDuration = 0.25f;
     [SerializeField] private float rayLength = 10f;
 
+    // Ссылка на компонент, отвечающий за наполнение стека
+    [SerializeField] private FillStack fillStack;
+
     private Vector3 originalPosition;
     private GroundPlatform currentHoveredPlatform;
     private Coroutine moveCoroutine;
@@ -14,6 +17,19 @@ public class Stack : MonoBehaviour
     private void Awake()
     {
         originalPosition = transform.position;
+
+        if (fillStack == null)
+        {
+            fillStack = GetComponent<FillStack>();
+        }
+    }
+
+    private void Start()
+    {
+        if (fillStack != null && transform.childCount == 0)
+        {
+            fillStack.GenerateBlocks();
+        }
     }
 
     private void Update()
@@ -99,16 +115,25 @@ public class Stack : MonoBehaviour
 
         MoveChildrenToContainer(targetContainer);
 
-        gameObject.SetActive(false);
-
         if (currentHoveredPlatform != null)
         {
             currentHoveredPlatform.RemoveGlow();
             currentHoveredPlatform = null;
         }
+
+        ReturnAndRefill();
     }
 
-    private void ReturnToOriginal()
+    private void ReturnAndRefill()
+    {
+        transform.position = originalPosition;
+        if (fillStack != null)
+        {
+            fillStack.GenerateBlocks();
+        }
+    }
+
+    private void ReturnToOriginal() //to do smooth movement
     {
         transform.position = originalPosition;
 
