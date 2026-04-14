@@ -45,6 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeadb0f57219f842ac4bc72046c3991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorMaterials:
+  - color: 0
+    material: {fileID: 2100000, guid: 4c14417063686564ea012ac1b51669ad, type: 2}
+  - color: 1
+    material: {fileID: 2100000, guid: ddbabd8f423f61540a4b7ad4a6adc1ec, type: 2}
+  - color: 2
+    material: {fileID: 2100000, guid: bc3b93bb1ee0348418e96a4af548dbf2, type: 2}
+  - color: 3
+    material: {fileID: 2100000, guid: d0b2afbab03a33f4ba7223101a3e2b6e, type: 2}
+  - color: 4
+    material: {fileID: 2100000, guid: 5340835cb495f8543a56f3c0e0991d36, type: 2}
+  - color: 5
+    material: {fileID: 2100000, guid: 3110f82a1bf51604ba8c586dc54d1d73, type: 2}
+  hexRenderer: {fileID: 3547417077294052763}
 --- !u!1001 &2808945070368532767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125,5 +139,10 @@ PrefabInstance:
 --- !u!4 &2409946787799092980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9dfe2a902029ab046a3779e52c0bd838, type: 3}
+  m_PrefabInstance: {fileID: 2808945070368532767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3547417077294052763 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 9dfe2a902029ab046a3779e52c0bd838, type: 3}
   m_PrefabInstance: {fileID: 2808945070368532767}
   m_PrefabAsset: {fileID: 0}
