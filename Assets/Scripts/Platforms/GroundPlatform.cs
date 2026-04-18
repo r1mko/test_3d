@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class GroundPlatform : MonoBehaviour
 {
@@ -63,11 +64,76 @@ public class GroundPlatform : MonoBehaviour
 
             if (myColor == neighborColor)
             {
-                MoveAllChildren(Container, neighbor.Container);
-                RealignStack(neighbor.Container);
+                StartTransferAnimation(neighbor);
                 return;
             }
         }
+    }
+
+    private void StartTransferAnimation(GroundPlatform targetPlatform)
+    {
+        // Собираем все блоки из текущего контейнера
+        List<Hexagon> blocksToMove = new List<Hexagon>();
+        foreach (Transform child in Container.transform)
+        {
+            Hexagon hex = child.GetComponent<Hexagon>();
+            if (hex != null)
+            {
+                blocksToMove.Add(hex);
+            }
+        }
+
+        // Сортируем их по высоте (снизу вверх или сверху вниз - зависит от желаемого эффекта "перекладывания")
+        // Обычно перекладывают сверху вниз, чтобы верхний упал первым, но визуально красивее снизу вверх (как башня переезжает)
+        // Давайте сортировать по Y, чтобы двигать снизу вверх (индекс 0 - самый нижний)
+        blocksToMove.Sort((a, b) => a.transform.localPosition.y.CompareTo(b.transform.localPosition.y));
+
+        // Рассчитываем новые позиции в целевом контейнере
+        int startIndex = targetPlatform.Container.transform.childCount;
+
+        for (int i = 0; i < blocksToMove.Count; i++)
+        {
+            Hexagon hex = blocksToMove[i];
+            int finalIndex = startIndex + i;
+
+            // Целевая локальная позиция в новом контейнере
+            Vector3 localTargetPos = new Vector3(0f, finalIndex * HeightStep, 0f);
+            // Конвертируем в мировую позицию для анимации
+            Vector3 worldTargetPos = targetPlatform.Container.transform.TransformPoint(localTargetPos);
+
+            // Целевое вращение (совпадает с вращением контейнера/платформы)
+            Quaternion targetRot = targetPlatform.Container.transform.rotation;
+
+            // Запускаем анимацию с задержкой, чтобы они летели по очереди
+            // Можно использовать корутину для последовательного запуска, но проще добавить delay в саму анимацию или здесь
+            StartCoroutine(PlaySequentialJump(hex, worldTargetPos, targetRot, targetPlatform.Container.transform, localTargetPos, i * 0.1f));
+        }
+
+        // Очищаем текущий контейнер визуально сразу, но логически он очистится, когда объекты улетят
+        // Важно: объекты теперь дети targetPlatform, но летят из старой позиции.
+        // Чтобы упростить, мы меняем родителя ПЕРЕД анимацией, но сохраняем старую мировую позицию.
+
+        foreach (Hexagon hex in blocksToMove)
+        {
+            hex.transform.SetParent(targetPlatform.Container.transform, true);
+        }
+    }
+
+    private IEnumerator PlaySequentialJump(Hexagon hex, Vector3 worldTargetPos, Quaternion targetRot, Transform newParent, Vector3 localTargetPos, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Перед началом прыжка убеждаемся, что объект стоит в старой позиции (мировой)
+        // Так как мы сменили родителя, позиция могла скакнуть. Возвращаем мировую позицию.
+        hex.transform.position = hex.transform.position;
+
+        // Запускаем анимацию в Hexagon
+        hex.PlayJumpAnimation(worldTargetPos, targetRot, () =>
+        {
+            // После анимации устанавливаем локальную позицию точно в цель, чтобы избежать рассинхрона
+            hex.transform.localPosition = localTargetPos;
+            hex.transform.localRotation = Quaternion.identity; // Или как требуется вашей системе координат
+        });
     }
 
     private void MoveAllChildren(GameObject fromContainer, GameObject toContainer)
