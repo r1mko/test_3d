@@ -2,10 +2,11 @@
   "ignores": [],
   "groups": [
     [
-      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/DragAndDrop.cs"
-    ],
-    [
-      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/Stack.cs"
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Hexagon/Hexagon.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/FillStack.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/Stack.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/DragAndDrop.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Platforms/GroundPlatform.cs"
     ],
     [
       "C:/Users/r1mko/Desktop/Luna/pipeline/templates/LunaCompiler/Scripts/Properties/AssemblyInfo.cs"
