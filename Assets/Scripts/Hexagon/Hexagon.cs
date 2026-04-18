@@ -123,7 +123,7 @@ public class Hexagon : MonoBehaviour
 
         Debug.Log($"Pivot: {pivotAnchor.name} | Target: {targetPosition}");
 
-        Vector3 pivotPoint = pivotAnchor.position;
+        Vector3 basePivotPoint = pivotAnchor.position;
 
         Vector3 rotationAxis = Vector3.Cross(directionXZ, Vector3.up).normalized;
 
@@ -141,23 +141,21 @@ public class Hexagon : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / jumpDuration);
+
             float curveValue = jumpCurve.Evaluate(t);
 
-            float currentAngle = angle * curveValue;
+            Quaternion rotOffset = Quaternion.AngleAxis(angle * curveValue, rotationAxis);
 
-            Quaternion rotOffset = Quaternion.AngleAxis(currentAngle, rotationAxis);
+            Vector3 linearInterpPos = Vector3.Lerp(startPos, targetPosition, curveValue);
 
-            Vector3 relativePos = startPos - pivotPoint;
-            Vector3 rotatedRelativePos = rotOffset * relativePos;
+            float arcHeight = jumpHeight * Mathf.Sin(curveValue * Mathf.PI);
 
-            Vector3 calculatedPos = pivotPoint + rotatedRelativePos;
-
-            float heightOffset = jumpHeight * Mathf.Sin(curveValue * Mathf.PI);
-            calculatedPos.y += heightOffset;
+            Vector3 finalPos = linearInterpPos;
+            finalPos.y += arcHeight;
 
             Quaternion currentRot = rotOffset * startRot;
 
-            transform.position = calculatedPos;
+            transform.position = finalPos;
             transform.rotation = currentRot;
 
             yield return null;

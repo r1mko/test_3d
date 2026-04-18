@@ -73,7 +73,6 @@ public class GroundPlatform : MonoBehaviour
     private void StartTransferAnimation(GroundPlatform targetPlatform)
     {
         List<Hexagon> blocksToMove = new List<Hexagon>();
-        List<Vector3> worldPositions = new List<Vector3>();
 
         foreach (Transform child in Container.transform)
         {
@@ -81,18 +80,16 @@ public class GroundPlatform : MonoBehaviour
             if (hex != null)
             {
                 blocksToMove.Add(hex);
-                worldPositions.Add(hex.transform.position);
             }
         }
 
-        blocksToMove.Sort((a, b) => b.transform.localPosition.y.CompareTo(a.transform.localPosition.y));
+        blocksToMove.Sort((a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
 
         int startIndex = targetPlatform.Container.transform.childCount;
 
         for (int i = 0; i < blocksToMove.Count; i++)
         {
             Hexagon hex = blocksToMove[i];
-            Vector3 startPos = worldPositions[i];
 
             int finalIndex = startIndex + i;
 
@@ -101,9 +98,7 @@ public class GroundPlatform : MonoBehaviour
 
             hex.transform.SetParent(targetPlatform.Container.transform, true);
 
-            hex.transform.position = startPos;
-
-            Debug.Log($"Pre-Jump Fix: {hex.name} set to Pos: {startPos}");
+            Debug.Log($"Pre-Jump Fix: {hex.name} set to Target World Y: {worldTargetPos.y}");
 
             StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f));
         }
