@@ -85,20 +85,22 @@ public class GroundPlatform : MonoBehaviour
 
         blocksToMove.Sort((a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
 
-        int startIndex = targetPlatform.Container.transform.childCount;
+        float baseHeight = 0f;
+        Hexagon topHex = GetTopHexagon(targetPlatform.Container);
+        if (topHex != null)
+        {
+            baseHeight = topHex.transform.localPosition.y + HeightStep;
+        }
 
         for (int i = 0; i < blocksToMove.Count; i++)
         {
             Hexagon hex = blocksToMove[i];
+            float targetY = baseHeight + (i * HeightStep);
 
-            int finalIndex = startIndex + i;
-
-            Vector3 localTargetPos = new Vector3(0f, finalIndex * HeightStep, 0f);
+            Vector3 localTargetPos = new Vector3(0f, targetY, 0f);
             Vector3 worldTargetPos = targetPlatform.Container.transform.TransformPoint(localTargetPos);
 
             hex.transform.SetParent(targetPlatform.Container.transform, true);
-
-            Debug.Log($"Pre-Jump Fix: {hex.name} set to Target World Y: {worldTargetPos.y}");
 
             StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f));
         }
@@ -109,7 +111,6 @@ public class GroundPlatform : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         Vector3 currentPos = hex.transform.position;
-        Debug.Log($"Jump Start: {hex.name} | Current Pos: {currentPos} | Target: {worldTargetPos}");
 
         hex.PlayJumpAnimation(worldTargetPos, hex.transform.rotation, () =>
         {
@@ -138,30 +139,6 @@ public class GroundPlatform : MonoBehaviour
         }
 
         return topHex;
-    }
-
-    private void RealignStack(GameObject container)
-    {
-        if (container == null) return;
-
-        List<Transform> hexObjects = new List<Transform>();
-
-        foreach (Transform child in container.transform)
-        {
-            if (child.GetComponent<Hexagon>() != null)
-            {
-                hexObjects.Add(child);
-            }
-        }
-
-        hexObjects.Sort((a, b) => a.localPosition.y.CompareTo(b.localPosition.y));
-
-        int index = 0;
-        foreach (Transform hexObj in hexObjects)
-        {
-            hexObj.localPosition = new Vector3(0f, index * HeightStep, 0f);
-            index++;
-        }
     }
 
     private void InitializeColorsInContainer(GameObject container)

@@ -121,8 +121,6 @@ public class Hexagon : MonoBehaviour
             yield break;
         }
 
-        Debug.Log($"Pivot: {pivotAnchor.name} | Target: {targetPosition}");
-
         Vector3 basePivotPoint = pivotAnchor.position;
 
         Vector3 rotationAxis = Vector3.Cross(directionXZ, Vector3.up).normalized;
