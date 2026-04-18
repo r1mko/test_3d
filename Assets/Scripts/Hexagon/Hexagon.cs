@@ -6,12 +6,7 @@ public class Hexagon : MonoBehaviour
 {
     public enum HexagonColor
     {
-        Black,
-        Blue,
-        Green,
-        Purple,
-        Red,
-        Yellow
+        Black, Blue, Green, Purple, Red, Yellow
     }
 
     [Serializable]
@@ -23,9 +18,10 @@ public class Hexagon : MonoBehaviour
 
     [SerializeField] private ColorMaterialPair[] colorMaterials;
     [SerializeField] private Renderer hexRenderer;
+    [SerializeField] private Transform[] anchors;
     [SerializeField] private AnimationCurve jumpCurve;
-    [SerializeField] private float jumpHeight = 0.5f;
-    [SerializeField] private float jumpDuration = 0.3f;
+    [SerializeField] private float jumpHeight = 0.3f;
+    [SerializeField] private float jumpDuration = 0.4f;
 
     private HexagonColor currentColor;
     private bool isInitialized = false;
@@ -36,8 +32,11 @@ public class Hexagon : MonoBehaviour
             hexRenderer = GetComponentInChildren<Renderer>();
 
         if (jumpCurve == null || jumpCurve.length == 0)
-        {
             jumpCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+        if (anchors == null || anchors.Length != 6)
+        {
+            Debug.LogWarning("Hexagon: Anchors array is not set or has wrong size.");
         }
     }
 
@@ -45,25 +44,19 @@ public class Hexagon : MonoBehaviour
     {
         currentColor = color;
         isInitialized = true;
-
         foreach (var pair in colorMaterials)
         {
             if (pair.color == color)
             {
-                if (hexRenderer != null)
-                {
-                    hexRenderer.material = pair.material;
-                }
+                if (hexRenderer != null) hexRenderer.material = pair.material;
                 return;
             }
         }
-        Debug.LogWarning($"Material for color {color} not found in Hexagon script.");
     }
 
     public void IdentifyColorByMaterial()
     {
         if (hexRenderer == null || hexRenderer.sharedMaterial == null) return;
-
         foreach (var pair in colorMaterials)
         {
             if (pair.material != null && hexRenderer.sharedMaterial.name.Contains(pair.material.name))
@@ -73,19 +66,10 @@ public class Hexagon : MonoBehaviour
                 return;
             }
         }
-
-        Debug.LogWarning($"Could not identify color for material: {hexRenderer.sharedMaterial.name}");
     }
 
-    public HexagonColor GetColor()
-    {
-        return currentColor;
-    }
-
-    public bool IsInitialized()
-    {
-        return isInitialized;
-    }
+    public HexagonColor GetColor() { return currentColor; }
+    public bool IsInitialized() { return isInitialized; }
 
     public void PlayJumpAnimation(Vector3 targetPosition, Quaternion targetRotation, Action onComplete = null)
     {
@@ -97,14 +81,59 @@ public class Hexagon : MonoBehaviour
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
 
-        // Вычисляем промежуточную точку для дуги
-        Vector3 midPos = new Vector3((startPos.x + targetPosition.x) / 2f,
-                                     Mathf.Max(startPos.y, targetPosition.y) + jumpHeight,
-                                     (startPos.z + targetPosition.z) / 2f);
+        Vector3 directionXZ = targetPosition - startPos;
+        directionXZ.y = 0;
 
-        // Определяем целевое вращение с учетом переворота на 180 градусов по оси Z
-        // Если нужно вращать по другой оси, замените Vector3.forward на Vector3.up или Vector3.right
-        Quaternion endRot = startRot * Quaternion.Euler(0f, 0f, 180f);
+        if (directionXZ.sqrMagnitude < 0.001f)
+        {
+            transform.position = targetPosition;
+            transform.rotation = targetRotation;
+            onComplete?.Invoke();
+            yield break;
+        }
+
+        Transform pivotAnchor = null;
+        float minDist = float.MaxValue;
+
+        foreach (Transform anchor in anchors)
+        {
+            if (anchor == null) continue;
+
+            Vector3 anchorPos = anchor.position;
+            anchorPos.y = 0;
+
+            Vector3 targetPosFlat = targetPosition;
+            targetPosFlat.y = 0;
+
+            float dist = Vector3.Distance(anchorPos, targetPosFlat);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                pivotAnchor = anchor;
+            }
+        }
+
+        if (pivotAnchor == null)
+        {
+            Debug.LogError("Hexagon: No valid anchor found!");
+            onComplete?.Invoke();
+            yield break;
+        }
+
+        Debug.Log($"Pivot: {pivotAnchor.name} | Target: {targetPosition}");
+
+        Vector3 pivotPoint = pivotAnchor.position;
+
+        Vector3 rotationAxis = Vector3.Cross(directionXZ, Vector3.up).normalized;
+
+        float angle = 180f;
+        Vector3 fallDirection = Vector3.Cross(rotationAxis, Vector3.up).normalized;
+
+        if (Vector3.Dot(fallDirection, directionXZ.normalized) < 0)
+        {
+            angle = -180f;
+        }
 
         float elapsedTime = 0f;
 
@@ -114,23 +143,28 @@ public class Hexagon : MonoBehaviour
             float t = Mathf.Clamp01(elapsedTime / jumpDuration);
             float curveValue = jumpCurve.Evaluate(t);
 
-            // Квадратичная кривая Безье для позиции
-            Vector3 currentPos = Vector3.Lerp(Vector3.Lerp(startPos, midPos, curveValue),
-                                              Vector3.Lerp(midPos, targetPosition, curveValue),
-                                              curveValue);
+            float currentAngle = angle * curveValue;
 
-            // Плавный поворот от startRot до endRot (переворот на 180)
-            Quaternion currentRot = Quaternion.Slerp(startRot, endRot, curveValue);
+            Quaternion rotOffset = Quaternion.AngleAxis(currentAngle, rotationAxis);
 
-            transform.position = currentPos;
+            Vector3 relativePos = startPos - pivotPoint;
+            Vector3 rotatedRelativePos = rotOffset * relativePos;
+
+            Vector3 calculatedPos = pivotPoint + rotatedRelativePos;
+
+            float heightOffset = jumpHeight * Mathf.Sin(curveValue * Mathf.PI);
+            calculatedPos.y += heightOffset;
+
+            Quaternion currentRot = rotOffset * startRot;
+
+            transform.position = calculatedPos;
             transform.rotation = currentRot;
 
             yield return null;
         }
 
-        // Фиксация конечной позиции и вращения
         transform.position = targetPosition;
-        transform.rotation = endRot;
+        transform.rotation = targetRotation;
 
         onComplete?.Invoke();
     }
