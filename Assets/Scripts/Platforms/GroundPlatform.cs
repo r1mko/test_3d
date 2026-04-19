@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class GroundPlatform : MonoBehaviour
 {
@@ -9,9 +10,9 @@ public class GroundPlatform : MonoBehaviour
     [SerializeField] private Material glowMaterial;
     [SerializeField] private Renderer platformRenderer;
     [SerializeField] private GroundPlatform[] neighborPlatforms;
-
     private HashSet<GroundPlatform> activeNeighbors = new HashSet<GroundPlatform>();
     private Material originalMaterial;
+    private const int MatchCountThreshold = 10;
     private const float HeightStep = 0.075f;
 
     private void Awake()
@@ -114,6 +115,8 @@ public class GroundPlatform : MonoBehaviour
             baseHeight = topHex.transform.localPosition.y + HeightStep;
         }
 
+        int lastBlockIndex = blocksToMove.Count - 1;
+
         for (int i = 0; i < blocksToMove.Count; i++)
         {
             Hexagon hex = blocksToMove[i];
@@ -124,20 +127,63 @@ public class GroundPlatform : MonoBehaviour
 
             hex.transform.SetParent(targetPlatform.Container.transform, true);
 
-            StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f));
+            bool isLastBlock = (i == lastBlockIndex);
+
+            StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f, () =>
+            {
+                if (isLastBlock)
+                {
+                    targetPlatform.CheckAndClearMatch();
+                }
+            }));
         }
     }
 
-    private IEnumerator PlaySequentialJump(Hexagon hex, Vector3 worldTargetPos, Vector3 localTargetPos, float delay)
+    private void CheckAndClearMatch()
+    {
+        Debug.Log("Вызвали метод CheckAndClearMatch");
+
+        Hexagon topHex = GetTopHexagon(Container);
+        if (topHex == null) return;
+
+        Hexagon.HexagonColor colorToCheck = topHex.GetColor();
+        List<Hexagon> matchingHexes = GetBlocksToTransfer(Container, colorToCheck);
+
+        if (matchingHexes.Count >= MatchCountThreshold)
+        {
+            ClearHexagonsSequentially(matchingHexes);
+        }
+    }
+
+    private void ClearHexagonsSequentially(List<Hexagon> hexesToRemove)
+    {
+        for (int i = 0; i < hexesToRemove.Count; i++)
+        {
+            Hexagon hex = hexesToRemove[i];
+            StartCoroutine(PlayRemoveAnimation(hex, i * 0.05f));
+        }
+    }
+
+    private IEnumerator PlayRemoveAnimation(Hexagon hex, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        Vector3 currentPos = hex.transform.position;
+        if (hex != null)
+        {
+            hex.PlayRemoveAnimation();
+        }
+    }
+
+    private IEnumerator PlaySequentialJump(Hexagon hex, Vector3 worldTargetPos, Vector3 localTargetPos, float delay, Action onJumpFinished)
+    {
+        yield return new WaitForSeconds(delay);
 
         hex.PlayJumpAnimation(worldTargetPos, hex.transform.rotation, () =>
         {
             hex.transform.localPosition = localTargetPos;
             hex.transform.localRotation = Quaternion.identity;
+
+            onJumpFinished?.Invoke();
         });
     }
 

@@ -20,8 +20,10 @@ public class Hexagon : MonoBehaviour
     [SerializeField] private Renderer hexRenderer;
     [SerializeField] private Transform[] anchors;
     [SerializeField] private AnimationCurve jumpCurve;
+    [SerializeField] private AnimationCurve removeCurve;
     [SerializeField] private float jumpHeight = 0.3f;
     [SerializeField] private float jumpDuration = 0.4f;
+    [SerializeField] private float removeScaleDuration = 0.3f;
 
     private HexagonColor currentColor;
     private bool isInitialized = false;
@@ -33,6 +35,9 @@ public class Hexagon : MonoBehaviour
 
         if (jumpCurve == null || jumpCurve.length == 0)
             jumpCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+        if (removeCurve == null || removeCurve.length == 0)
+            removeCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
 
         if (anchors == null || anchors.Length != 6)
         {
@@ -164,4 +169,31 @@ public class Hexagon : MonoBehaviour
 
         onComplete?.Invoke();
     }
+
+    public void PlayRemoveAnimation()
+    {
+        StartCoroutine(RemoveCoroutine());
+    }
+
+    private IEnumerator RemoveCoroutine()
+    {
+        Vector3 startScale = transform.localScale;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < removeScaleDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / removeScaleDuration);
+
+            float scaleValue = removeCurve.Evaluate(t);
+
+            transform.localScale = startScale * scaleValue;
+
+            yield return null;
+        }
+
+        transform.localScale = Vector3.zero;
+        Destroy(gameObject);
+    }
+
 }
