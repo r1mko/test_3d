@@ -10,7 +10,9 @@ public class GroundPlatform : MonoBehaviour
     [SerializeField] private Material glowMaterial;
     [SerializeField] private Renderer platformRenderer;
     [SerializeField] private GroundPlatform[] neighborPlatforms;
+
     private HashSet<GroundPlatform> activeNeighbors = new HashSet<GroundPlatform>();
+
     private Material originalMaterial;
     private const int MatchCountThreshold = 10;
     private const float HeightStep = 0.075f;
@@ -56,71 +58,89 @@ public class GroundPlatform : MonoBehaviour
         if (isProcessingChain) yield break;
         isProcessingChain = true;
 
-        GroundPlatform currentPlatform = this;
-        
-        bool movedSomething = true;
+        HashSet<GroundPlatform> allTouchedPlatforms = new HashSet<GroundPlatform>();
+        allTouchedPlatforms.Add(this);
 
-        while (movedSomething)
+        bool globalMovedSomething = true;
+
+        while (globalMovedSomething)
         {
-            movedSomething = false;
-            
-            InitializeColorsInContainer(currentPlatform.Container);
+            globalMovedSomething = false;
+            Queue<GroundPlatform> platformsToProcess = new Queue<GroundPlatform>();
+            platformsToProcess.Enqueue(this);
 
-            Hexagon myTopHex = currentPlatform.GetTopHexagon(currentPlatform.Container);
-            if (myTopHex == null)
+            HashSet<GroundPlatform> processedInPass = new HashSet<GroundPlatform>();
+
+            while (platformsToProcess.Count > 0)
             {
-                Debug.Log("Цепная реакция остановлена: нет блоков на активной платформе.");
-                break;
-            }
+                GroundPlatform currentPlatform = platformsToProcess.Dequeue();
 
-            Hexagon.HexagonColor myColor = myTopHex.GetColor();
-            GroundPlatform bestTarget = null;
-            List<Hexagon> blocksToMove = null;
+                if (processedInPass.Contains(currentPlatform)) continue;
+                processedInPass.Add(currentPlatform);
 
-            foreach (GroundPlatform neighbor in currentPlatform.activeNeighbors)
-            {
-                if (neighbor == null) continue;
+                InitializeColorsInContainer(currentPlatform.Container);
+                Hexagon myTopHex = currentPlatform.GetTopHexagon(currentPlatform.Container);
 
-                InitializeColorsInContainer(neighbor.Container);
+                if (myTopHex == null) continue;
 
-                Hexagon neighborTopHex = currentPlatform.GetTopHexagon(neighbor.Container);
-                if (neighborTopHex == null) continue;
+                Hexagon.HexagonColor currentColor = myTopHex.GetColor();
 
-                if (neighborTopHex.GetColor() == myColor)
+                GroundPlatform bestTarget = null;
+                List<Hexagon> blocksToMove = null;
+
+                foreach (GroundPlatform neighbor in currentPlatform.activeNeighbors)
                 {
-                    List<Hexagon> candidateBlocks = currentPlatform.GetBlocksToTransfer(currentPlatform.Container, myColor);
-                    
-                    if (candidateBlocks.Count > 0)
+                    if (neighbor == null) continue;
+
+                    InitializeColorsInContainer(neighbor.Container);
+                    Hexagon neighborTopHex = neighbor.GetTopHexagon(neighbor.Container);
+
+                    if (neighborTopHex != null && neighborTopHex.GetColor() == currentColor)
                     {
-                        bestTarget = neighbor;
-                        blocksToMove = candidateBlocks;
-                        break; 
+                        List<Hexagon> candidateBlocks = currentPlatform.GetBlocksToTransfer(currentPlatform.Container, currentColor);
+
+                        if (candidateBlocks.Count > 0)
+                        {
+                            bestTarget = neighbor;
+                            blocksToMove = candidateBlocks;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (bestTarget != null && blocksToMove != null && blocksToMove.Count > 0)
-            {
-                Debug.Log($"Перемещаем {blocksToMove.Count} блоков с {currentPlatform.name} на {bestTarget.name}");
-                movedSomething = true;
-                
-                bool animationFinished = false;
-                
-                currentPlatform.StartTransferAnimation(bestTarget, blocksToMove, () =>
+                if (bestTarget != null && blocksToMove != null && blocksToMove.Count > 0)
                 {
-                    animationFinished = true;
-                });
+                    globalMovedSomething = true;
+                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {currentColor} с {currentPlatform.name} на {bestTarget.name}");
 
-                yield return new WaitUntil(() => animationFinished);
-                
-                Debug.Log("Анимация завершена. Следующая активная платформа: " + bestTarget.name);
-                currentPlatform = bestTarget;
+                    allTouchedPlatforms.Add(bestTarget);
+                    allTouchedPlatforms.Add(currentPlatform);
+
+                    bool animationFinished = false;
+
+                    currentPlatform.StartTransferAnimation(bestTarget, blocksToMove, () =>
+                    {
+                        animationFinished = true;
+                    });
+
+                    yield return new WaitUntil(() => animationFinished);
+
+                    Debug.Log("Анимация завершена.");
+
+                    platformsToProcess.Enqueue(bestTarget);
+                    platformsToProcess.Enqueue(currentPlatform);
+                }
             }
-            else
+        }
+
+        Debug.Log("Начинаем фазу проверки на удаление совпадений.");
+
+        foreach (GroundPlatform platform in allTouchedPlatforms)
+        {
+            if (platform != null)
             {
-                Debug.Log("Подходящих соседей для перемещения не найдено. Проверка на удаление на платформе: " + currentPlatform.name);
-                currentPlatform.CheckAndClearMatch();
-                break;
+                platform.InitializeColorsInContainer(platform.Container);
+                platform.CheckAndClearMatch();
             }
         }
 
@@ -168,10 +188,8 @@ public class GroundPlatform : MonoBehaviour
             baseHeight = topHex.transform.localPosition.y + HeightStep;
         }
 
-        int lastBlockIndex = blocksToMove.Count - 1;
         int completedCount = 0;
 
-        // Важно: если список пуст, сразу возвращаем
         if (blocksToMove.Count == 0)
         {
             onComplete?.Invoke();
@@ -218,25 +236,15 @@ public class GroundPlatform : MonoBehaviour
     private void CheckAndClearMatch()
     {
         Hexagon topHex = GetTopHexagon(Container);
-        if (topHex == null)
-        {
-            Debug.Log("CheckAndClearMatch: Нет верхнего гекса для проверки.");
-            return;
-        }
+        if (topHex == null) return;
 
         Hexagon.HexagonColor colorToCheck = topHex.GetColor();
         List<Hexagon> matchingHexes = GetBlocksToTransfer(Container, colorToCheck);
-
-        Debug.Log($"CheckAndClearMatch: Цвет {colorToCheck}, Найдено совпадений: {matchingHexes.Count}, Порог: {MatchCountThreshold}");
 
         if (matchingHexes.Count >= MatchCountThreshold)
         {
             Debug.Log("Удаление группы!");
             ClearHexagonsSequentially(matchingHexes);
-        }
-        else
-        {
-            Debug.Log("Группа слишком мала для удаления.");
         }
     }
 
