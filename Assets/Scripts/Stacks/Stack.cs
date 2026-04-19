@@ -6,9 +6,9 @@ public class Stack : MonoBehaviour
     [SerializeField] private AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float moveDuration = 0.25f;
     [SerializeField] private float rayLength = 10f;
-
     [SerializeField] private FillStack fillStack;
 
+    private const float PlatformOffsetY = 0.1f;
     private bool disabled;
     private Vector3 originalPosition;
     private GroundPlatform currentHoveredPlatform;
@@ -87,8 +87,6 @@ public class Stack : MonoBehaviour
 
         if (currentHoveredPlatform != null && currentHoveredPlatform.Container != null)
         {
-            // Сохраняем ссылку на платформу локально, чтобы не потерять её, 
-            // так как currentHoveredPlatform обнулится в CheckHover или вручную
             GroundPlatform targetPlatform = currentHoveredPlatform;
             moveCoroutine = StartCoroutine(MoveToContainerAndTransfer(targetPlatform, targetPlatform.Container));
         }
@@ -103,7 +101,7 @@ public class Stack : MonoBehaviour
         disabled = true;
 
         Vector3 startPos = transform.position;
-        Vector3 endPos = targetContainer.transform.position;
+        Vector3 endPos = new Vector3(targetContainer.transform.position.x, targetContainer.transform.position.y + PlatformOffsetY, targetContainer.transform.position.z);
         float elapsed = 0f;
 
         while (elapsed < moveDuration)
