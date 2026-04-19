@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections;
 
 public class GroundPlatform : MonoBehaviour
@@ -51,8 +50,6 @@ public class GroundPlatform : MonoBehaviour
             return;
         }
 
-        Hexagon.HexagonColor myColor = myTopHex.GetColor();
-
         foreach (GroundPlatform neighbor in activeNeighbors)
         {
             InitializeColorsInContainer(neighbor.Container);
@@ -61,30 +58,55 @@ public class GroundPlatform : MonoBehaviour
             if (neighborTopHex == null) continue;
 
             Hexagon.HexagonColor neighborColor = neighborTopHex.GetColor();
+            Hexagon.HexagonColor myColor = myTopHex.GetColor();
 
             if (myColor == neighborColor)
             {
-                StartTransferAnimation(neighbor);
-                return;
+                List<Hexagon> blocksToMove = GetBlocksToTransfer(Container, neighborColor);
+
+                if (blocksToMove.Count > 0)
+                {
+                    StartTransferAnimation(neighbor, blocksToMove);
+                    return;
+                }
             }
         }
     }
 
-    private void StartTransferAnimation(GroundPlatform targetPlatform)
+    private List<Hexagon> GetBlocksToTransfer(GameObject container, Hexagon.HexagonColor targetColor)
     {
-        List<Hexagon> blocksToMove = new List<Hexagon>();
+        List<Hexagon> allHexes = new List<Hexagon>();
 
-        foreach (Transform child in Container.transform)
+        foreach (Transform child in container.transform)
         {
             Hexagon hex = child.GetComponent<Hexagon>();
             if (hex != null)
             {
-                blocksToMove.Add(hex);
+                allHexes.Add(hex);
             }
         }
 
-        blocksToMove.Sort((a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
+        allHexes.Sort((a, b) => b.transform.localPosition.y.CompareTo(a.transform.localPosition.y));
 
+        List<Hexagon> result = new List<Hexagon>();
+
+        foreach (Hexagon hex in allHexes)
+        {
+            if (hex.GetColor() == targetColor)
+            {
+                result.Add(hex);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove)
+    {
         float baseHeight = 0f;
         Hexagon topHex = GetTopHexagon(targetPlatform.Container);
         if (topHex != null)
