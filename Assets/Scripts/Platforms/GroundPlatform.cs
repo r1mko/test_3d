@@ -58,93 +58,199 @@ public class GroundPlatform : MonoBehaviour
         if (isProcessingChain) yield break;
         isProcessingChain = true;
 
-        HashSet<GroundPlatform> allTouchedPlatforms = new HashSet<GroundPlatform>();
-        allTouchedPlatforms.Add(this);
+        bool globalStateChanged = true;
+        int safetyCounter = 0;
+        const int maxIterations = 100;
 
-        bool globalMovedSomething = true;
+        HashSet<GroundPlatform> touchedPlatforms = new HashSet<GroundPlatform>();
+        touchedPlatforms.Add(this);
 
-        while (globalMovedSomething)
+        while (globalStateChanged && safetyCounter < maxIterations)
         {
-            globalMovedSomething = false;
-            Queue<GroundPlatform> platformsToProcess = new Queue<GroundPlatform>();
-            platformsToProcess.Enqueue(this);
+            safetyCounter++;
+            globalStateChanged = false;
 
-            HashSet<GroundPlatform> processedInPass = new HashSet<GroundPlatform>();
+            // --- ФАЗА 1: ПОЛНЫЙ ПРОХОД ПЕРЕМЕЩЕНИЙ ---
 
-            while (platformsToProcess.Count > 0)
+            Queue<GroundPlatform> platformsToCheck = new Queue<GroundPlatform>(touchedPlatforms);
+            HashSet<GroundPlatform> visitedInThisPhase = new HashSet<GroundPlatform>();
+
+            bool movedSomething = false;
+
+            foreach (var p in touchedPlatforms)
             {
-                GroundPlatform currentPlatform = platformsToProcess.Dequeue();
+                if (p != null) InitializeColorsInContainer(p.Container);
+            }
 
-                if (processedInPass.Contains(currentPlatform)) continue;
-                processedInPass.Add(currentPlatform);
+            while (platformsToCheck.Count > 0)
+            {
+                GroundPlatform current = platformsToCheck.Dequeue();
 
-                InitializeColorsInContainer(currentPlatform.Container);
-                Hexagon myTopHex = currentPlatform.GetTopHexagon(currentPlatform.Container);
+                if (current == null) continue;
+                if (visitedInThisPhase.Contains(current)) continue;
+                visitedInThisPhase.Add(current);
 
-                if (myTopHex == null) continue;
+                Hexagon currentTop = current.GetTopHexagon(current.Container);
+                if (currentTop == null) continue;
 
-                Hexagon.HexagonColor currentColor = myTopHex.GetColor();
+                Hexagon.HexagonColor color = currentTop.GetColor();
 
-                GroundPlatform bestTarget = null;
+                GroundPlatform target = null;
                 List<Hexagon> blocksToMove = null;
 
-                foreach (GroundPlatform neighbor in currentPlatform.activeNeighbors)
+                foreach (GroundPlatform neighbor in current.activeNeighbors)
                 {
                     if (neighbor == null) continue;
 
-                    InitializeColorsInContainer(neighbor.Container);
-                    Hexagon neighborTopHex = neighbor.GetTopHexagon(neighbor.Container);
+                    Hexagon neighborTop = neighbor.GetTopHexagon(neighbor.Container);
 
-                    if (neighborTopHex != null && neighborTopHex.GetColor() == currentColor)
+                    if (neighborTop != null && neighborTop.GetColor() == color)
                     {
-                        List<Hexagon> candidateBlocks = currentPlatform.GetBlocksToTransfer(currentPlatform.Container, currentColor);
-
-                        if (candidateBlocks.Count > 0)
+                        List<Hexagon> candidates = current.GetBlocksToTransfer(current.Container, color);
+                        if (candidates.Count > 0)
                         {
-                            bestTarget = neighbor;
-                            blocksToMove = candidateBlocks;
+                            target = neighbor;
+                            blocksToMove = candidates;
                             break;
                         }
                     }
                 }
 
-                if (bestTarget != null && blocksToMove != null && blocksToMove.Count > 0)
+                if (target != null && blocksToMove != null && blocksToMove.Count > 0)
                 {
-                    globalMovedSomething = true;
-                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {currentColor} с {currentPlatform.name} на {bestTarget.name}");
+                    movedSomething = true;
+                    globalStateChanged = true;
 
-                    allTouchedPlatforms.Add(bestTarget);
-                    allTouchedPlatforms.Add(currentPlatform);
+                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {color} с {current.name} на {target.name}");
 
-                    bool animationFinished = false;
+                    bool animDone = false;
+                    current.StartTransferAnimation(target, blocksToMove, () => { animDone = true; });
 
-                    currentPlatform.StartTransferAnimation(bestTarget, blocksToMove, () =>
+                    yield return new WaitUntil(() => animDone);
+
+                    Debug.Log("Анимация перемещения завершена.");
+
+                    touchedPlatforms.Add(current);
+                    touchedPlatforms.Add(target);
+
+                    foreach (var n in target.activeNeighbors)
+                        if (n != null) touchedPlatforms.Add(n);
+
+                    foreach (var n in current.activeNeighbors)
+                        if (n != null) touchedPlatforms.Add(n);
+
+                    if (!visitedInThisPhase.Contains(target)) platformsToCheck.Enqueue(target);
+                    if (!visitedInThisPhase.Contains(current)) platformsToCheck.Enqueue(current);
+                }
+            }
+
+            if (!movedSomething)
+            {
+                // --- ФАЗА 2: ПРОВЕРКА НА УДАЛЕНИЕ ---
+
+                bool destroyedSomething = false;
+                List<GroundPlatform> platformsToCheckForDestruction = new List<GroundPlatform>(touchedPlatforms);
+
+                foreach (GroundPlatform platform in platformsToCheckForDestruction)
+                {
+                    if (platform != null)
                     {
-                        animationFinished = true;
-                    });
+                        InitializeColorsInContainer(platform.Container);
+                        if (platform.CheckAndClearMatch())
+                        {
+                            destroyedSomething = true;
+                            Debug.Log($"Удаление на платформе {platform.name}");
+                        }
+                    }
+                }
 
-                    yield return new WaitUntil(() => animationFinished);
+                if (destroyedSomething)
+                {
+                    globalStateChanged = true;
+                    Debug.Log("Обнаружено удаление. Ожидание завершения анимаций...");
+                    yield return new WaitForSeconds(1f);
 
-                    Debug.Log("Анимация завершена.");
+                    Debug.Log("Анимации удаления завершены. Принудительная синхронизация всего поля.");
 
-                    platformsToProcess.Enqueue(bestTarget);
-                    platformsToProcess.Enqueue(currentPlatform);
+                    GroundPlatform[] allPlatformsForSync = FindObjectsOfType<GroundPlatform>(); //to do
+
+                    foreach (var p in allPlatformsForSync)
+                    {
+                        if (p != null) p.InitializeColorsInContainer(p.Container);
+                    }
+
+                    touchedPlatforms.Clear();
+                    foreach (var p in allPlatformsForSync)
+                    {
+                        if (p != null) touchedPlatforms.Add(p);
+                    }
                 }
             }
         }
 
-        Debug.Log("Начинаем фазу проверки на удаление совпадений.");
-
-        foreach (GroundPlatform platform in allTouchedPlatforms)
+        if (safetyCounter >= maxIterations)
         {
-            if (platform != null)
-            {
-                platform.InitializeColorsInContainer(platform.Container);
-                platform.CheckAndClearMatch();
-            }
+            Debug.LogError("Достигнут лимит итераций! Возможна бесконечная цепная реакция.");
         }
 
+        DebugLogBoardState();
+
+        Debug.Log("Цепная реакция завершена.");
         isProcessingChain = false;
+    }
+
+
+    [ContextMenu("Debug Board State")]
+    public void DebugLogBoardState()
+    {
+        Debug.Log("=== ДИАГНОСТИКА СОСТОЯНИЯ ДОСКИ (РУЧНАЯ/АВТО) ===");
+        GroundPlatform[] allPlatforms = FindObjectsOfType<GroundPlatform>();
+
+        Array.Sort(allPlatforms, (a, b) => a.name.CompareTo(b.name));
+
+        foreach (GroundPlatform p in allPlatforms)
+        {
+            if (p == null) continue;
+
+            p.InitializeColorsInContainer(p.Container);
+
+            Hexagon top = p.GetTopHexagon(p.Container);
+            string topColor = top != null ? top.GetColor().ToString() : "EMPTY";
+
+            Dictionary<Hexagon.HexagonColor, int> colorCounts = new Dictionary<Hexagon.HexagonColor, int>();
+            foreach (Transform child in p.Container.transform)
+            {
+                if (!child.gameObject.activeSelf) continue;
+
+                Hexagon h = child.GetComponent<Hexagon>();
+                if (h != null)
+                {
+                    Hexagon.HexagonColor c = h.GetColor();
+                    if (colorCounts.ContainsKey(c)) colorCounts[c]++;
+                    else colorCounts[c] = 1;
+                }
+            }
+
+            string countsStr = "";
+            foreach (var kvp in colorCounts)
+            {
+                countsStr += $"{kvp.Key}:{kvp.Value} ";
+            }
+
+            string neighborsInfo = "";
+            foreach (var n in p.activeNeighbors)
+            {
+                if (n != null)
+                {
+                    Hexagon nTop = n.GetTopHexagon(n.Container);
+                    string nColor = nTop != null ? nTop.GetColor().ToString() : "EMPTY";
+                    neighborsInfo += $"[{n.name}: {nColor}] ";
+                }
+            }
+
+            Debug.Log($"Платформа {p.name}: Верхний = {topColor}. Состав: [{countsStr.Trim()}]. Соседи: {neighborsInfo}");
+        }
+        Debug.Log("=== КОНЕЦ ДИАГНОСТИКИ ===");
     }
 
     private List<Hexagon> GetBlocksToTransfer(GameObject container, Hexagon.HexagonColor targetColor)
@@ -154,7 +260,7 @@ public class GroundPlatform : MonoBehaviour
         foreach (Transform child in container.transform)
         {
             Hexagon hex = child.GetComponent<Hexagon>();
-            if (hex != null)
+            if (hex != null && child.gameObject.activeSelf)
             {
                 allHexes.Add(hex);
             }
@@ -233,10 +339,10 @@ public class GroundPlatform : MonoBehaviour
         }
     }
 
-    private void CheckAndClearMatch()
+    private bool CheckAndClearMatch()
     {
         Hexagon topHex = GetTopHexagon(Container);
-        if (topHex == null) return;
+        if (topHex == null) return false;
 
         Hexagon.HexagonColor colorToCheck = topHex.GetColor();
         List<Hexagon> matchingHexes = GetBlocksToTransfer(Container, colorToCheck);
@@ -245,7 +351,10 @@ public class GroundPlatform : MonoBehaviour
         {
             Debug.Log("Удаление группы!");
             ClearHexagonsSequentially(matchingHexes);
+            return true;
         }
+
+        return false;
     }
 
     private void ClearHexagonsSequentially(List<Hexagon> hexesToRemove)
@@ -297,6 +406,8 @@ public class GroundPlatform : MonoBehaviour
 
         foreach (Transform childTransform in container.transform)
         {
+            if (!childTransform.gameObject.activeSelf) continue;
+
             Hexagon hex = childTransform.GetComponent<Hexagon>();
             if (hex == null) continue;
 
@@ -317,7 +428,7 @@ public class GroundPlatform : MonoBehaviour
         foreach (Transform child in container.transform)
         {
             Hexagon hex = child.GetComponent<Hexagon>();
-            if (hex != null && !hex.IsInitialized())
+            if (hex != null && child.gameObject.activeSelf && !hex.IsInitialized())
             {
                 hex.IdentifyColorByMaterial();
             }
