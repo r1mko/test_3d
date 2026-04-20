@@ -96,9 +96,6 @@ public class GroundPlatform : MonoBehaviour
                 if (currentTop == null) continue;
 
                 Hexagon.HexagonColor color = currentTop.GetColor();
-                List<Hexagon> blocksToMove = current.GetBlocksToTransfer(current.Container, color);
-
-                if (blocksToMove.Count == 0) continue;
 
                 GroundPlatform previousSource = null;
                 if (lastSenderMap.ContainsKey(current))
@@ -106,25 +103,17 @@ public class GroundPlatform : MonoBehaviour
                     previousSource = lastSenderMap[current];
                 }
 
-                GroundPlatform target = PlatformManager.Instance.GetBestTargetPlatform(current, color, blocksToMove.Count, previousSource);
+                PlatformManager.MoveDecision decision = PlatformManager.Instance.AnalyzeBestMove(current, color, previousSource);
 
-                if (target == null)
+                if (decision.IsValid)
                 {
-                    foreach (GroundPlatform neighbor in current.activeNeighbors)
+                    if (lastSenderMap.ContainsKey(decision.Source) && lastSenderMap[decision.Source] == decision.Target)
                     {
-                        if (neighbor != null && neighbor != previousSource)
-                        {
-                            Hexagon neighborTop = neighbor.GetTopHexagon(neighbor.Container);
-                            if (neighborTop != null && neighborTop.GetColor() == color)
-                            {
-                                target = neighbor;
-                                break;
-                            }
-                        }
+                        decision.IsValid = false;
                     }
                 }
 
-                if (target != null)
+                if (decision.IsValid)
                 {
                     movedSomething = true;
                     globalStateChanged = true;
@@ -133,26 +122,26 @@ public class GroundPlatform : MonoBehaviour
                     stepCount = Mathf.Min(stepCount, 4);
                     float speedMultiplier = Mathf.Pow(1.3f, stepCount - 1);
 
-                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {color} с {current.name} на {target.name}. Шаг: {stepCount}");
+                    Debug.Log($"Ход: {decision.BlocksToMove.Count} блоков цвета {color} с {decision.Source.name} на {decision.Target.name}. Шаг: {stepCount}");
 
-                    lastSenderMap[target] = current;
+                    lastSenderMap[decision.Target] = decision.Source;
 
                     bool animDone = false;
-                    current.StartTransferAnimation(target, blocksToMove, () => { animDone = true; }, speedMultiplier);
+                    decision.Source.StartTransferAnimation(decision.Target, decision.BlocksToMove, () => { animDone = true; }, speedMultiplier);
 
                     yield return new WaitUntil(() => animDone);
 
-                    touchedPlatforms.Add(current);
-                    touchedPlatforms.Add(target);
+                    touchedPlatforms.Add(decision.Source);
+                    touchedPlatforms.Add(decision.Target);
 
-                    foreach (var n in target.activeNeighbors)
+                    foreach (var n in decision.Target.activeNeighbors)
                         if (n != null) touchedPlatforms.Add(n);
 
-                    foreach (var n in current.activeNeighbors)
+                    foreach (var n in decision.Source.activeNeighbors)
                         if (n != null) touchedPlatforms.Add(n);
 
-                    if (!visitedInThisPhase.Contains(target)) platformsToCheck.Enqueue(target);
-                    if (!visitedInThisPhase.Contains(current)) platformsToCheck.Enqueue(current);
+                    if (!visitedInThisPhase.Contains(decision.Target)) platformsToCheck.Enqueue(decision.Target);
+                    if (!visitedInThisPhase.Contains(decision.Source)) platformsToCheck.Enqueue(decision.Source);
                 }
             }
 
@@ -185,7 +174,7 @@ public class GroundPlatform : MonoBehaviour
                     GroundPlatform[] allPlatformsForSync = PlatformManager.Instance.GroundPlatforms;
                     foreach (var p in allPlatformsForSync)
                     {
-                        if (p != null) p.InitializeColorsInContainer(p.Container);
+                        if (p != null) p.ForceInitializeColorsInContainer(p.Container);
                     }
 
                     touchedPlatforms.Clear();
@@ -338,7 +327,7 @@ public class GroundPlatform : MonoBehaviour
         Debug.Log("=== КОНЕЦ ДИАГНОСТИКИ ===");
     }
 
-    private List<Hexagon> GetBlocksToTransfer(GameObject container, Hexagon.HexagonColor targetColor)
+    public List<Hexagon> GetBlocksToTransfer(GameObject container, Hexagon.HexagonColor targetColor)
     {
         List<Hexagon> allHexes = new List<Hexagon>();
 
@@ -460,6 +449,20 @@ public class GroundPlatform : MonoBehaviour
         {
             Hexagon hex = child.GetComponent<Hexagon>();
             if (hex != null && child.gameObject.activeSelf && !hex.IsInitialized())
+            {
+                hex.IdentifyColorByMaterial();
+            }
+        }
+    }
+
+    public void ForceInitializeColorsInContainer(GameObject container)
+    {
+        if (container == null) return;
+
+        foreach (Transform child in container.transform)
+        {
+            Hexagon hex = child.GetComponent<Hexagon>();
+            if (hex != null && child.gameObject.activeSelf)
             {
                 hex.IdentifyColorByMaterial();
             }

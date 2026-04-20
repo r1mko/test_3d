@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -13,8 +12,8 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private float weightMatchCreation = 100f;
     [SerializeField] private float weightChainContinuation = 50f;
     [SerializeField] private float weightUnderColorMatch = 80f;
-    [SerializeField] private float penaltyReturnMove = -1000f;
-    [SerializeField] private float penaltyInvalidColor = -99999f;
+    [SerializeField] private float weightNeighborChainPotential = 60f;
+    [SerializeField] private float weightFutureMatchPotential = 70f;
 
     private void Awake()
     {
@@ -31,59 +30,81 @@ public class PlatformManager : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public GroundPlatform GetBestTargetPlatform(GroundPlatform sourcePlatform, Hexagon.HexagonColor movingColor, int blocksCount, GroundPlatform previousSource = null)
+    public struct MoveDecision
     {
-        if (sourcePlatform == null) return null;
-
-        List<GroundPlatform> validNeighbors = new List<GroundPlatform>();
-        foreach (var neighbor in sourcePlatform.GetActiveNeighbors())
-        {
-            if (neighbor != null && neighbor != sourcePlatform)
-            {
-                validNeighbors.Add(neighbor);
-            }
-        }
-
-        if (validNeighbors.Count == 0) return null;
-
-        GroundPlatform bestTarget = null;
-        float bestScore = -99999f;
-
-        foreach (var target in validNeighbors)
-        {
-            float score = EvaluateMove(sourcePlatform, target, movingColor, blocksCount, previousSource);
-
-            if (score > bestScore)
-            {
-                bestScore = score;
-                bestTarget = target;
-            }
-        }
-
-        if (bestScore < 0f) return null;
-
-        return bestTarget;
+        public GroundPlatform Source;
+        public GroundPlatform Target;
+        public List<Hexagon> BlocksToMove;
+        public float Score;
+        public bool IsValid;
     }
 
-    private float EvaluateMove(GroundPlatform source, GroundPlatform target, Hexagon.HexagonColor color, int blocksCount, GroundPlatform previousSource)
+    public MoveDecision AnalyzeBestMove(GroundPlatform currentPlatform, Hexagon.HexagonColor color, GroundPlatform previousSource = null)
+    {
+        MoveDecision bestMove = new MoveDecision { IsValid = false, Score = -99999f };
+
+        List<Hexagon> currentBlocks = currentPlatform.GetBlocksToTransfer(currentPlatform.Container, color);
+        List<GroundPlatform> neighbors = currentPlatform.GetActiveNeighbors().ToList();
+
+        if (currentBlocks.Count > 0)
+        {
+            foreach (var neighbor in neighbors)
+            {
+                if (neighbor == null || neighbor == currentPlatform) continue;
+                if (previousSource != null && neighbor == previousSource) continue;
+
+                float score = EvaluateMove(currentPlatform, neighbor, color, currentBlocks.Count);
+
+                if (score > bestMove.Score)
+                {
+                    bestMove.Source = currentPlatform;
+                    bestMove.Target = neighbor;
+                    bestMove.BlocksToMove = currentBlocks;
+                    bestMove.Score = score;
+                    bestMove.IsValid = true;
+                }
+            }
+        }
+
+        foreach (var neighbor in neighbors)
+        {
+            if (neighbor == null || neighbor == currentPlatform) continue;
+            if (neighbor == previousSource) continue;
+
+            List<Hexagon> neighborBlocks = neighbor.GetBlocksToTransfer(neighbor.Container, color);
+
+            if (neighborBlocks.Count > 0)
+            {
+                float score = EvaluateMove(neighbor, currentPlatform, color, neighborBlocks.Count);
+
+                if (score > bestMove.Score)
+                {
+                    bestMove.Source = neighbor;
+                    bestMove.Target = currentPlatform;
+                    bestMove.BlocksToMove = neighborBlocks;
+                    bestMove.Score = score;
+                    bestMove.IsValid = true;
+                }
+            }
+        }
+
+        return bestMove;
+    }
+
+    private float EvaluateMove(GroundPlatform source, GroundPlatform target, Hexagon.HexagonColor color, int blocksCount)
     {
         float score = 0f;
-
-        if (target == previousSource)
-        {
-            return penaltyReturnMove;
-        }
 
         Hexagon targetTopHex = target.GetTopHexagon(target.Container);
 
         if (targetTopHex == null)
         {
-            return penaltyInvalidColor;
+            return -99999f;
         }
 
         if (targetTopHex.GetColor() != color)
         {
-            return penaltyInvalidColor;
+            return -99999f;
         }
 
         List<Hexagon> targetTopMatching = target.GetTopContinuousBlocks(color);
@@ -115,6 +136,98 @@ public class PlatformManager : MonoBehaviour
 
         int targetChildCount = target.GetBlockCount();
         score -= targetChildCount * 0.1f;
+
+        score += EvaluateNeighborChainPotential(target, color, source);
+
+        score += EvaluateFutureMatchPotential(source, target, color, blocksCount);
+
+        return score;
+    }
+
+    private float EvaluateNeighborChainPotential(GroundPlatform platform, Hexagon.HexagonColor movedColor, GroundPlatform excludePlatform)
+    {
+        float score = 0f;
+
+        Hexagon platformTop = platform.GetTopHexagon(platform.Container);
+        if (platformTop == null) return score;
+
+        foreach (var neighbor in platform.GetActiveNeighbors())
+        {
+            if (neighbor == null || neighbor == excludePlatform) continue;
+
+            Hexagon neighborTop = neighbor.GetTopHexagon(neighbor.Container);
+            if (neighborTop != null && neighborTop.GetColor() == platformTop.GetColor())
+            {
+                score += weightNeighborChainPotential;
+
+                List<Hexagon> neighborBlocks = neighbor.GetTopContinuousBlocks(neighborTop.GetColor());
+                List<Hexagon> platformBlocks = platform.GetTopContinuousBlocks(platformTop.GetColor());
+
+                if (neighborBlocks.Count + platformBlocks.Count >= 10)
+                {
+                    score += weightFutureMatchPotential * 0.5f;
+                }
+            }
+        }
+
+        return score;
+    }
+
+    private float EvaluateFutureMatchPotential(GroundPlatform source, GroundPlatform target, Hexagon.HexagonColor movedColor, int blocksCount)
+    {
+        float score = 0f;
+
+        Hexagon sourceNext = GetNextHexagonAfterTransfer(source, movedColor, blocksCount);
+        if (sourceNext != null)
+        {
+            Hexagon.HexagonColor nextColor = sourceNext.GetColor();
+
+            foreach (var neighbor in source.GetActiveNeighbors())
+            {
+                if (neighbor == null) continue;
+                Hexagon neighborTop = neighbor.GetTopHexagon(neighbor.Container);
+                if (neighborTop != null && neighborTop.GetColor() == nextColor)
+                {
+                    List<Hexagon> sourceNextBlocks = source.GetTopContinuousBlocks(nextColor);
+                    List<Hexagon> neighborBlocks = neighbor.GetTopContinuousBlocks(nextColor);
+
+                    if (sourceNextBlocks.Count + neighborBlocks.Count >= 10)
+                    {
+                        score += weightFutureMatchPotential;
+                    }
+                    else
+                    {
+                        score += weightChainContinuation * 0.5f;
+                    }
+                }
+            }
+        }
+
+        Hexagon targetNewTop = target.GetTopHexagon(target.Container);
+        if (targetNewTop != null)
+        {
+            Hexagon.HexagonColor newTopColor = targetNewTop.GetColor();
+
+            foreach (var neighbor in target.GetActiveNeighbors())
+            {
+                if (neighbor == null) continue;
+                Hexagon neighborTop = neighbor.GetTopHexagon(neighbor.Container);
+                if (neighborTop != null && neighborTop.GetColor() == newTopColor)
+                {
+                    List<Hexagon> targetBlocks = target.GetTopContinuousBlocks(newTopColor);
+                    List<Hexagon> neighborBlocks = neighbor.GetTopContinuousBlocks(newTopColor);
+
+                    if (targetBlocks.Count + neighborBlocks.Count >= 10)
+                    {
+                        score += weightFutureMatchPotential;
+                    }
+                    else
+                    {
+                        score += weightChainContinuation * 0.5f;
+                    }
+                }
+            }
+        }
 
         return score;
     }
