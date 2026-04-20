@@ -994,6 +994,14 @@ MonoBehaviour:
   - {fileID: 1521737555}
   - {fileID: 975667811}
   - {fileID: 1252658520}
+  weightMatchCreation: 100
+  weightChainContinuation: 50
+  weightUnderColorMatch: 80
+  weightNeighborChainPotential: 60
+  weightFutureMatchPotential: 70
+  weightGlobalOpportunity: 40
+  matchCountThreshold: 10
+  animationWaitTime: 1.5
 --- !u!1001 &251801035
 PrefabInstance:
   m_ObjectHideFlags: 0

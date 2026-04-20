@@ -130,7 +130,7 @@ public class Stack : MonoBehaviour
             }
 
             // 3. Только теперь уведомляем платформу о дропе (запуск проверки слияний)
-            targetPlatform.OnStackDropped();
+            PlatformManager.Instance.StartChainReaction(targetPlatform);
         }
 
         // 4. Возвращаем стек на место и заполняем
