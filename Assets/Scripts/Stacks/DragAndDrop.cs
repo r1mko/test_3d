@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 public class DragAndDrop : MonoBehaviour
 {
@@ -9,9 +9,15 @@ public class DragAndDrop : MonoBehaviour
     [SerializeField] private float clampMaxY = 1.25f;
     [SerializeField] private float liftSpeed = 5f;
 
+    [Header("Unavailable Animation")]
+    [SerializeField] private float shakeAmount = 0.1f;
+    [SerializeField] private float shakeDuration = 0.3f;
+    [SerializeField] private int shakeSteps = 6;
+
     private Vector3 offset;
     private bool isDragging = false;
     private Stack stackComponent;
+    private bool isAnimating = false;
 
     private void Awake()
     {
@@ -23,9 +29,12 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (isAnimating) return;
+
         if (PlatformManager.Instance != null && PlatformManager.Instance.IsBusy)
         {
-            Debug.LogWarning("Cannot drag: Chain reaction is active");
+            isAnimating = true;
+            StartCoroutine(PlayUnavailableAnimation());
             return;
         }
 
@@ -43,13 +52,15 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (isAnimating) return;
+
         isDragging = false;
         stackComponent.Drop();
     }
 
     private void Update()
     {
-        if (!isDragging) return;
+        if (!isDragging || isAnimating) return;
 
         Vector3 mousePos = Input.mousePosition;
         Ray ray = mainCamera.ScreenPointToRay(mousePos);
@@ -75,5 +86,56 @@ public class DragAndDrop : MonoBehaviour
                 transform.position = new Vector3(targetPos.x, clampedY, targetPos.z);
             }
         }
+    }
+
+    private IEnumerator PlayUnavailableAnimation()
+    {
+        Vector3 startPos = transform.position;
+        float liftHeight = 0.2f;
+        Vector3 liftedPos = new Vector3(startPos.x, startPos.y + liftHeight, startPos.z);
+
+        float elapsed = 0f;
+        float liftTime = 0.1f;
+
+        while (elapsed < liftTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / liftTime;
+            transform.position = Vector3.Lerp(startPos, liftedPos, t);
+            yield return null;
+        }
+        transform.position = liftedPos;
+
+        elapsed = 0f;
+        for (int i = 0; i < shakeSteps; i++)
+        {
+            float direction = (i % 2 == 0) ? 1f : -1f;
+            Vector3 targetShake = new Vector3(startPos.x + (shakeAmount * direction), liftedPos.y, startPos.z);
+
+            float stepTime = shakeDuration / shakeSteps;
+            float stepElapsed = 0f;
+
+            while (stepElapsed < stepTime)
+            {
+                stepElapsed += Time.deltaTime;
+                float t = stepElapsed / stepTime;
+                transform.position = Vector3.Lerp(transform.position, targetShake, t);
+                yield return null;
+            }
+        }
+
+        transform.position = liftedPos;
+
+        elapsed = 0f;
+        while (elapsed < liftTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / liftTime;
+            transform.position = Vector3.Lerp(liftedPos, startPos, t);
+            yield return null;
+        }
+        transform.position = startPos;
+
+        isAnimating = false;
     }
 }

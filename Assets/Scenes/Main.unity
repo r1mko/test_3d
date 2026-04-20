@@ -3410,6 +3410,18 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeAmount
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeDuration
+      value: 0.375
+      objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -3890,6 +3902,18 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeAmount
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeDuration
+      value: 0.375
+      objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5
@@ -9118,6 +9142,18 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeAmount
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942238581631907557, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
+      propertyPath: shakeDuration
+      value: 0.375
+      objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
