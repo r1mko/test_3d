@@ -112,6 +112,12 @@ public class GroundPlatform : MonoBehaviour
         }
         return result;
     }
+
+    public int GetColorCount(Hexagon.HexagonColor color)
+    {
+        return GetBlocksToTransfer(Container, color).Count;
+    }
+
     public List<Hexagon> GetTopContinuousBlocks(Hexagon.HexagonColor color)
     {
         return GetBlocksToTransfer(Container, color);
@@ -130,6 +136,7 @@ public class GroundPlatform : MonoBehaviour
         List<Hexagon> matchingHexes = GetBlocksToTransfer(Container, colorToCheck);
         if (matchingHexes.Count >= matchThreshold)
         {
+            PlatformManager.Instance.IncrementPendingRemovals(matchingHexes.Count);
             ClearHexagonsSequentially(matchingHexes);
             return true;
         }
@@ -147,7 +154,11 @@ public class GroundPlatform : MonoBehaviour
     private IEnumerator PlayRemoveAnimation(Hexagon hex, float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (hex != null) hex.PlayRemoveAnimation();
+
+        if (hex != null)
+        {
+            hex.PlayRemoveAnimation();
+        }
     }
 
     public void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove, Action onComplete, float speedMultiplier = 1.0f)

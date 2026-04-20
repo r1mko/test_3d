@@ -84,12 +84,10 @@ public class Hexagon : MonoBehaviour
     private IEnumerator JumpCoroutine(Vector3 targetPosition, Quaternion targetRotation, Action onComplete, float speedMultiplier)
     {
         float currentDuration = jumpDuration / speedMultiplier;
-
         if (currentDuration <= 0.01f) currentDuration = 0.01f;
 
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
-
         Vector3 directionXZ = targetPosition - startPos;
         directionXZ.y = 0;
 
@@ -107,15 +105,11 @@ public class Hexagon : MonoBehaviour
         foreach (Transform anchor in anchors)
         {
             if (anchor == null) continue;
-
             Vector3 anchorPos = anchor.position;
             anchorPos.y = 0;
-
             Vector3 targetPosFlat = targetPosition;
             targetPosFlat.y = 0;
-
             float dist = Vector3.Distance(anchorPos, targetPosFlat);
-
             if (dist < minDist)
             {
                 minDist = dist;
@@ -130,56 +124,38 @@ public class Hexagon : MonoBehaviour
             yield break;
         }
 
-        Vector3 basePivotPoint = pivotAnchor.position;
-
         Vector3 rotationAxis = Vector3.Cross(directionXZ, Vector3.up).normalized;
-
         float angle = 180f;
         Vector3 fallDirection = Vector3.Cross(rotationAxis, Vector3.up).normalized;
-
-        if (Vector3.Dot(fallDirection, directionXZ.normalized) < 0)
-        {
-            angle = -180f;
-        }
+        if (Vector3.Dot(fallDirection, directionXZ.normalized) < 0) angle = -180f;
 
         float elapsedTime = 0f;
-
         while (elapsedTime < currentDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / currentDuration);
-
             float curveValue = jumpCurve.Evaluate(t);
-
             Quaternion rotOffset = Quaternion.AngleAxis(angle * curveValue, rotationAxis);
-
             Vector3 linearInterpPos = Vector3.Lerp(startPos, targetPosition, curveValue);
-
             float arcHeight = jumpHeight * Mathf.Sin(curveValue * Mathf.PI);
-
             Vector3 finalPos = linearInterpPos;
             finalPos.y += arcHeight;
-
-            Quaternion currentRot = rotOffset * startRot;
-
             transform.position = finalPos;
-            transform.rotation = currentRot;
-
+            transform.rotation = rotOffset * startRot;
             yield return null;
         }
 
         transform.position = targetPosition;
         transform.rotation = targetRotation;
-
         onComplete?.Invoke();
     }
 
-    public void PlayRemoveAnimation()
+    public void PlayRemoveAnimation(Action onComplete = null)
     {
-        StartCoroutine(RemoveCoroutine());
+        StartCoroutine(RemoveCoroutine(onComplete));
     }
 
-    private IEnumerator RemoveCoroutine()
+    private IEnumerator RemoveCoroutine(Action onComplete)
     {
         Vector3 startScale = transform.localScale;
         float elapsedTime = 0f;
@@ -188,16 +164,14 @@ public class Hexagon : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / removeScaleDuration);
-
             float scaleValue = removeCurve.Evaluate(t);
-
             transform.localScale = startScale * scaleValue;
-
             yield return null;
         }
 
         transform.localScale = Vector3.zero;
+        if (PlatformManager.Instance != null) PlatformManager.Instance.DecrementPendingRemovals();
+        onComplete?.Invoke();
         Destroy(gameObject);
     }
-
 }
