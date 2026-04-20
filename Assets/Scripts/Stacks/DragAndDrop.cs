@@ -12,9 +12,6 @@ public class DragAndDrop : MonoBehaviour
     private Vector3 offset;
     private bool isDragging = false;
     private Stack stackComponent;
-    private List<Renderer> draggedRenderers = new List<Renderer>();
-    private List<int> originalRenderQueues = new List<int>();
-    private const int DragRenderQueue = 3000;
 
     private void Awake()
     {
@@ -27,7 +24,6 @@ public class DragAndDrop : MonoBehaviour
     private void OnMouseDown()
     {
         isDragging = true;
-        CacheAndOverrideRenderQueues();
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane plane = new Plane(mainCamera.transform.forward, transform.position);
@@ -42,7 +38,6 @@ public class DragAndDrop : MonoBehaviour
     private void OnMouseUp()
     {
         isDragging = false;
-        RestoreRenderQueues();
         stackComponent.Drop();
     }
 
@@ -74,34 +69,5 @@ public class DragAndDrop : MonoBehaviour
                 transform.position = new Vector3(targetPos.x, clampedY, targetPos.z);
             }
         }
-    }
-
-    private void CacheAndOverrideRenderQueues()
-    {
-        draggedRenderers.Clear();
-        originalRenderQueues.Clear();
-
-        foreach (Renderer r in GetComponentsInChildren<Renderer>(true))
-        {
-            if (r.sharedMaterial != null)
-            {
-                draggedRenderers.Add(r);
-                originalRenderQueues.Add(r.material.renderQueue);
-                r.material.renderQueue = DragRenderQueue;
-            }
-        }
-    }
-
-    private void RestoreRenderQueues()
-    {
-        for (int i = 0; i < draggedRenderers.Count; i++)
-        {
-            if (draggedRenderers[i] != null)
-            {
-                draggedRenderers[i].material.renderQueue = originalRenderQueues[i];
-            }
-        }
-        draggedRenderers.Clear();
-        originalRenderQueues.Clear();
     }
 }

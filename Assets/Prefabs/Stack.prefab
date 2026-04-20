@@ -80,9 +80,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  clampMinY: 0.5
+  clampMinY: 1
   clampMaxY: 1.25
-  liftSpeed: 5
+  liftSpeed: 10
 --- !u!114 &8983521120020500646
 MonoBehaviour:
   m_ObjectHideFlags: 0

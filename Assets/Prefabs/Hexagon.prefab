@@ -158,6 +158,8 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 5340835cb495f8543a56f3c0e0991d36, type: 2}
   - color: 5
     material: {fileID: 2100000, guid: 3110f82a1bf51604ba8c586dc54d1d73, type: 2}
+  - color: 6
+    material: {fileID: 2100000, guid: 8225db6e814f9f74cb95c1312ea24bc3, type: 2}
   hexRenderer: {fileID: 3547417077294052763}
   anchors:
   - {fileID: 4279663829953682561}
@@ -215,8 +217,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpHeight: 1.5
-  jumpDuration: 0.4
-  removeScaleDuration: 0.3
+  jumpDuration: 0.5
+  removeScaleDuration: 0.175
 --- !u!1 &1363359953051563206
 GameObject:
   m_ObjectHideFlags: 0

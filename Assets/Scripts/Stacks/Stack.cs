@@ -6,7 +6,7 @@ public class Stack : MonoBehaviour
     [SerializeField] private AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float moveDuration = 0.25f;
     [SerializeField] private float rayLength = 10f;
-    [SerializeField] private FillStack fillStack;
+    [SerializeField] private StackManager stackManager;
 
     private const float PlatformOffsetY = 0.1f;
     private bool disabled;
@@ -18,17 +18,9 @@ public class Stack : MonoBehaviour
     {
         originalPosition = transform.position;
 
-        if (fillStack == null)
+        if (stackManager == null)
         {
-            fillStack = GetComponent<FillStack>();
-        }
-    }
-
-    private void Start()
-    {
-        if (fillStack != null && transform.childCount == 0)
-        {
-            fillStack.GenerateBlocks();
+            stackManager = StackManager.Instance;
         }
     }
 
@@ -119,6 +111,8 @@ public class Stack : MonoBehaviour
             currentHoveredPlatform.RemoveGlow();
             currentHoveredPlatform = null;
         }
+
+        NotifyManagerIfEmpty();
     }
 
     private IEnumerator MoveToContainerAndTransfer(GroundPlatform targetPlatform, GameObject targetContainer)
@@ -141,10 +135,8 @@ public class Stack : MonoBehaviour
 
         transform.position = endPos;
 
-        // 1. Сначала переносим детей
         MoveChildrenToContainer(targetContainer);
 
-        // 2. Убираем свечение и сбрасываем ссылку
         if (targetPlatform != null)
         {
             targetPlatform.RemoveGlow();
@@ -153,11 +145,9 @@ public class Stack : MonoBehaviour
                 currentHoveredPlatform = null;
             }
 
-            // 3. Только теперь уведомляем платформу о дропе (запуск проверки слияний)
             PlatformManager.Instance.StartChainReaction(targetPlatform);
         }
 
-        // 4. Возвращаем стек на место и заполняем
         yield return StartCoroutine(ReturnAndRefill());
     }
 
@@ -179,10 +169,7 @@ public class Stack : MonoBehaviour
 
         transform.position = endPos;
 
-        if (fillStack != null)
-        {
-            fillStack.GenerateBlocks();
-        }
+        NotifyManagerIfEmpty();
 
         disabled = false;
     }
@@ -193,6 +180,14 @@ public class Stack : MonoBehaviour
         {
             Transform child = transform.GetChild(0);
             child.SetParent(targetContainer.transform, true);
+        }
+    }
+
+    private void NotifyManagerIfEmpty()
+    {
+        if (stackManager != null)
+        {
+            stackManager.OnStackEmptied();
         }
     }
 }

@@ -6,7 +6,7 @@ public class Hexagon : MonoBehaviour
 {
     public enum HexagonColor
     {
-        Black, Blue, Green, Purple, Red, Yellow
+        White, Blue, Green, Purple, Red, Yellow, Cyan
     }
 
     [Serializable]
