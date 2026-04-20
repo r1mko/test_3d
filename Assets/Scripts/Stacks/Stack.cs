@@ -92,7 +92,32 @@ public class Stack : MonoBehaviour
         }
         else
         {
-            ReturnToOriginal();
+            moveCoroutine = StartCoroutine(SmoothReturnToOriginal());
+        }
+    }
+
+    private IEnumerator SmoothReturnToOriginal()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = originalPosition;
+        float elapsed = 0f;
+
+        while (elapsed < moveDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / moveDuration);
+            float curveT = moveCurve.Evaluate(t);
+
+            transform.position = Vector3.Lerp(startPos, endPos, curveT);
+            yield return null;
+        }
+
+        transform.position = endPos;
+
+        if (currentHoveredPlatform != null)
+        {
+            currentHoveredPlatform.RemoveGlow();
+            currentHoveredPlatform = null;
         }
     }
 
@@ -123,7 +148,6 @@ public class Stack : MonoBehaviour
         if (targetPlatform != null)
         {
             targetPlatform.RemoveGlow();
-            // Важно: сбрасываем currentHoveredPlatform только если это та же платформа
             if (currentHoveredPlatform == targetPlatform)
             {
                 currentHoveredPlatform = null;
@@ -161,17 +185,6 @@ public class Stack : MonoBehaviour
         }
 
         disabled = false;
-    }
-
-    private void ReturnToOriginal()
-    {
-        transform.position = originalPosition;
-
-        if (currentHoveredPlatform != null)
-        {
-            currentHoveredPlatform.RemoveGlow();
-            currentHoveredPlatform = null;
-        }
     }
 
     private void MoveChildrenToContainer(GameObject targetContainer)
