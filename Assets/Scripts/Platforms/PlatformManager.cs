@@ -6,6 +6,11 @@ using System.Linq;
 public class PlatformManager : MonoBehaviour
 {
     public static PlatformManager Instance { get; private set; }
+
+    private bool isChainReactionActive = false;
+
+    public bool IsBusy => isChainReactionActive;
+
     public GroundPlatform[] GroundPlatforms;
 
     [Header("AI Weights")]
@@ -51,6 +56,8 @@ public class PlatformManager : MonoBehaviour
 
     private IEnumerator ProcessChainReactionGlobal(GroundPlatform starter)
     {
+        isChainReactionActive = true;
+
         bool globalStateChanged = true;
         int safetyCounter = 0;
         int stepCount = 0;
@@ -115,6 +122,8 @@ public class PlatformManager : MonoBehaviour
         if (safetyCounter >= MaxIterations) Debug.LogError("Достигнут лимит итераций!");
         _pendingRemovals = 0;
         starter.DebugLogBoardState();
+
+        isChainReactionActive = false;
     }
 
     private void SyncAllPlatformsColors()

@@ -23,6 +23,12 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (PlatformManager.Instance != null && PlatformManager.Instance.IsBusy)
+        {
+            Debug.LogWarning("Cannot drag: Chain reaction is active");
+            return;
+        }
+
         isDragging = true;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);

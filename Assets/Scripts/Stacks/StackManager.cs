@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StackManager : MonoBehaviour
@@ -26,8 +27,26 @@ public class StackManager : MonoBehaviour
 
         if (AreAllStacksEmpty())
         {
+            HandleRefill();
+        }
+    }
+
+    private void HandleRefill()
+    {
+        if (PlatformManager.Instance != null && PlatformManager.Instance.IsBusy)
+        {
+            StartCoroutine(WaitForChainReactionAndRefill());
+        }
+        else
+        {
             RefillAllStacks();
         }
+    }
+
+    private IEnumerator WaitForChainReactionAndRefill()
+    {
+        yield return new WaitUntil(() => PlatformManager.Instance == null || !PlatformManager.Instance.IsBusy);
+        RefillAllStacks();
     }
 
     private bool AreAllStacksEmpty()
