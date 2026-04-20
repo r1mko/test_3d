@@ -21,7 +21,7 @@ public class Hexagon : MonoBehaviour
     [SerializeField] private Transform[] anchors;
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private AnimationCurve removeCurve;
-    [SerializeField] private float jumpHeight = 0.3f;
+    [SerializeField] private float jumpHeight = 1.5f;
     [SerializeField] private float jumpDuration = 0.4f;
     [SerializeField] private float removeScaleDuration = 0.3f;
 
@@ -76,13 +76,17 @@ public class Hexagon : MonoBehaviour
     public HexagonColor GetColor() { return currentColor; }
     public bool IsInitialized() { return isInitialized; }
 
-    public void PlayJumpAnimation(Vector3 targetPosition, Quaternion targetRotation, Action onComplete = null)
+    public void PlayJumpAnimation(Vector3 targetPosition, Quaternion targetRotation, Action onComplete = null, float speedMultiplier = 1.0f)
     {
-        StartCoroutine(JumpCoroutine(targetPosition, targetRotation, onComplete));
+        StartCoroutine(JumpCoroutine(targetPosition, targetRotation, onComplete, speedMultiplier));
     }
 
-    private IEnumerator JumpCoroutine(Vector3 targetPosition, Quaternion targetRotation, Action onComplete)
+    private IEnumerator JumpCoroutine(Vector3 targetPosition, Quaternion targetRotation, Action onComplete, float speedMultiplier)
     {
+        float currentDuration = jumpDuration / speedMultiplier;
+
+        if (currentDuration <= 0.01f) currentDuration = 0.01f;
+
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
 
@@ -140,10 +144,10 @@ public class Hexagon : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        while (elapsedTime < jumpDuration)
+        while (elapsedTime < currentDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / jumpDuration);
+            float t = Mathf.Clamp01(elapsedTime / currentDuration);
 
             float curveValue = jumpCurve.Evaluate(t);
 

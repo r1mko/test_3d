@@ -62,6 +62,8 @@ public class GroundPlatform : MonoBehaviour
         int safetyCounter = 0;
         const int maxIterations = 100;
 
+        int stepCount = 0;
+
         HashSet<GroundPlatform> touchedPlatforms = new HashSet<GroundPlatform>();
         touchedPlatforms.Add(this);
 
@@ -121,10 +123,14 @@ public class GroundPlatform : MonoBehaviour
                     movedSomething = true;
                     globalStateChanged = true;
 
-                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {color} с {current.name} на {target.name}");
+                    stepCount++;
+                    stepCount = Mathf.Min(stepCount, 3); // ограничитель скорости
+                    float speedMultiplier = Mathf.Pow(1.3f, stepCount - 1);
+
+                    Debug.Log($"Перемещаем {blocksToMove.Count} блоков цвета {color} с {current.name} на {target.name}. Шаг: {stepCount}, Скорость x{speedMultiplier:F2}");
 
                     bool animDone = false;
-                    current.StartTransferAnimation(target, blocksToMove, () => { animDone = true; });
+                    current.StartTransferAnimation(target, blocksToMove, () => { animDone = true; }, speedMultiplier);
 
                     yield return new WaitUntil(() => animDone);
 
@@ -172,7 +178,7 @@ public class GroundPlatform : MonoBehaviour
 
                     Debug.Log("Анимации удаления завершены. Принудительная синхронизация всего поля.");
 
-                    GroundPlatform[] allPlatformsForSync = FindObjectsOfType<GroundPlatform>(); //to do
+                    GroundPlatform[] allPlatformsForSync = FindObjectsOfType<GroundPlatform>();
 
                     foreach (var p in allPlatformsForSync)
                     {
@@ -184,6 +190,8 @@ public class GroundPlatform : MonoBehaviour
                     {
                         if (p != null) touchedPlatforms.Add(p);
                     }
+
+                    stepCount = 0;
                 }
             }
         }
@@ -197,6 +205,81 @@ public class GroundPlatform : MonoBehaviour
 
         Debug.Log("Цепная реакция завершена.");
         isProcessingChain = false;
+    }
+
+    private void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove, Action onComplete, float speedMultiplier = 1.0f)
+    {
+        float baseHeight = 0f;
+        Hexagon topHex = GetTopHexagon(targetPlatform.Container);
+        if (topHex != null)
+        {
+            baseHeight = topHex.transform.localPosition.y + HeightStep;
+        }
+
+        int completedCount = 0;
+
+        if (blocksToMove.Count == 0)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        for (int i = 0; i < blocksToMove.Count; i++)
+        {
+            Hexagon hex = blocksToMove[i];
+            float targetY = baseHeight + (i * HeightStep);
+
+            Vector3 localTargetPos = new Vector3(0f, targetY, 0f);
+            Vector3 worldTargetPos = targetPlatform.Container.transform.TransformPoint(localTargetPos);
+
+            bool isAlreadyOnTarget = hex.transform.parent == targetPlatform.Container.transform;
+
+            if (isAlreadyOnTarget)
+            {
+                hex.transform.localPosition = localTargetPos;
+                hex.transform.localRotation = Quaternion.identity;
+
+                completedCount++;
+                if (completedCount == blocksToMove.Count)
+                {
+                    onComplete?.Invoke();
+                }
+            }
+            else
+            {
+                hex.transform.SetParent(targetPlatform.Container.transform, true);
+
+                StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f, () =>
+                {
+                    completedCount++;
+                    if (completedCount == blocksToMove.Count)
+                    {
+                        onComplete?.Invoke();
+                    }
+                }, speedMultiplier));
+            }
+        }
+    }
+
+    private IEnumerator PlaySequentialJump(Hexagon hex, Vector3 worldTargetPos, Vector3 localTargetPos, float delay, Action onJumpFinished, float speedMultiplier = 1.0f)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (hex == null)
+        {
+            onJumpFinished?.Invoke();
+            yield break;
+        }
+
+        hex.PlayJumpAnimation(worldTargetPos, hex.transform.rotation, () =>
+        {
+            if (hex != null)
+            {
+                hex.transform.localPosition = localTargetPos;
+                hex.transform.localRotation = Quaternion.identity;
+            }
+            onJumpFinished?.Invoke();
+        }, speedMultiplier);
     }
 
 
@@ -285,60 +368,6 @@ public class GroundPlatform : MonoBehaviour
         return result;
     }
 
-    private void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove, Action onComplete)
-    {
-        float baseHeight = 0f;
-        Hexagon topHex = GetTopHexagon(targetPlatform.Container);
-        if (topHex != null)
-        {
-            baseHeight = topHex.transform.localPosition.y + HeightStep;
-        }
-
-        int completedCount = 0;
-
-        if (blocksToMove.Count == 0)
-        {
-            onComplete?.Invoke();
-            return;
-        }
-
-        for (int i = 0; i < blocksToMove.Count; i++)
-        {
-            Hexagon hex = blocksToMove[i];
-            float targetY = baseHeight + (i * HeightStep);
-
-            Vector3 localTargetPos = new Vector3(0f, targetY, 0f);
-            Vector3 worldTargetPos = targetPlatform.Container.transform.TransformPoint(localTargetPos);
-
-            bool isAlreadyOnTarget = hex.transform.parent == targetPlatform.Container.transform;
-
-            if (isAlreadyOnTarget)
-            {
-                hex.transform.localPosition = localTargetPos;
-                hex.transform.localRotation = Quaternion.identity;
-
-                completedCount++;
-                if (completedCount == blocksToMove.Count)
-                {
-                    onComplete?.Invoke();
-                }
-            }
-            else
-            {
-                hex.transform.SetParent(targetPlatform.Container.transform, true);
-
-                StartCoroutine(PlaySequentialJump(hex, worldTargetPos, localTargetPos, i * 0.1f, () =>
-                {
-                    completedCount++;
-                    if (completedCount == blocksToMove.Count)
-                    {
-                        onComplete?.Invoke();
-                    }
-                }));
-            }
-        }
-    }
-
     private bool CheckAndClearMatch()
     {
         Hexagon topHex = GetTopHexagon(Container);
@@ -374,27 +403,6 @@ public class GroundPlatform : MonoBehaviour
         {
             hex.PlayRemoveAnimation();
         }
-    }
-
-    private IEnumerator PlaySequentialJump(Hexagon hex, Vector3 worldTargetPos, Vector3 localTargetPos, float delay, Action onJumpFinished)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (hex == null)
-        {
-            onJumpFinished?.Invoke();
-            yield break;
-        }
-
-        hex.PlayJumpAnimation(worldTargetPos, hex.transform.rotation, () =>
-        {
-            if (hex != null)
-            {
-                hex.transform.localPosition = localTargetPos;
-                hex.transform.localRotation = Quaternion.identity;
-            }
-            onJumpFinished?.Invoke();
-        });
     }
 
     private Hexagon GetTopHexagon(GameObject container)

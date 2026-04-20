@@ -876,7 +876,7 @@ MonoBehaviour:
     - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   _includedShaderVariants: []
   _excludedShaderVariants: []
-  version: 185
+  version: 228
   _shaderParsedShaders:
   - ParsedSubShaders:
     - Index: 0

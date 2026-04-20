@@ -168,13 +168,7 @@ MonoBehaviour:
   Container: {fileID: 5295122778797261793}
   glowMaterial: {fileID: 2100000, guid: 1a8bbe885fe062f4080a320905fa608f, type: 2}
   platformRenderer: {fileID: 994558332607898611}
-  neighborColliders:
-  - {fileID: 130372752459271923}
-  - {fileID: 4015410360489021820}
-  - {fileID: 4324046153820587636}
-  - {fileID: 6183340958980476131}
-  - {fileID: 5026538660249754093}
-  - {fileID: 3822853082855260745}
+  neighborPlatforms: []
 --- !u!135 &162539228325092039
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -194,8 +188,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.7
-  m_Center: {x: 0, y: -0.5, z: 0}
+  m_Radius: 0.8
+  m_Center: {x: 0, y: -0.6, z: 0}
 --- !u!54 &5443804749958964332
 Rigidbody:
   m_ObjectHideFlags: 0
