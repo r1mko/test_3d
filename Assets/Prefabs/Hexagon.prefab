@@ -217,7 +217,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpHeight: 1.5
-  jumpDuration: 0.35
+  jumpDuration: 0.3
   removeScaleDuration: 0.175
 --- !u!1 &1363359953051563206
 GameObject:

@@ -20,6 +20,7 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private float weightNeighborChainPotential = 60f;
     [SerializeField] private float weightFutureMatchPotential = 70f;
     [SerializeField] private float weightGlobalOpportunity = 40f;
+    [SerializeField] private float weightEmptyUnderneathPreference = 5f;
 
     [Header("Settings")]
     [SerializeField] private int matchCountThreshold = 10;
@@ -200,9 +201,25 @@ public class PlatformManager : MonoBehaviour
 
         Hexagon sourceNext = GetNextHexagonAfterTransfer(source, color, blocksCount);
         Hexagon targetUnder = GetUnderHexagon(target);
+
         if (sourceNext != null && targetUnder != null && sourceNext.GetColor() == targetUnder.GetColor())
         {
             score += weightUnderColorMatch;
+        }
+
+        if (!willCreateMatch)
+        {
+            List<Hexagon> allTargetHexes = new List<Hexagon>();
+            foreach (Transform child in target.Container.transform)
+            {
+                Hexagon hex = child.GetComponent<Hexagon>();
+                if (hex != null && child.gameObject.activeSelf) allTargetHexes.Add(hex);
+            }
+
+            if (allTargetHexes.Count <= 1)
+            {
+                score += weightEmptyUnderneathPreference;
+            }
         }
 
         score += EvaluateNeighborChainPotential(target, color, source);
