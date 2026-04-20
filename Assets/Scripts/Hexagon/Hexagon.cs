@@ -170,7 +170,6 @@ public class Hexagon : MonoBehaviour
         }
 
         transform.localScale = Vector3.zero;
-        if (PlatformManager.Instance != null) PlatformManager.Instance.DecrementPendingRemovals();
         onComplete?.Invoke();
         Destroy(gameObject);
     }

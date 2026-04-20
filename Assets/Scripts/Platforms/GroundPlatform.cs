@@ -6,14 +6,16 @@ using System;
 public class GroundPlatform : MonoBehaviour
 {
     public GameObject Container;
+    public ParticleSystem removeParticle;
 
     [SerializeField] private Material glowMaterial;
     [SerializeField] private Renderer platformRenderer;
     [SerializeField] private GroundPlatform[] neighborPlatforms;
 
+    private const float HeightStep = 0.075f;
+    private int pendingRemovalsOnThisPlatform = 0;
     private HashSet<GroundPlatform> activeNeighbors = new HashSet<GroundPlatform>();
     private Material originalMaterial;
-    private const float HeightStep = 0.075f;
 
     private void Awake()
     {
@@ -132,11 +134,18 @@ public class GroundPlatform : MonoBehaviour
     {
         Hexagon topHex = GetTopHexagon(Container);
         if (topHex == null) return false;
+
         Hexagon.HexagonColor colorToCheck = topHex.GetColor();
         List<Hexagon> matchingHexes = GetBlocksToTransfer(Container, colorToCheck);
+
         if (matchingHexes.Count >= matchThreshold)
         {
+            // Увеличиваем локальный счетчик
+            pendingRemovalsOnThisPlatform += matchingHexes.Count;
+
+            // Увеличиваем глобальный счетчик
             PlatformManager.Instance.IncrementPendingRemovals(matchingHexes.Count);
+
             ClearHexagonsSequentially(matchingHexes);
             return true;
         }
@@ -157,7 +166,30 @@ public class GroundPlatform : MonoBehaviour
 
         if (hex != null)
         {
-            hex.PlayRemoveAnimation();
+            hex.PlayRemoveAnimation(() =>
+            {
+                if (PlatformManager.Instance != null)
+                {
+                    PlatformManager.Instance.DecrementPendingRemovals();
+                }
+
+                // Уменьшаем локальный счетчик для партикла
+                pendingRemovalsOnThisPlatform--;
+                if (pendingRemovalsOnThisPlatform <= 0 && removeParticle != null)
+                {
+                    pendingRemovalsOnThisPlatform = 0;
+                    removeParticle.Play();
+                }
+            });
+        }
+    }
+
+
+    public void PlayFinalRemoveEffect()
+    {
+        if (removeParticle != null)
+        {
+            removeParticle.Play();
         }
     }
 

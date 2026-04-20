@@ -1207,6 +1207,7 @@ MonoBehaviour:
   weightNeighborChainPotential: 60
   weightFutureMatchPotential: 70
   weightGlobalOpportunity: 40
+  weightEmptyUnderneathPreference: 5
   matchCountThreshold: 10
 --- !u!1001 &242998481
 PrefabInstance:
@@ -2951,7 +2952,7 @@ GameObject:
   - component: {fileID: 568697535}
   - component: {fileID: 568697534}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9211,5 +9212,5 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 216906549}
-  - {fileID: 568697537}
   - {fileID: 1921312562}
+  - {fileID: 568697537}
