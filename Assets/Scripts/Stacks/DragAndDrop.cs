@@ -14,6 +14,9 @@ public class DragAndDrop : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.3f;
     [SerializeField] private int shakeSteps = 6;
 
+    [Header("Cursor")]
+    [SerializeField] private CursorFollower cursorFollower; 
+
     private Vector3 offset;
     private bool isDragging = false;
     private Stack stackComponent;
@@ -25,6 +28,12 @@ public class DragAndDrop : MonoBehaviour
         stackComponent = GetComponent<Stack>();
         if (smoothLiftCurve == null || smoothLiftCurve.length == 0)
             smoothLiftCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+        // Находим курсор, если не назначен вручную
+        if (cursorFollower == null)
+        {
+            cursorFollower = FindFirstObjectByType<CursorFollower>();
+        }
     }
 
     private void OnMouseDown()
@@ -39,6 +48,11 @@ public class DragAndDrop : MonoBehaviour
         }
 
         isDragging = true;
+
+        if (cursorFollower != null)
+        {
+            cursorFollower.PlayGrabAnimation();
+        }
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane plane = new Plane(mainCamera.transform.forward, transform.position);
@@ -56,6 +70,11 @@ public class DragAndDrop : MonoBehaviour
 
         isDragging = false;
         stackComponent.Drop();
+
+        if (cursorFollower != null)
+        {
+            cursorFollower.PlayReleaseAnimation();
+        }
     }
 
     private void Update()

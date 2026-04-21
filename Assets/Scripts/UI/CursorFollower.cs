@@ -2,22 +2,49 @@
 
 public class CursorFollower : MonoBehaviour
 {
-    private RectTransform _rectTransform;
+    [SerializeField] private Camera mainCamera;
+    private Animator animator;
 
     private void Awake()
     {
-        _rectTransform = GetComponent<RectTransform>();
+        mainCamera = Camera.main;
+        animator = GetComponent<Animator>();
 
-        if (_rectTransform == null)
+        if (mainCamera == null)
         {
-            Debug.LogError($"[CursorFollower] RectTransform not found on {gameObject.name}");
+            Debug.LogError("[CursorFollower] Main Camera not found!");
         }
     }
 
     private void Update()
     {
-        if (_rectTransform == null) return;
+        if (mainCamera == null) return;
 
-        _rectTransform.position = Input.mousePosition;
+        Vector3 mousePos = Input.mousePosition;
+
+        if (mousePos.x < 0 || mousePos.y < 0 ||
+            mousePos.x > Screen.width || mousePos.y > Screen.height)
+            return;
+
+        mousePos.z = -10;
+
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
+        transform.position = worldPos;
+    }
+
+    public void PlayGrabAnimation()
+    {
+        if (animator != null)
+        {
+            animator.Play("CursorGrab");
+        }
+    }
+
+    public void PlayReleaseAnimation()
+    {
+        if (animator != null)
+        {
+            animator.Play("CursorRelease");
+        }
     }
 }
