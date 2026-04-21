@@ -93,7 +93,6 @@ public class Stack : MonoBehaviour
 
     public void SetDisabled(bool value)
     {
-        Debug.Log($"Установили Disabled: value: {value}");
         disabled = value;
 
         if (disabled && currentHoveredPlatform != null)

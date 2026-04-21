@@ -16,6 +16,8 @@ public class GroundPlatform : MonoBehaviour
     private int pendingRemovalsOnThisPlatform = 0;
     private HashSet<GroundPlatform> activeNeighbors = new HashSet<GroundPlatform>();
     private Material originalMaterial;
+    private Coroutine scaleCoroutine;
+    private Vector3 originalScale;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class GroundPlatform : MonoBehaviour
         {
             originalMaterial = platformRenderer.material;
         }
+        originalScale = platformRenderer.transform.localScale;
     }
 
     private void Start()
@@ -140,10 +143,8 @@ public class GroundPlatform : MonoBehaviour
 
         if (matchingHexes.Count >= matchThreshold)
         {
-            // Увеличиваем локальный счетчик
             pendingRemovalsOnThisPlatform += matchingHexes.Count;
 
-            // Увеличиваем глобальный счетчик
             PlatformManager.Instance.IncrementPendingRemovals(matchingHexes.Count);
 
             ClearHexagonsSequentially(matchingHexes);
@@ -173,7 +174,6 @@ public class GroundPlatform : MonoBehaviour
                     PlatformManager.Instance.DecrementPendingRemovals();
                 }
 
-                // Уменьшаем локальный счетчик для партикла
                 pendingRemovalsOnThisPlatform--;
                 if (pendingRemovalsOnThisPlatform <= 0 && removeParticle != null)
                 {
@@ -281,12 +281,51 @@ public class GroundPlatform : MonoBehaviour
 
     public void SetGlow()
     {
-        if (platformRenderer != null && glowMaterial != null) platformRenderer.material = glowMaterial;
+        if (platformRenderer != null && glowMaterial != null)
+        {
+            platformRenderer.material = glowMaterial;
+        }
+
+        if (scaleCoroutine != null)
+        {
+            StopCoroutine(scaleCoroutine);
+        }
+        scaleCoroutine = StartCoroutine(AnimateScale(platformRenderer.transform.localScale.z, originalScale.z * 2f));
     }
 
     public void RemoveGlow()
     {
-        if (platformRenderer != null && originalMaterial != null) platformRenderer.material = originalMaterial;
+        if (platformRenderer != null && originalMaterial != null)
+        {
+            platformRenderer.material = originalMaterial;
+        }
+
+        if (scaleCoroutine != null)
+        {
+            StopCoroutine(scaleCoroutine);
+        }
+        scaleCoroutine = StartCoroutine(AnimateScale(platformRenderer.transform.localScale.z, originalScale.z));
+    }
+
+    private IEnumerator AnimateScale(float fromZ, float toZ)
+    {
+        float duration = 0.15f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            float newZ = Mathf.Lerp(fromZ, toZ, t);
+            Vector3 newScale = platformRenderer.transform.localScale;
+            newScale.z = newZ;
+            platformRenderer.transform.localScale = newScale;
+            yield return null;
+        }
+
+        Vector3 finalScale = platformRenderer.transform.localScale;
+        finalScale.z = toZ;
+        platformRenderer.transform.localScale = finalScale;
     }
 
     public bool IsAvailable() => Container != null && Container.transform.childCount == 0;
@@ -296,7 +335,7 @@ public class GroundPlatform : MonoBehaviour
     {
         Debug.Log("=== ДИАГНОСТИКА СОСТОЯНИЯ ДОСКИ ===");
         GroundPlatform[] allPlatforms = PlatformManager.Instance.GroundPlatforms;
-        System.Array.Sort(allPlatforms, (a, b) => a.name.CompareTo(b.name));
+        Array.Sort(allPlatforms, (a, b) => a.name.CompareTo(b.name));
         foreach (GroundPlatform p in allPlatforms)
         {
             if (p == null) continue;

@@ -38,7 +38,6 @@ public class DragAndDrop : MonoBehaviour
     {
         if (isAnimating) return;
 
-        Debug.Log($"Смотрим дизейблд ли у нас {stackComponent.IsDisabled} ");
         if (stackComponent.IsDisabled)
             return;
 

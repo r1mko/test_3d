@@ -24,8 +24,8 @@ public class FillStack : MonoBehaviour
 
         HexagonColor? color2 = null;
 
-        // Шанс появления второго цвета (50%)
-        if (Random.value < 0.5f)
+        // Шанс появления второго цвета (25%)
+        if (Random.value < 0.25f)
         {
             color2 = GetRandomColorExcept(color1);
         }
@@ -56,8 +56,8 @@ public class FillStack : MonoBehaviour
 
     private HexagonColor GetSmartRandomColor()
     {
-        // 65% шанс использовать существующие цвета
-        if (Random.value < 0.65f)
+        // 80% шанс использовать существующие цвета
+        if (Random.value < 0.80f)
         {
             List<HexagonColor> existingColors = GetExistingColorsFromField();
 

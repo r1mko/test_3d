@@ -8241,6 +8241,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 216906549}
     m_Modifications:
+    - target: {fileID: 994558332607898611, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0e65c6fc46ff55043840d7fa0361dfed, type: 2}
+    - target: {fileID: 2127472897543919772, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 166
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127472897543919772, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2786491528729096403, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
       propertyPath: m_Name
       value: GroundPlatform 7
