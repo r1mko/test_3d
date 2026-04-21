@@ -33,11 +33,6 @@ public class PlatformManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-
-        if (cursorFollower == null)
-        {
-            cursorFollower = FindFirstObjectByType<CursorFollower>();
-        }
     }
 
     private void OnDestroy() { if (Instance == this) Instance = null; }

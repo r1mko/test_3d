@@ -29,9 +29,6 @@ public class DragAndDrop : MonoBehaviour
 
         if (smoothLiftCurve == null || smoothLiftCurve.length == 0)
             smoothLiftCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-        if (cursorFollower == null)
-            cursorFollower = FindFirstObjectByType<CursorFollower>();
     }
 
     private void OnMouseDown()

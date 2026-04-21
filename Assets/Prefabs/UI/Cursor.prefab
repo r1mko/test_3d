@@ -181,7 +181,6 @@ GameObject:
   - component: {fileID: 5492797654878743049}
   - component: {fileID: 7399570453439646643}
   - component: {fileID: 8190130893994949049}
-  - component: {fileID: 3433153874419738486}
   m_Layer: 0
   m_Name: Cursor
   m_TagString: Untagged
@@ -244,18 +243,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!225 &3433153874419738486
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879628781965617141}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &5917563700243027163
 GameObject:
   m_ObjectHideFlags: 0
