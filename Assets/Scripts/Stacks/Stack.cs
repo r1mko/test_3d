@@ -20,7 +20,7 @@ public class Stack : MonoBehaviour
 
         if (stackManager == null)
         {
-            stackManager = StackManager.Instance;
+            stackManager = GetComponentInParent<StackManager>();
         }
     }
 

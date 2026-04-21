@@ -178,16 +178,15 @@ public class GroundPlatform : MonoBehaviour
                 if (pendingRemovalsOnThisPlatform <= 0 && removeParticle != null)
                 {
                     pendingRemovalsOnThisPlatform = 0;
-                    PlayFinalRemoveEffect(hex);
+                    StartCoroutine(PlayFinalRemoveEffect(hex));
                 }
             });
         }
     }
 
-
-    public void PlayFinalRemoveEffect(Hexagon sourceHex)
+    private IEnumerator PlayFinalRemoveEffect(Hexagon sourceHex)
     {
-        if (removeParticle == null || sourceHex == null) return;
+        if (removeParticle == null || sourceHex == null) yield break;
 
         Hexagon.HexagonColor color = sourceHex.GetColor();
         Gradient targetGradient = null;
@@ -207,8 +206,20 @@ public class GroundPlatform : MonoBehaviour
             colorModule.color = new ParticleSystem.MinMaxGradient(targetGradient);
         }
 
-        removeParticle.Stop();
-        removeParticle.Play();
+        float timeout = 2f;
+        float elapsed = 0f;
+
+        while (Container != null && Container.transform.childCount > 0 && elapsed < timeout)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+
+        if (Container == null || Container.transform.childCount == 0)
+        {
+            removeParticle.Stop();
+            removeParticle.Play();
+        }
     }
 
     public void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove, Action onComplete, float speedMultiplier = 1.0f)
