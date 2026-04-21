@@ -423,6 +423,62 @@ PrefabInstance:
       propertyPath: m_Name
       value: GroundPlatform 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.ctime1
+      value: 26445
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 0.8235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 0.8235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key2.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key2.g
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key2.r
+      value: 0.8235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key3.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600695210019713629, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4393902384693857920, guid: 8d3913ffb41d8b8498395c41461270fa, type: 3}
       propertyPath: neighborPlatforms.Array.size
       value: 6
@@ -7070,6 +7126,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bc3b93bb1ee0348418e96a4af548dbf2, type: 2}
+    - target: {fileID: 4330407020624452520, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
+      propertyPath: colorMaterials.Array.data[2].particleGradient.key2.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330407020624452520, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
+      propertyPath: colorMaterials.Array.data[2].particleGradient.key2.g
+      value: 0.85098046
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330407020624452520, guid: baa3364b36abcba41b62ab34e2921587, type: 3}
+      propertyPath: colorMaterials.Array.data[2].particleGradient.key2.r
+      value: 0.25490198
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

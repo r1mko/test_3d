@@ -14,9 +14,11 @@ public class Hexagon : MonoBehaviour
     {
         public HexagonColor color;
         public Material material;
+        public Gradient particleGradient;
     }
 
-    [SerializeField] private ColorMaterialPair[] colorMaterials;
+    public ColorMaterialPair[] colorMaterials;
+
     [SerializeField] private Renderer hexRenderer;
     [SerializeField] private Transform[] anchors;
     [SerializeField] private AnimationCurve jumpCurve;

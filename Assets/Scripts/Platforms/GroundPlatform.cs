@@ -178,19 +178,37 @@ public class GroundPlatform : MonoBehaviour
                 if (pendingRemovalsOnThisPlatform <= 0 && removeParticle != null)
                 {
                     pendingRemovalsOnThisPlatform = 0;
-                    removeParticle.Play();
+                    PlayFinalRemoveEffect(hex);
                 }
             });
         }
     }
 
 
-    public void PlayFinalRemoveEffect()
+    public void PlayFinalRemoveEffect(Hexagon sourceHex)
     {
-        if (removeParticle != null)
+        if (removeParticle == null || sourceHex == null) return;
+
+        Hexagon.HexagonColor color = sourceHex.GetColor();
+        Gradient targetGradient = null;
+
+        foreach (var pair in sourceHex.colorMaterials)
         {
-            removeParticle.Play();
+            if (pair.color == color)
+            {
+                targetGradient = pair.particleGradient;
+                break;
+            }
         }
+
+        if (targetGradient != null)
+        {
+            var colorModule = removeParticle.colorOverLifetime;
+            colorModule.color = new ParticleSystem.MinMaxGradient(targetGradient);
+        }
+
+        removeParticle.Stop();
+        removeParticle.Play();
     }
 
     public void StartTransferAnimation(GroundPlatform targetPlatform, List<Hexagon> blocksToMove, Action onComplete, float speedMultiplier = 1.0f)
