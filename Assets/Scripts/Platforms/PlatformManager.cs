@@ -12,6 +12,7 @@ public class PlatformManager : MonoBehaviour
     public bool IsBusy => isChainReactionActive;
 
     public GroundPlatform[] GroundPlatforms;
+    [SerializeField] private CursorFollower cursorFollower;
 
     [Header("AI Weights")]
     [SerializeField] private float weightMatchCreation = 100f;
@@ -32,6 +33,11 @@ public class PlatformManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+
+        if (cursorFollower == null)
+        {
+            cursorFollower = FindFirstObjectByType<CursorFollower>();
+        }
     }
 
     private void OnDestroy() { if (Instance == this) Instance = null; }
@@ -58,6 +64,10 @@ public class PlatformManager : MonoBehaviour
     private IEnumerator ProcessChainReactionGlobal(GroundPlatform starter)
     {
         isChainReactionActive = true;
+        if (cursorFollower != null)
+        {
+            cursorFollower.TriggerChainReactionFade();
+        }
 
         bool globalStateChanged = true;
         int safetyCounter = 0;
