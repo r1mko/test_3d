@@ -132,7 +132,7 @@ public class PlatformManager : MonoBehaviour
 
         if (safetyCounter >= MaxIterations) Debug.LogError("Достигнут лимит итераций!");
         _pendingRemovals = 0;
-        starter.DebugLogBoardState();
+        //starter.DebugLogBoardState();
 
         isChainReactionActive = false;
     }

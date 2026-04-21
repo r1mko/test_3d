@@ -9,10 +9,12 @@ public class Stack : MonoBehaviour
     [SerializeField] private StackManager stackManager;
 
     private const float PlatformOffsetY = 0.1f;
-    private bool disabled;
+    public bool disabled;
     private Vector3 originalPosition;
     private GroundPlatform currentHoveredPlatform;
     private Coroutine moveCoroutine;
+
+    public bool IsDisabled => disabled;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class Stack : MonoBehaviour
 
     private void Update()
     {
+        if (disabled) return;
         CheckHover();
         DebugRaycast();
     }
@@ -88,6 +91,18 @@ public class Stack : MonoBehaviour
         }
     }
 
+    public void SetDisabled(bool value)
+    {
+        Debug.Log($"Установили Disabled: value: {value}");
+        disabled = value;
+
+        if (disabled && currentHoveredPlatform != null)
+        {
+            currentHoveredPlatform.RemoveGlow();
+            currentHoveredPlatform = null;
+        }
+    }
+
     private IEnumerator SmoothReturnToOriginal()
     {
         Vector3 startPos = transform.position;
@@ -111,8 +126,6 @@ public class Stack : MonoBehaviour
             currentHoveredPlatform.RemoveGlow();
             currentHoveredPlatform = null;
         }
-
-        NotifyManagerIfEmpty();
     }
 
     private IEnumerator MoveToContainerAndTransfer(GroundPlatform targetPlatform, GameObject targetContainer)
@@ -170,8 +183,6 @@ public class Stack : MonoBehaviour
         transform.position = endPos;
 
         NotifyManagerIfEmpty();
-
-        disabled = false;
     }
 
     private void MoveChildrenToContainer(GameObject targetContainer)
@@ -187,7 +198,7 @@ public class Stack : MonoBehaviour
     {
         if (stackManager != null)
         {
-            stackManager.OnStackEmptied();
+            stackManager.OnStackEmptied(this);
         }
     }
 }

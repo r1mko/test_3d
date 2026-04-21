@@ -21,8 +21,10 @@ public class StackManager : MonoBehaviour
         Instance = this;
     }
 
-    public void OnStackEmptied()
+    public void OnStackEmptied(Stack stack)
     {
+        stack.SetDisabled(true);
+
         if (isRefilling) return;
 
         if (AreAllStacksEmpty())
@@ -72,6 +74,7 @@ public class StackManager : MonoBehaviour
             {
                 fillStack.GenerateBlocks();
             }
+            stack.SetDisabled(false);
         }
 
         isRefilling = false;
