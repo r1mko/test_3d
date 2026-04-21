@@ -17,12 +17,15 @@ public class FillStack : MonoBehaviour
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
 
-        int count = Random.Range(4, 8);
+        int count = Random.Range(4, 10);
 
-        HexagonColor color1 = GetRandomColor();
+        // 1. Выбираем первый цвет с учетом существующих на поле
+        HexagonColor color1 = GetSmartRandomColor();
+
         HexagonColor? color2 = null;
 
-        if (Random.value < 0.3f)
+        // Шанс появления второго цвета (50%)
+        if (Random.value < 0.5f)
         {
             color2 = GetRandomColorExcept(color1);
         }
@@ -45,10 +48,59 @@ public class FillStack : MonoBehaviour
             Hexagon hexComponent = newBlock.GetComponent<Hexagon>();
             if (hexComponent != null)
             {
-                HexagonColor chosenColor = (i < splitIndex) ? color1 : color2.Value;
+                HexagonColor chosenColor = (i < splitIndex) ? color1 : (color2.HasValue ? color2.Value : color1);
                 hexComponent.Init(chosenColor);
             }
         }
+    }
+
+    private HexagonColor GetSmartRandomColor()
+    {
+        // 65% шанс использовать существующие цвета
+        if (Random.value < 0.65f)
+        {
+            List<HexagonColor> existingColors = GetExistingColorsFromField();
+
+            if (existingColors.Count > 0)
+            {
+                return existingColors[Random.Range(0, existingColors.Count)];
+            }
+        }
+
+        return GetRandomColor();
+    }
+
+    private List<HexagonColor> GetExistingColorsFromField()
+    {
+        List<HexagonColor> uniqueColors = new List<HexagonColor>();
+
+        if (PlatformManager.Instance == null || PlatformManager.Instance.GroundPlatforms == null)
+        {
+            return uniqueColors;
+        }
+
+        foreach (GroundPlatform platform in PlatformManager.Instance.GroundPlatforms)
+        {
+            if (platform == null || platform.Container == null) continue;
+
+            foreach (Transform child in platform.Container.transform)
+            {
+                if (!child.gameObject.activeSelf) continue;
+
+                Hexagon hex = child.GetComponent<Hexagon>();
+                if (hex != null)
+                {
+                    HexagonColor color = hex.GetColor();
+
+                    if (!uniqueColors.Contains(color))
+                    {
+                        uniqueColors.Add(color);
+                    }
+                }
+            }
+        }
+
+        return uniqueColors;
     }
 
     private HexagonColor GetRandomColor()
