@@ -6,34 +6,29 @@ public class Stack : MonoBehaviour
     [SerializeField] private AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float moveDuration = 0.25f;
     [SerializeField] private float rayLength = 10f;
+    [SerializeField] private StackManager stackManager;
 
-    // Ссылка на компонент, отвечающий за наполнение стека
-    [SerializeField] private FillStack fillStack;
-
+    private const float PlatformOffsetY = 0.1f;
+    public bool disabled;
     private Vector3 originalPosition;
     private GroundPlatform currentHoveredPlatform;
     private Coroutine moveCoroutine;
+
+    public bool IsDisabled => disabled;
 
     private void Awake()
     {
         originalPosition = transform.position;
 
-        if (fillStack == null)
+        if (stackManager == null)
         {
-            fillStack = GetComponent<FillStack>();
-        }
-    }
-
-    private void Start()
-    {
-        if (fillStack != null && transform.childCount == 0)
-        {
-            fillStack.GenerateBlocks();
+            stackManager = GetComponentInParent<StackManager>();
         }
     }
 
     private void Update()
     {
+        if (disabled) return;
         CheckHover();
         DebugRaycast();
     }
@@ -44,7 +39,7 @@ public class Stack : MonoBehaviour
         {
             GroundPlatform platform = hit.collider.GetComponent<GroundPlatform>();
 
-            if (platform != null && platform.IsAvailable())
+            if (platform != null && platform.IsAvailable() && !disabled)
             {
                 if (currentHoveredPlatform != platform)
                 {
@@ -87,18 +82,57 @@ public class Stack : MonoBehaviour
 
         if (currentHoveredPlatform != null && currentHoveredPlatform.Container != null)
         {
-            moveCoroutine = StartCoroutine(MoveToContainerAndTransfer(currentHoveredPlatform.Container));
+            GroundPlatform targetPlatform = currentHoveredPlatform;
+            moveCoroutine = StartCoroutine(MoveToContainerAndTransfer(targetPlatform, targetPlatform.Container));
         }
         else
         {
-            ReturnToOriginal();
+            moveCoroutine = StartCoroutine(SmoothReturnToOriginal());
         }
     }
 
-    private IEnumerator MoveToContainerAndTransfer(GameObject targetContainer)
+    public void SetDisabled(bool value)
+    {
+        disabled = value;
+
+        if (disabled && currentHoveredPlatform != null)
+        {
+            currentHoveredPlatform.RemoveGlow();
+            currentHoveredPlatform = null;
+        }
+    }
+
+    private IEnumerator SmoothReturnToOriginal()
     {
         Vector3 startPos = transform.position;
-        Vector3 endPos = targetContainer.transform.position;
+        Vector3 endPos = originalPosition;
+        float elapsed = 0f;
+
+        while (elapsed < moveDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / moveDuration);
+            float curveT = moveCurve.Evaluate(t);
+
+            transform.position = Vector3.Lerp(startPos, endPos, curveT);
+            yield return null;
+        }
+
+        transform.position = endPos;
+
+        if (currentHoveredPlatform != null)
+        {
+            currentHoveredPlatform.RemoveGlow();
+            currentHoveredPlatform = null;
+        }
+    }
+
+    private IEnumerator MoveToContainerAndTransfer(GroundPlatform targetPlatform, GameObject targetContainer)
+    {
+        disabled = true;
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = new Vector3(targetContainer.transform.position.x, targetContainer.transform.position.y + PlatformOffsetY, targetContainer.transform.position.z);
         float elapsed = 0f;
 
         while (elapsed < moveDuration)
@@ -115,33 +149,39 @@ public class Stack : MonoBehaviour
 
         MoveChildrenToContainer(targetContainer);
 
-        if (currentHoveredPlatform != null)
+        if (targetPlatform != null)
         {
-            currentHoveredPlatform.RemoveGlow();
-            currentHoveredPlatform = null;
+            targetPlatform.RemoveGlow();
+            if (currentHoveredPlatform == targetPlatform)
+            {
+                currentHoveredPlatform = null;
+            }
+
+            PlatformManager.Instance.StartChainReaction(targetPlatform);
         }
 
-        ReturnAndRefill();
+        yield return StartCoroutine(ReturnAndRefill());
     }
 
-    private void ReturnAndRefill()
+    private IEnumerator ReturnAndRefill()
     {
-        transform.position = originalPosition;
-        if (fillStack != null)
-        {
-            fillStack.GenerateBlocks();
-        }
-    }
+        Vector3 startPos = transform.position;
+        Vector3 endPos = originalPosition;
+        float elapsed = 0f;
 
-    private void ReturnToOriginal() //to do smooth movement
-    {
-        transform.position = originalPosition;
-
-        if (currentHoveredPlatform != null)
+        while (elapsed < moveDuration)
         {
-            currentHoveredPlatform.RemoveGlow();
-            currentHoveredPlatform = null;
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / moveDuration);
+            float curveT = moveCurve.Evaluate(t);
+
+            transform.position = Vector3.Lerp(startPos, endPos, curveT);
+            yield return null;
         }
+
+        transform.position = endPos;
+
+        NotifyManagerIfEmpty();
     }
 
     private void MoveChildrenToContainer(GameObject targetContainer)
@@ -150,6 +190,14 @@ public class Stack : MonoBehaviour
         {
             Transform child = transform.GetChild(0);
             child.SetParent(targetContainer.transform, true);
+        }
+    }
+
+    private void NotifyManagerIfEmpty()
+    {
+        if (stackManager != null)
+        {
+            stackManager.OnStackEmptied(this);
         }
     }
 }
