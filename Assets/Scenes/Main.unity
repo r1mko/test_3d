@@ -7477,13 +7477,14 @@ MonoBehaviour:
   midColor: {r: 1, g: 0.9595405, b: 0, a: 1}
   endColor: {r: 1, g: 0.08537317, b: 0, a: 1}
   pulseColor: {r: 1, g: 0.39936358, b: 0.28490567, a: 1}
-  pulseThreshold: 1
+  pulseThreshold: 0.25
   pulseDuration: 0.15
   pauseDuration: 0.55
   maxScaleMultiplier: 1.2
   alarmDuration: 1.5
-  shakeAmount: 5
+  shakeAmount: 3
   shakeSpeed: 40
+  shakeRotationAmount: 5
 --- !u!4 &1378728422
 Transform:
   m_ObjectHideFlags: 0

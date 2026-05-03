@@ -48,7 +48,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator StartTutorialWithDelay()
     {
         IsInputBlocked = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(TutorialMainLoop());
     }
 
@@ -107,6 +107,11 @@ public class TutorialManager : MonoBehaviour
 
     public void OnHexagonPlacedSuccessfully()
     {
+        if (!HasPlacedSuccessfully)
+            TimeManager.Instance.StartGame();
+        else
+            return;
+
         HasPlacedSuccessfully = true;
         IsInputBlocked = false;
 
@@ -159,6 +164,7 @@ public class TutorialManager : MonoBehaviour
 
     private void ResetVisualsToZero()
     {
+        Debug.Log("ResetVisualsToZero вызвали");
         if (backgroundPlaneMaterial != null) SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
 
         if (backgroundSpriteRenderer != null)
