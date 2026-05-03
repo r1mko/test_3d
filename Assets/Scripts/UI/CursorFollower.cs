@@ -28,7 +28,23 @@ public class CursorFollower : MonoBehaviour
 
         if (mainCamera == null)
             Debug.LogError("[CursorFollower] Main Camera not found!");
+
+        HideInstantlyCursor();
     }
+
+    private void HideInstantlyCursor()
+    {
+        foreach (var main in mainRenderers)
+        {
+            SetAlpha(main, 0);
+        }
+
+        foreach (var shadow in shadowRenderers)
+        {
+            SetAlpha(shadow, 0);
+        }
+    }
+
 
     private void Update()
     {
