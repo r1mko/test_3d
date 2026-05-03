@@ -119,29 +119,28 @@ public class TutorialManager : MonoBehaviour
         ResetVisualsToZero();
     }
 
-    private void ResetVisualsToZero()
-    {
-        if (backgroundPlaneMaterial != null) SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
-        if (backgroundSpriteRenderer != null) { Color c = backgroundSpriteRenderer.color; c.a = 0f; backgroundSpriteRenderer.color = c; }
-        if (glowMaterials != null) { foreach (var m in glowMaterials) if (m != null) { Color c = m.color; c.a = 0f; m.color = c; } }
-
-        if (tutorialPoints != null)
-        {
-            foreach (var p in tutorialPoints) if (p != null) p.SetActive(false);
-        }
-    }
-
     private void InitializeMaterials()
     {
         if (backgroundPlaneMaterial != null)
         {
             SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
         }
+
         if (backgroundSpriteRenderer != null)
         {
             originalSpriteColor = backgroundSpriteRenderer.color;
-            Color c = originalSpriteColor; c.a = 0f; backgroundSpriteRenderer.color = c;
+            Color c = originalSpriteColor;
+            c.a = 0f;
+            backgroundSpriteRenderer.color = c;
         }
+
+        if (backgroundTimerImage != null)
+        {
+            Color c = backgroundTimerImage.color;
+            c.a = 0f;
+            backgroundTimerImage.color = c;
+        }
+
         if (glowMaterials != null && glowMaterials.Length > 0)
         {
             originalGlowColors = new Color[glowMaterials.Length];
@@ -150,9 +149,48 @@ public class TutorialManager : MonoBehaviour
                 if (glowMaterials[i] != null)
                 {
                     originalGlowColors[i] = glowMaterials[i].color;
-                    Color c = originalGlowColors[i]; c.a = 0f; glowMaterials[i].color = c;
+                    Color c = originalGlowColors[i];
+                    c.a = 0f;
+                    glowMaterials[i].color = c;
                 }
             }
+        }
+    }
+
+    private void ResetVisualsToZero()
+    {
+        if (backgroundPlaneMaterial != null) SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
+
+        if (backgroundSpriteRenderer != null)
+        {
+            Color c = backgroundSpriteRenderer.color;
+            c.a = 0f;
+            backgroundSpriteRenderer.color = c;
+        }
+
+        if (backgroundTimerImage != null)
+        {
+            Color c = backgroundTimerImage.color;
+            c.a = 0f;
+            backgroundTimerImage.color = c;
+        }
+
+        if (glowMaterials != null)
+        {
+            foreach (var m in glowMaterials)
+            {
+                if (m != null)
+                {
+                    Color c = m.color;
+                    c.a = 0f;
+                    m.color = c;
+                }
+            }
+        }
+
+        if (tutorialPoints != null)
+        {
+            foreach (var p in tutorialPoints) if (p != null) p.SetActive(false);
         }
     }
 
@@ -204,22 +242,44 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator FadeBackgrounds(bool fadeIn)
     {
         float elapsed = 0f;
+
         Color startPlaneColor = backgroundPlaneMaterial != null ? backgroundPlaneMaterial.GetColor("_TintColor") : Color.clear;
-        Color targetPlaneColor = startPlaneColor; targetPlaneColor.a = fadeIn ? targetAlpha : 0f;
+        Color targetPlaneColor = startPlaneColor;
+        targetPlaneColor.a = fadeIn ? targetAlpha : 0f;
+
         Color startSpriteColor = backgroundSpriteRenderer != null ? backgroundSpriteRenderer.color : Color.clear;
-        Color targetSpriteColor = startSpriteColor; targetSpriteColor.a = fadeIn ? targetAlpha : 0f;
+        Color targetSpriteColor = startSpriteColor;
+        targetSpriteColor.a = fadeIn ? targetAlpha : 0f;
+
+        Color startTimerColor = backgroundTimerImage != null ? backgroundTimerImage.color : Color.clear;
+        Color targetTimerColor = startTimerColor;
+        targetTimerColor.a = fadeIn ? targetAlpha : 0f;
 
         while (elapsed < backgroundFadeDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / backgroundFadeDuration);
-            if (backgroundPlaneMaterial != null) backgroundPlaneMaterial.SetColor("_TintColor", Color.Lerp(startPlaneColor, targetPlaneColor, t));
-            if (backgroundSpriteRenderer != null) backgroundSpriteRenderer.color = Color.Lerp(startSpriteColor, targetSpriteColor, t);
+
+            if (backgroundPlaneMaterial != null)
+                backgroundPlaneMaterial.SetColor("_TintColor", Color.Lerp(startPlaneColor, targetPlaneColor, t));
+
+            if (backgroundSpriteRenderer != null)
+                backgroundSpriteRenderer.color = Color.Lerp(startSpriteColor, targetSpriteColor, t);
+
+            if (backgroundTimerImage != null)
+                backgroundTimerImage.color = Color.Lerp(startTimerColor, targetTimerColor, t);
+
             yield return null;
         }
 
-        if (backgroundPlaneMaterial != null) backgroundPlaneMaterial.SetColor("_TintColor", targetPlaneColor);
-        if (backgroundSpriteRenderer != null) backgroundSpriteRenderer.color = targetSpriteColor;
+        if (backgroundPlaneMaterial != null)
+            backgroundPlaneMaterial.SetColor("_TintColor", targetPlaneColor);
+
+        if (backgroundSpriteRenderer != null)
+            backgroundSpriteRenderer.color = targetSpriteColor;
+
+        if (backgroundTimerImage != null)
+            backgroundTimerImage.color = targetTimerColor;
     }
 
     private IEnumerator FadeGlows(bool fadeIn)
