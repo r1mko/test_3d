@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject[] tutorialPoints;
     [SerializeField] private Material backgroundPlaneMaterial;
     [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
+    [SerializeField] private Image backgroundTimerImage;
     [SerializeField] private Material[] glowMaterials;
 
     [Header("Settings")]
