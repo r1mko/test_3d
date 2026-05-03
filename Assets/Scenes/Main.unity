@@ -1169,7 +1169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &161110834
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1410,7 +1410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &227606362
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3883,7 +3883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &701868913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4661,7 +4661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &795421709
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8586,7 +8586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1731037364
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10160,6 +10160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1994720919}
+  - component: {fileID: 1994720920}
   m_Layer: 0
   m_Name: TutorialItems
   m_TagString: Untagged
@@ -10186,6 +10187,26 @@ Transform:
   - {fileID: 8698045564478643089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1994720920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994720918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c82490192877c4a9db6f3526381da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialPoints:
+  - {fileID: 227606361}
+  - {fileID: 161110833}
+  - {fileID: 795421708}
+  - {fileID: 1731037363}
+  - {fileID: 701868912}
+  totalDuration: 0.35
+  pauseDuration: 1
 --- !u!1 &2037992037
 GameObject:
   m_ObjectHideFlags: 0
