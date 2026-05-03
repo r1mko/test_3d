@@ -15,6 +15,7 @@ public class CursorFollower : MonoBehaviour
 
     private Coroutine fadeCoroutine;
     private bool isVisible = false;
+    private bool isTutorialActive = false;
 
     private const float SHADOW_MAX_ALPHA = 0.63f;
 
@@ -45,7 +46,6 @@ public class CursorFollower : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         if (mainCamera == null) return;
@@ -56,14 +56,18 @@ public class CursorFollower : MonoBehaviour
             mousePos.x > Screen.width || mousePos.y > Screen.height)
             return;
 
-        mousePos.z = -10;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-
-        transform.position = new Vector3(worldPos.x + pivotOffsetX, worldPos.y + pivotOffsetY, worldPos.z);
+        if (!isTutorialActive)
+        {
+            mousePos.z = -10;
+            Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
+            transform.position = new Vector3(worldPos.x + pivotOffsetX, worldPos.y + pivotOffsetY, worldPos.z);
+        }
     }
 
     public void PlayGrabAnimation()
     {
+        if (isTutorialActive) return;
+
         SetVisibility(true);
         if (animator != null)
         {
@@ -73,6 +77,8 @@ public class CursorFollower : MonoBehaviour
 
     public void PlayReleaseAnimation()
     {
+        if (isTutorialActive) return;
+
         if (animator != null)
         {
             animator.Play("CursorRelease");
@@ -82,6 +88,16 @@ public class CursorFollower : MonoBehaviour
     public void TriggerChainReactionFade()
     {
         SetVisibility(false);
+    }
+
+    public void SetTutorialActive(bool active)
+    {
+        isTutorialActive = active;
+
+        if (active)
+        {
+            SetVisibility(false);
+        }
     }
 
     public void SetVisibility(bool visible)

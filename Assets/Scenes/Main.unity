@@ -10722,6 +10722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c82490192877c4a9db6f3526381da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorFollower: {fileID: 645859017}
   tutorialPoints:
   - {fileID: 227606361}
   - {fileID: 161110833}

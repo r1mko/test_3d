@@ -8,6 +8,7 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager Instance { get; private set; }
 
     [Header("References")]
+    [SerializeField] private CursorFollower cursorFollower;
     [SerializeField] private GameObject[] tutorialPoints;
     [SerializeField] private Material backgroundPlaneMaterial;
     [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
@@ -60,7 +61,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator StartTutorialWithDelay()
     {
         IsInputBlocked = true;
-        //CursorFollower.SetTutorialActive(true);
+        cursorFollower.SetTutorialActive(true);
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(TutorialMainLoop());
     }
@@ -74,6 +75,8 @@ public class TutorialManager : MonoBehaviour
             cursorLoopCoroutine = StartCoroutine(AnimateTutorialCursor());
             yield return StartCoroutine(AnimatePointsSequence());
 
+            cursorFollower.SetTutorialActive(false);
+
             if (HasPlacedSuccessfully) break;
 
             IsInputBlocked = false;
@@ -83,10 +86,12 @@ public class TutorialManager : MonoBehaviour
             if (HasPlacedSuccessfully) break;
 
             yield return StartCoroutine(WaitForIdleState());
+
+            cursorFollower.SetTutorialActive(true);
         }
 
         IsInputBlocked = false;
-        //CursorFollower.SetTutorialActive(false);
+        cursorFollower.SetTutorialActive(false);
         if (tutorialCursorImage != null)
             tutorialCursorImage.gameObject.SetActive(false);
 
@@ -135,7 +140,7 @@ public class TutorialManager : MonoBehaviour
 
         HasPlacedSuccessfully = true;
         IsInputBlocked = false;
-        //CursorFollower.SetTutorialActive(false);
+        cursorFollower.SetTutorialActive(false);
 
         if (mainLoopCoroutine != null)
         {
