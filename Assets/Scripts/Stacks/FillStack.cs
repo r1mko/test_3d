@@ -17,7 +17,7 @@ public class FillStack : MonoBehaviour
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
 
-        int count = Random.Range(4, 10);
+        int count = Random.Range(6, 10);
 
         // 1. Выбираем первый цвет с учетом существующих на поле
         HexagonColor color1 = GetSmartRandomColor();
@@ -27,7 +27,7 @@ public class FillStack : MonoBehaviour
         // Шанс появления второго цвета (25%)
         if (Random.value < 0.25f)
         {
-            color2 = GetRandomColorExcept(color1);
+            color2 = GetSmartRandomColor();
         }
 
         int splitIndex = count;
@@ -107,26 +107,5 @@ public class FillStack : MonoBehaviour
     {
         var values = System.Enum.GetValues(typeof(HexagonColor));
         return (HexagonColor)values.GetValue(Random.Range(0, values.Length));
-    }
-
-    private HexagonColor GetRandomColorExcept(HexagonColor exclude)
-    {
-        var values = System.Enum.GetValues(typeof(HexagonColor));
-        List<HexagonColor> availableColors = new List<HexagonColor>();
-
-        foreach (HexagonColor c in values)
-        {
-            if (c != exclude)
-            {
-                availableColors.Add(c);
-            }
-        }
-
-        if (availableColors.Count > 0)
-        {
-            return availableColors[Random.Range(0, availableColors.Count)];
-        }
-
-        return exclude;
     }
 }
