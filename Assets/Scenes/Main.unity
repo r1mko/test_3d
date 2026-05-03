@@ -2205,7 +2205,7 @@ GameObject:
   - component: {fileID: 369888118}
   - component: {fileID: 369888117}
   m_Layer: 0
-  m_Name: FadeBackground (Tutorial)
+  m_Name: HexFade (Tutorial)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2909,7 +2909,7 @@ GameObject:
   - component: {fileID: 475956205}
   - component: {fileID: 475956204}
   m_Layer: 5
-  m_Name: TimerBackground(Tutorial)
+  m_Name: TimerFade(Tutorial)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2947,7 +2947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7468,7 +7468,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameDuration: 20
   timeSlider: {fileID: 1345892266}
+  sliderFillImage: {fileID: 1950115328}
   arrowParentRectTransform: {fileID: 1531874023}
+  startColor: {r: 0, g: 1, b: 0, a: 1}
+  midColor: {r: 1, g: 0.9595405, b: 0, a: 1}
+  endColor: {r: 1, g: 0.08537317, b: 0, a: 1}
 --- !u!4 &1378728422
 Transform:
   m_ObjectHideFlags: 0
@@ -11044,7 +11048,7 @@ GameObject:
   - component: {fileID: 2037992038}
   - component: {fileID: 2037992039}
   m_Layer: 0
-  m_Name: Background (Tutorial)
+  m_Name: BackgroundFade (Tutorial)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11107,7 +11111,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 210cf9fe9f438f741b4ab8ecaee63362, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

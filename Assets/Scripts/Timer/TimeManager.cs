@@ -8,7 +8,12 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField] private float gameDuration = 20f;
     [SerializeField] private Slider timeSlider;
+    [SerializeField] private Image sliderFillImage;
     [SerializeField] private RectTransform arrowParentRectTransform;
+
+    [SerializeField] private Color startColor = Color.green;
+    [SerializeField] private Color midColor = Color.yellow;
+    [SerializeField] private Color endColor = Color.red;
 
     private Coroutine _timerCoroutine;
     private bool _isRunning;
@@ -44,6 +49,11 @@ public class TimeManager : MonoBehaviour
             arrowParentRectTransform.localEulerAngles = Vector3.zero;
         }
 
+        if (sliderFillImage != null)
+        {
+            sliderFillImage.color = startColor;
+        }
+
         if (_timerCoroutine != null)
         {
             StopCoroutine(_timerCoroutine);
@@ -69,7 +79,8 @@ public class TimeManager : MonoBehaviour
         while (elapsedTime < gameDuration && _isRunning)
         {
             elapsedTime += Time.deltaTime;
-            float normalizedTime = 1f - (elapsedTime / gameDuration);
+            float progress = elapsedTime / gameDuration;
+            float normalizedTime = 1f - progress;
 
             if (timeSlider != null)
             {
@@ -78,8 +89,20 @@ public class TimeManager : MonoBehaviour
 
             if (arrowParentRectTransform != null)
             {
-                float angle = normalizedTime * 360f;
-                arrowParentRectTransform.localEulerAngles = new Vector3(0, 0, -angle);
+                float angle = progress * 360f;
+                arrowParentRectTransform.localEulerAngles = new Vector3(0, 0, angle);
+            }
+
+            if (sliderFillImage != null)
+            {
+                if (progress <= 0.5f)
+                {
+                    sliderFillImage.color = Color.Lerp(startColor, midColor, progress * 2f);
+                }
+                else
+                {
+                    sliderFillImage.color = Color.Lerp(midColor, endColor, (progress - 0.5f) * 2f);
+                }
             }
 
             yield return null;
@@ -101,6 +124,10 @@ public class TimeManager : MonoBehaviour
         if (arrowParentRectTransform != null)
         {
             arrowParentRectTransform.localEulerAngles = Vector3.zero;
+        }
+        if (sliderFillImage != null)
+        {
+            sliderFillImage.color = endColor;
         }
     }
 }
