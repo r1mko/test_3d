@@ -28,6 +28,11 @@ public class TutorialManager : MonoBehaviour
         InitializePoints();
     }
 
+    private void Start()
+    {
+        StartCoroutine(StartTutorialWithDelay());
+    }
+
     private void InitializeMaterials()
     {
         if (backgroundPlaneMaterial != null)
@@ -71,6 +76,12 @@ public class TutorialManager : MonoBehaviour
                 point.SetActive(false);
             }
         }
+    }
+
+    private IEnumerator StartTutorialWithDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        StartTutorialAnimation();
     }
 
     [ContextMenu("StartAnim")]
