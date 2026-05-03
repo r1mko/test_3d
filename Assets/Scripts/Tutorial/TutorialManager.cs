@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +13,15 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
     [SerializeField] private Image backgroundTimerImage;
     [SerializeField] private Material[] glowMaterials;
+    [SerializeField] private RawImage tutorialCursorImage;
 
     [Header("Settings")]
     [SerializeField] private float totalDuration = 2f;
     [SerializeField] private float pauseDuration = 1f;
+
+    [Header("Cursor Settings")]
+    [SerializeField] private Vector2 cursorOffset = new Vector2(60f, -20f);
+    [SerializeField] private float cursorMoveSpeed = 5f;
 
     [Header("Fade Settings")]
     [SerializeField] private float backgroundFadeDuration = 1f;
@@ -32,12 +38,18 @@ public class TutorialManager : MonoBehaviour
     private Color originalSpriteColor;
     private Color[] originalGlowColors;
     private Coroutine mainLoopCoroutine;
+    private Coroutine cursorLoopCoroutine;
 
     private void Awake()
     {
         Instance = this;
         InitializeMaterials();
         InitializePoints();
+
+        if (tutorialCursorImage != null)
+        {
+            tutorialCursorImage.gameObject.SetActive(false);
+        }
     }
 
     private void Start()
@@ -48,6 +60,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator StartTutorialWithDelay()
     {
         IsInputBlocked = true;
+        //CursorFollower.SetTutorialActive(true);
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(TutorialMainLoop());
     }
@@ -57,6 +70,8 @@ public class TutorialManager : MonoBehaviour
         while (!HasPlacedSuccessfully)
         {
             IsInputBlocked = true;
+
+            cursorLoopCoroutine = StartCoroutine(AnimateTutorialCursor());
             yield return StartCoroutine(AnimatePointsSequence());
 
             if (HasPlacedSuccessfully) break;
@@ -71,6 +86,12 @@ public class TutorialManager : MonoBehaviour
         }
 
         IsInputBlocked = false;
+        //CursorFollower.SetTutorialActive(false);
+        if (tutorialCursorImage != null)
+            tutorialCursorImage.gameObject.SetActive(false);
+
+        if (cursorLoopCoroutine != null)
+            StopCoroutine(cursorLoopCoroutine);
     }
 
     private IEnumerator WaitForGlobalCooldown()
@@ -114,6 +135,7 @@ public class TutorialManager : MonoBehaviour
 
         HasPlacedSuccessfully = true;
         IsInputBlocked = false;
+        //CursorFollower.SetTutorialActive(false);
 
         if (mainLoopCoroutine != null)
         {
@@ -121,7 +143,15 @@ public class TutorialManager : MonoBehaviour
             mainLoopCoroutine = null;
         }
 
+        if (cursorLoopCoroutine != null)
+        {
+            StopCoroutine(cursorLoopCoroutine);
+            cursorLoopCoroutine = null;
+        }
+
         ResetVisualsToZero();
+        if (tutorialCursorImage != null)
+            tutorialCursorImage.gameObject.SetActive(false);
     }
 
     private void InitializeMaterials()
@@ -164,7 +194,6 @@ public class TutorialManager : MonoBehaviour
 
     private void ResetVisualsToZero()
     {
-        Debug.Log("ResetVisualsToZero вызвали");
         if (backgroundPlaneMaterial != null) SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
 
         if (backgroundSpriteRenderer != null)
@@ -209,6 +238,77 @@ public class TutorialManager : MonoBehaviour
     [ContextMenu("StartAnim")]
     public void StartTutorialAnimation() { StartCoroutine(AnimatePointsSequence()); }
 
+    private IEnumerator AnimateTutorialCursor()
+    {
+        if (tutorialPoints == null || tutorialPoints.Length == 0 || tutorialCursorImage == null) yield break;
+
+        int cycles = 0;
+        while (cycles < 2 && !HasPlacedSuccessfully)
+        {
+            List<Vector2> path = new List<Vector2>();
+            foreach (var point in tutorialPoints)
+            {
+                if (point != null)
+                {
+                    RectTransform rect = point.GetComponent<RectTransform>();
+                    if (rect != null)
+                    {
+                        path.Add(rect.anchoredPosition + cursorOffset);
+                    }
+                }
+            }
+
+            if (path.Count == 0) yield break;
+
+            yield return new WaitUntil(() => (tutorialPoints[0] != null && tutorialPoints[0].activeSelf) || HasPlacedSuccessfully);
+
+            if (HasPlacedSuccessfully) yield break;
+
+            tutorialCursorImage.gameObject.SetActive(true);
+            tutorialCursorImage.rectTransform.anchoredPosition = path[0];
+
+            Vector2 startPos = path[0];
+
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector2 targetPos = path[i];
+
+                float journeyLength = Vector2.Distance(startPos, targetPos);
+                float startTime = Time.time;
+
+                float segmentDuration = journeyLength / cursorMoveSpeed;
+
+                if (segmentDuration > 0.001f)
+                {
+                    while (Time.time - startTime < segmentDuration && !HasPlacedSuccessfully)
+                    {
+                        float t = (Time.time - startTime) / segmentDuration;
+                        tutorialCursorImage.rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+                        yield return null;
+                    }
+                }
+
+                tutorialCursorImage.rectTransform.anchoredPosition = targetPos;
+                startPos = targetPos;
+
+                if (HasPlacedSuccessfully) yield break;
+            }
+
+            if (HasPlacedSuccessfully) yield break;
+
+            yield return new WaitUntil(() => (tutorialPoints[0] != null && !tutorialPoints[0].activeSelf) || HasPlacedSuccessfully);
+
+            if (!HasPlacedSuccessfully)
+            {
+                tutorialCursorImage.gameObject.SetActive(false);
+            }
+
+            cycles++;
+        }
+
+        tutorialCursorImage.gameObject.SetActive(false);
+    }
+
     private IEnumerator AnimatePointsSequence()
     {
         if (tutorialPoints == null || tutorialPoints.Length == 0) yield break;
@@ -224,7 +324,9 @@ public class TutorialManager : MonoBehaviour
             for (int i = 0; i < tutorialPoints.Length; i++)
             {
                 if (tutorialPoints[i] != null) tutorialPoints[i].SetActive(true);
+
                 yield return new WaitForSeconds(delayPerItem);
+
                 if (HasPlacedSuccessfully) yield break;
             }
 
