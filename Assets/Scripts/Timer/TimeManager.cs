@@ -218,9 +218,6 @@ public class TimeManager : MonoBehaviour
         _alarmCoroutine = StartCoroutine(PlayAlarmAnimation());
     }
 
-    /// <summary>
-    /// 3 фазы: 1. Увеличение + цвет. 2. Тряска позиции/вращения (только часы) + цвет всем. 3. Плавный возврат.
-    /// </summary>
     private IEnumerator PlayAlarmAnimation()
     {
         Color origTimerColor = timerBorderImage ? timerBorderImage.color : Color.white;
@@ -269,12 +266,10 @@ public class TimeManager : MonoBehaviour
             yield return null;
         }
 
-        Vector3 timerEndPos = timerBorderImage ? timerBorderImage.rectTransform.localPosition : _origTimerPos;
-        Vector3 timerEndRot = timerBorderImage ? timerBorderImage.rectTransform.localEulerAngles : _origTimerRot;
-        Vector3 timerEndScale = timerBorderImage ? timerBorderImage.rectTransform.localScale : _origTimerScale;
-        Color timerEndColor = timerBorderImage ? timerBorderImage.color : origTimerColor;
-        Color arrowEndColor = arrowImage ? arrowImage.color : origArrowColor;
-        Color sliderEndColor = sliderBorderImage ? sliderBorderImage.color : origSliderColor;
+        Vector3 actualCurrentPos = timerBorderImage ? timerBorderImage.rectTransform.localPosition : _origTimerPos;
+        Vector3 actualCurrentRot = timerBorderImage ? timerBorderImage.rectTransform.localEulerAngles : _origTimerRot;
+        Vector3 alarmStartScale = _origTimerScale * maxScaleMultiplier;
+        Color alarmStartColor = pulseColor;
 
         elapsed = 0f;
         float restoreDuration = 0.2f;
@@ -282,19 +277,30 @@ public class TimeManager : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / restoreDuration);
+            float smoothT = 1f - Mathf.Pow(1f - t, 3);
 
             if (timerBorderImage)
             {
-                timerBorderImage.rectTransform.localPosition = Vector3.Lerp(timerEndPos, _origTimerPos, t);
-                timerBorderImage.rectTransform.localEulerAngles = Vector3.Lerp(timerEndRot, _origTimerRot, t);
-                timerBorderImage.rectTransform.localScale = Vector3.Lerp(timerEndScale, _origTimerScale, t);
-                timerBorderImage.color = Color.Lerp(timerEndColor, origTimerColor, t);
+                timerBorderImage.rectTransform.localPosition = Vector3.Lerp(actualCurrentPos, _origTimerPos, smoothT);
+                timerBorderImage.rectTransform.localEulerAngles = Vector3.Lerp(actualCurrentRot, _origTimerRot, smoothT);
+                timerBorderImage.rectTransform.localScale = Vector3.Lerp(alarmStartScale, _origTimerScale, smoothT);
+                timerBorderImage.color = Color.Lerp(alarmStartColor, origTimerColor, smoothT);
             }
-            if (arrowImage) arrowImage.color = Color.Lerp(arrowEndColor, origArrowColor, t);
-            if (sliderBorderImage) sliderBorderImage.color = Color.Lerp(sliderEndColor, origSliderColor, t);
+            if (arrowImage) arrowImage.color = Color.Lerp(alarmStartColor, origArrowColor, smoothT);
+            if (sliderBorderImage) sliderBorderImage.color = Color.Lerp(alarmStartColor, origSliderColor, smoothT);
 
             yield return null;
         }
+
+        if (timerBorderImage)
+        {
+            timerBorderImage.rectTransform.localPosition = _origTimerPos;
+            timerBorderImage.rectTransform.localEulerAngles = _origTimerRot;
+            timerBorderImage.rectTransform.localScale = _origTimerScale;
+            timerBorderImage.color = origTimerColor;
+        }
+        if (arrowImage) arrowImage.color = origArrowColor;
+        if (sliderBorderImage) sliderBorderImage.color = origSliderColor;
 
         _alarmCoroutine = null;
     }
