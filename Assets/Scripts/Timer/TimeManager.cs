@@ -242,6 +242,7 @@ public class TimeManager : MonoBehaviour
             yield return null;
         }
 
+
         elapsed = 0f;
         while (elapsed < alarmDuration)
         {
@@ -264,6 +265,12 @@ public class TimeManager : MonoBehaviour
             if (sliderBorderImage) sliderBorderImage.color = pulseColor;
 
             yield return null;
+        }
+
+        if (EndGame.Instance != null)
+        {
+            EndGame.Instance.TriggerEndGame();
+
         }
 
         Vector3 actualCurrentPos = timerBorderImage ? timerBorderImage.rectTransform.localPosition : _origTimerPos;
