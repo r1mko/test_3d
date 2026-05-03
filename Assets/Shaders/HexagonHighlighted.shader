@@ -1,4 +1,4 @@
-Shader "Custom/HexagonHighlighted"
+п»їShader "Custom/HexagonHighlighted"
 {
     Properties
     {
@@ -7,16 +7,20 @@ Shader "Custom/HexagonHighlighted"
     }
     SubShader
     {
-        // Queue = Geometry+200 (2200). 
-        // Это гарантирует отрисовку ПОСЛЕ затемняющей пелены (2100).
-        Tags { "Queue"="Geometry+200" "RenderType"="Opaque" }
+        // Queue = Transparent. РћС‚СЂРёСЃРѕРІС‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ РЅРµРїСЂРѕР·СЂР°С‡РЅРѕР№ РіРµРѕРјРµС‚СЂРёРё.
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
+        
         LOD 100
 
         Pass
         {
-            ZWrite On     // Пишем в глубину, чтобы хексагоны корректно перекрывали друг друга
-            ZTest LEqual  // Стандартный тест глубины
+            ZWrite Off      // Р”Р»СЏ РїСЂРѕР·СЂР°С‡РЅС‹С… РѕР±СЉРµРєС‚РѕРІ РѕР±С‹С‡РЅРѕ РѕС‚РєР»СЋС‡Р°РµРј Р·Р°РїРёСЃСЊ РІ РіР»СѓР±РёРЅСѓ, С‡С‚РѕР±С‹ РѕРЅРё РєРѕСЂСЂРµРєС‚РЅРѕ СЃРѕСЂС‚РёСЂРѕРІР°Р»РёСЃСЊ РґСЂСѓРі СЃ РґСЂСѓРіРѕРј
+            ZTest LEqual
+            Cull Off        // Р РёСЃСѓРµРј СЃ РѕР±РµРёС… СЃС‚РѕСЂРѕРЅ (РѕРїС†РёРѕРЅР°Р»СЊРЅРѕ, РµСЃР»Рё РЅСѓР¶РЅРѕ)
             
+            // Р’РєР»СЋС‡Р°РµРј СЃС‚Р°РЅРґР°СЂС‚РЅРѕРµ Р°Р»СЊС„Р°-СЃРјРµС€РёРІР°РЅРёРµ
+            Blend SrcAlpha OneMinusSrcAlpha 
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

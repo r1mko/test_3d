@@ -5,14 +5,59 @@ public class TutorialManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject[] tutorialPoints;
+    [SerializeField] private Material backgroundPlaneMaterial;
+    [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
+    [SerializeField] private Material[] glowMaterials;
 
     [Header("Settings")]
     [SerializeField] private float totalDuration = 2f;
     [SerializeField] private float pauseDuration = 1f;
 
+    [Header("Fade Settings")]
+    [SerializeField] private float backgroundFadeDuration = 1f;
+    [SerializeField] private float glowFadeDuration = 0.5f;
+    [SerializeField] private float targetAlpha = 200f / 255f;
+
+    private Color originalPlaneColor;
+    private Color originalSpriteColor;
+    private Color[] originalGlowColors;
+
     private void Awake()
     {
+        InitializeMaterials();
         InitializePoints();
+    }
+
+    private void InitializeMaterials()
+    {
+        if (backgroundPlaneMaterial != null)
+        {
+            originalPlaneColor = backgroundPlaneMaterial.GetColor("_TintColor");
+            SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
+        }
+
+        if (backgroundSpriteRenderer != null)
+        {
+            originalSpriteColor = backgroundSpriteRenderer.color;
+            Color c = originalSpriteColor;
+            c.a = 0f;
+            backgroundSpriteRenderer.color = c;
+        }
+
+        if (glowMaterials != null && glowMaterials.Length > 0)
+        {
+            originalGlowColors = new Color[glowMaterials.Length];
+            for (int i = 0; i < glowMaterials.Length; i++)
+            {
+                if (glowMaterials[i] != null)
+                {
+                    originalGlowColors[i] = glowMaterials[i].color;
+                    Color c = originalGlowColors[i];
+                    c.a = 0f;
+                    glowMaterials[i].color = c;
+                }
+            }
+        }
     }
 
     private void InitializePoints()
@@ -38,8 +83,11 @@ public class TutorialManager : MonoBehaviour
     {
         if (tutorialPoints == null || tutorialPoints.Length == 0) yield break;
 
+        yield return StartCoroutine(FadeBackgrounds(true));
+        yield return StartCoroutine(FadeGlows(true));
+
         float delayPerItem = totalDuration / tutorialPoints.Length;
-        float cycles = 0;
+        int cycles = 0;
 
         while (cycles < 2)
         {
@@ -64,5 +112,94 @@ public class TutorialManager : MonoBehaviour
 
             cycles++;
         }
+
+        yield return StartCoroutine(FadeGlows(false));
+        yield return StartCoroutine(FadeBackgrounds(false));
+    }
+
+    private IEnumerator FadeBackgrounds(bool fadeIn)
+    {
+        float elapsed = 0f;
+
+        Color startPlaneColor = backgroundPlaneMaterial != null ? backgroundPlaneMaterial.GetColor("_TintColor") : Color.clear;
+        Color targetPlaneColor = startPlaneColor;
+        targetPlaneColor.a = fadeIn ? targetAlpha : 0f;
+
+        Color startSpriteColor = backgroundSpriteRenderer != null ? backgroundSpriteRenderer.color : Color.clear;
+        Color targetSpriteColor = startSpriteColor;
+        targetSpriteColor.a = fadeIn ? targetAlpha : 0f;
+
+        while (elapsed < backgroundFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / backgroundFadeDuration);
+
+            if (backgroundPlaneMaterial != null)
+            {
+                backgroundPlaneMaterial.SetColor("_TintColor", Color.Lerp(startPlaneColor, targetPlaneColor, t));
+            }
+
+            if (backgroundSpriteRenderer != null)
+            {
+                backgroundSpriteRenderer.color = Color.Lerp(startSpriteColor, targetSpriteColor, t);
+            }
+
+            yield return null;
+        }
+
+        if (backgroundPlaneMaterial != null) backgroundPlaneMaterial.SetColor("_TintColor", targetPlaneColor);
+        if (backgroundSpriteRenderer != null) backgroundSpriteRenderer.color = targetSpriteColor;
+    }
+
+    private IEnumerator FadeGlows(bool fadeIn)
+    {
+        if (glowMaterials == null || glowMaterials.Length == 0) yield break;
+
+        float elapsed = 0f;
+
+        Color[] startColors = new Color[glowMaterials.Length];
+        Color[] targetColors = new Color[glowMaterials.Length];
+
+        for (int i = 0; i < glowMaterials.Length; i++)
+        {
+            if (glowMaterials[i] != null)
+            {
+                startColors[i] = glowMaterials[i].color;
+                targetColors[i] = startColors[i];
+                targetColors[i].a = fadeIn ? targetAlpha : 0f;
+            }
+        }
+
+        while (elapsed < glowFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / glowFadeDuration);
+
+            for (int i = 0; i < glowMaterials.Length; i++)
+            {
+                if (glowMaterials[i] != null)
+                {
+                    glowMaterials[i].color = Color.Lerp(startColors[i], targetColors[i], t);
+                }
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < glowMaterials.Length; i++)
+        {
+            if (glowMaterials[i] != null)
+            {
+                glowMaterials[i].color = targetColors[i];
+            }
+        }
+    }
+
+    private void SetMaterialAlpha(Material mat, string propName, float alpha)
+    {
+        if (mat == null) return;
+        Color c = mat.GetColor(propName);
+        c.a = alpha;
+        mat.SetColor(propName, c);
     }
 }
