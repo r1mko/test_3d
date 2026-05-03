@@ -4127,7 +4127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.25
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4796,7 +4796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.25
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7470,9 +7470,17 @@ MonoBehaviour:
   timeSlider: {fileID: 1345892266}
   sliderFillImage: {fileID: 1950115328}
   arrowParentRectTransform: {fileID: 1531874023}
+  timerBorderImage: {fileID: 2125106023}
+  sliderBorderImage: {fileID: 533891596}
+  arrowImage: {fileID: 517793020}
   startColor: {r: 0, g: 1, b: 0, a: 1}
   midColor: {r: 1, g: 0.9595405, b: 0, a: 1}
   endColor: {r: 1, g: 0.08537317, b: 0, a: 1}
+  pulseColor: {r: 1, g: 0.39936358, b: 0.28490567, a: 1}
+  pulseThreshold: 0.25
+  pulseDuration: 0.15
+  pauseDuration: 0.55
+  maxScaleMultiplier: 1.2
 --- !u!4 &1378728422
 Transform:
   m_ObjectHideFlags: 0
@@ -12117,7 +12125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.25
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 7998965351886181866, guid: 1d6b470103ccf9743b732613b0d6a471, type: 3}
       propertyPath: m_LocalRotation.w
