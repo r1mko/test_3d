@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    public static TutorialManager Instance { get; private set; }
+
     [Header("References")]
     [SerializeField] private GameObject[] tutorialPoints;
     [SerializeField] private Material backgroundPlaneMaterial;
@@ -18,37 +20,126 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float glowFadeDuration = 0.5f;
     [SerializeField] private float targetAlpha = 200f / 255f;
 
-    private Color originalPlaneColor;
+    [Header("Logic Timings")]
+    [SerializeField] private float globalCooldownDuration = 5f;
+    [SerializeField] private float releaseCheckDelay = 0.5f;
+
+    public bool IsInputBlocked { get; private set; } = true;
+    public bool HasPlacedSuccessfully { get; private set; } = false;
+
     private Color originalSpriteColor;
     private Color[] originalGlowColors;
+    private Coroutine mainLoopCoroutine;
 
     private void Awake()
     {
+        Instance = this;
         InitializeMaterials();
         InitializePoints();
     }
 
     private void Start()
     {
-        StartCoroutine(StartTutorialWithDelay());
+        mainLoopCoroutine = StartCoroutine(StartTutorialWithDelay());
+    }
+
+    private IEnumerator StartTutorialWithDelay()
+    {
+        IsInputBlocked = true;
+        yield return new WaitForSeconds(1.5f);
+        yield return StartCoroutine(TutorialMainLoop());
+    }
+
+    private IEnumerator TutorialMainLoop()
+    {
+        while (!HasPlacedSuccessfully)
+        {
+            IsInputBlocked = true;
+            yield return StartCoroutine(AnimatePointsSequence());
+
+            if (HasPlacedSuccessfully) break;
+
+            IsInputBlocked = false;
+
+            yield return StartCoroutine(WaitForGlobalCooldown());
+
+            if (HasPlacedSuccessfully) break;
+
+            yield return StartCoroutine(WaitForIdleState());
+        }
+
+        IsInputBlocked = false;
+    }
+
+    private IEnumerator WaitForGlobalCooldown()
+    {
+        float timer = 0f;
+        while (timer < globalCooldownDuration)
+        {
+            if (HasPlacedSuccessfully) yield break;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForIdleState()
+    {
+        float idleTimer = 0f;
+
+        while (idleTimer < releaseCheckDelay)
+        {
+            if (HasPlacedSuccessfully) yield break;
+
+            if (DragAndDrop.IsDraggingAny)
+            {
+                idleTimer = 0f;
+            }
+            else
+            {
+                idleTimer += Time.deltaTime;
+            }
+
+            yield return null;
+        }
+    }
+
+    public void OnHexagonPlacedSuccessfully()
+    {
+        HasPlacedSuccessfully = true;
+        IsInputBlocked = false;
+
+        if (mainLoopCoroutine != null)
+        {
+            StopCoroutine(mainLoopCoroutine);
+            mainLoopCoroutine = null;
+        }
+
+        ResetVisualsToZero();
+    }
+
+    private void ResetVisualsToZero()
+    {
+        if (backgroundPlaneMaterial != null) SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
+        if (backgroundSpriteRenderer != null) { Color c = backgroundSpriteRenderer.color; c.a = 0f; backgroundSpriteRenderer.color = c; }
+        if (glowMaterials != null) { foreach (var m in glowMaterials) if (m != null) { Color c = m.color; c.a = 0f; m.color = c; } }
+
+        if (tutorialPoints != null)
+        {
+            foreach (var p in tutorialPoints) if (p != null) p.SetActive(false);
+        }
     }
 
     private void InitializeMaterials()
     {
         if (backgroundPlaneMaterial != null)
         {
-            originalPlaneColor = backgroundPlaneMaterial.GetColor("_TintColor");
             SetMaterialAlpha(backgroundPlaneMaterial, "_TintColor", 0f);
         }
-
         if (backgroundSpriteRenderer != null)
         {
             originalSpriteColor = backgroundSpriteRenderer.color;
-            Color c = originalSpriteColor;
-            c.a = 0f;
-            backgroundSpriteRenderer.color = c;
+            Color c = originalSpriteColor; c.a = 0f; backgroundSpriteRenderer.color = c;
         }
-
         if (glowMaterials != null && glowMaterials.Length > 0)
         {
             originalGlowColors = new Color[glowMaterials.Length];
@@ -57,9 +148,7 @@ public class TutorialManager : MonoBehaviour
                 if (glowMaterials[i] != null)
                 {
                     originalGlowColors[i] = glowMaterials[i].color;
-                    Color c = originalGlowColors[i];
-                    c.a = 0f;
-                    glowMaterials[i].color = c;
+                    Color c = originalGlowColors[i]; c.a = 0f; glowMaterials[i].color = c;
                 }
             }
         }
@@ -68,27 +157,11 @@ public class TutorialManager : MonoBehaviour
     private void InitializePoints()
     {
         if (tutorialPoints == null) return;
-
-        foreach (var point in tutorialPoints)
-        {
-            if (point != null)
-            {
-                point.SetActive(false);
-            }
-        }
-    }
-
-    private IEnumerator StartTutorialWithDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-        StartTutorialAnimation();
+        foreach (var point in tutorialPoints) if (point != null) point.SetActive(false);
     }
 
     [ContextMenu("StartAnim")]
-    public void StartTutorialAnimation()
-    {
-        StartCoroutine(AnimatePointsSequence());
-    }
+    public void StartTutorialAnimation() { StartCoroutine(AnimatePointsSequence()); }
 
     private IEnumerator AnimatePointsSequence()
     {
@@ -100,61 +173,46 @@ public class TutorialManager : MonoBehaviour
         float delayPerItem = totalDuration / tutorialPoints.Length;
         int cycles = 0;
 
-        while (cycles < 2)
+        while (cycles < 2 && !HasPlacedSuccessfully)
         {
             for (int i = 0; i < tutorialPoints.Length; i++)
             {
-                if (tutorialPoints[i] != null)
-                {
-                    tutorialPoints[i].SetActive(true);
-                }
-
+                if (tutorialPoints[i] != null) tutorialPoints[i].SetActive(true);
                 yield return new WaitForSeconds(delayPerItem);
+                if (HasPlacedSuccessfully) yield break;
             }
+
+            if (HasPlacedSuccessfully) yield break;
 
             yield return new WaitForSeconds(pauseDuration);
 
-            foreach (var item in tutorialPoints)
-            {
-                if (item != null) item.SetActive(false);
-            }
+            foreach (var item in tutorialPoints) if (item != null) item.SetActive(false);
 
             yield return new WaitForSeconds(0.1f);
-
             cycles++;
         }
 
-        yield return StartCoroutine(FadeGlows(false));
-        yield return StartCoroutine(FadeBackgrounds(false));
+        if (!HasPlacedSuccessfully)
+        {
+            yield return StartCoroutine(FadeGlows(false));
+            yield return StartCoroutine(FadeBackgrounds(false));
+        }
     }
 
     private IEnumerator FadeBackgrounds(bool fadeIn)
     {
         float elapsed = 0f;
-
         Color startPlaneColor = backgroundPlaneMaterial != null ? backgroundPlaneMaterial.GetColor("_TintColor") : Color.clear;
-        Color targetPlaneColor = startPlaneColor;
-        targetPlaneColor.a = fadeIn ? targetAlpha : 0f;
-
+        Color targetPlaneColor = startPlaneColor; targetPlaneColor.a = fadeIn ? targetAlpha : 0f;
         Color startSpriteColor = backgroundSpriteRenderer != null ? backgroundSpriteRenderer.color : Color.clear;
-        Color targetSpriteColor = startSpriteColor;
-        targetSpriteColor.a = fadeIn ? targetAlpha : 0f;
+        Color targetSpriteColor = startSpriteColor; targetSpriteColor.a = fadeIn ? targetAlpha : 0f;
 
         while (elapsed < backgroundFadeDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / backgroundFadeDuration);
-
-            if (backgroundPlaneMaterial != null)
-            {
-                backgroundPlaneMaterial.SetColor("_TintColor", Color.Lerp(startPlaneColor, targetPlaneColor, t));
-            }
-
-            if (backgroundSpriteRenderer != null)
-            {
-                backgroundSpriteRenderer.color = Color.Lerp(startSpriteColor, targetSpriteColor, t);
-            }
-
+            if (backgroundPlaneMaterial != null) backgroundPlaneMaterial.SetColor("_TintColor", Color.Lerp(startPlaneColor, targetPlaneColor, t));
+            if (backgroundSpriteRenderer != null) backgroundSpriteRenderer.color = Color.Lerp(startSpriteColor, targetSpriteColor, t);
             yield return null;
         }
 
@@ -167,50 +225,28 @@ public class TutorialManager : MonoBehaviour
         if (glowMaterials == null || glowMaterials.Length == 0) yield break;
 
         float elapsed = 0f;
-
         Color[] startColors = new Color[glowMaterials.Length];
         Color[] targetColors = new Color[glowMaterials.Length];
 
         for (int i = 0; i < glowMaterials.Length; i++)
         {
-            if (glowMaterials[i] != null)
-            {
-                startColors[i] = glowMaterials[i].color;
-                targetColors[i] = startColors[i];
-                targetColors[i].a = fadeIn ? targetAlpha : 0f;
-            }
+            if (glowMaterials[i] != null) { startColors[i] = glowMaterials[i].color; targetColors[i] = startColors[i]; targetColors[i].a = fadeIn ? targetAlpha : 0f; }
         }
 
         while (elapsed < glowFadeDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / glowFadeDuration);
-
-            for (int i = 0; i < glowMaterials.Length; i++)
-            {
-                if (glowMaterials[i] != null)
-                {
-                    glowMaterials[i].color = Color.Lerp(startColors[i], targetColors[i], t);
-                }
-            }
-
+            for (int i = 0; i < glowMaterials.Length; i++) if (glowMaterials[i] != null) glowMaterials[i].color = Color.Lerp(startColors[i], targetColors[i], t);
             yield return null;
         }
 
-        for (int i = 0; i < glowMaterials.Length; i++)
-        {
-            if (glowMaterials[i] != null)
-            {
-                glowMaterials[i].color = targetColors[i];
-            }
-        }
+        for (int i = 0; i < glowMaterials.Length; i++) if (glowMaterials[i] != null) glowMaterials[i].color = targetColors[i];
     }
 
     private void SetMaterialAlpha(Material mat, string propName, float alpha)
     {
         if (mat == null) return;
-        Color c = mat.GetColor(propName);
-        c.a = alpha;
-        mat.SetColor(propName, c);
+        Color c = mat.GetColor(propName); c.a = alpha; mat.SetColor(propName, c);
     }
 }

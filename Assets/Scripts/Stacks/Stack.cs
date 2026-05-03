@@ -83,6 +83,8 @@ public class Stack : MonoBehaviour
         if (currentHoveredPlatform != null && currentHoveredPlatform.Container != null)
         {
             GroundPlatform targetPlatform = currentHoveredPlatform;
+            if (TutorialManager.Instance != null)
+                TutorialManager.Instance.OnHexagonPlacedSuccessfully();
             moveCoroutine = StartCoroutine(MoveToContainerAndTransfer(targetPlatform, targetPlatform.Container));
         }
         else

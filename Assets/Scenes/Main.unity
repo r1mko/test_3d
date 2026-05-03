@@ -10299,6 +10299,8 @@ MonoBehaviour:
   backgroundFadeDuration: 0.75
   glowFadeDuration: 0.25
   targetAlpha: 0.78431374
+  globalCooldownDuration: 5
+  releaseCheckDelay: 0.5
 --- !u!1 &2037992037
 GameObject:
   m_ObjectHideFlags: 0

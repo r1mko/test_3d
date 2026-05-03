@@ -3,6 +3,8 @@ using System.Collections;
 
 public class DragAndDrop : MonoBehaviour
 {
+    public static bool IsDraggingAny { get; private set; } = false;
+
     [SerializeField] private Camera mainCamera;
     [SerializeField] private AnimationCurve smoothLiftCurve;
     [SerializeField] private float clampMinY = 0.5f;
@@ -33,6 +35,9 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // Блокировка со стороны Туториала
+        if (TutorialManager.Instance != null && TutorialManager.Instance.IsInputBlocked) return;
+
         if (isAnimating) return;
 
         if (stackComponent.IsDisabled)
@@ -46,6 +51,7 @@ public class DragAndDrop : MonoBehaviour
         }
 
         isDragging = true;
+        IsDraggingAny = true; // Обновляем глобальный статус
 
         if (cursorFollower != null)
         {
@@ -67,6 +73,8 @@ public class DragAndDrop : MonoBehaviour
         if (isAnimating) return;
 
         isDragging = false;
+        IsDraggingAny = false; // Обновляем глобальный статус
+
         stackComponent.Drop();
 
         if (cursorFollower != null)
