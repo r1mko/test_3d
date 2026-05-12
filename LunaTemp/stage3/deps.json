@@ -6,10 +6,13 @@
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Platforms/GroundPlatform.cs",
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Platforms/PlatformManager.cs",
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/DragAndDrop.cs",
-      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/UI/CursorFollower.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Tutorial/TutorialManager.cs",
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/Stack.cs",
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/StackManager.cs",
-      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/FillStack.cs"
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Stacks/FillStack.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/UI/CursorFollower.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/Timer/TimeManager.cs",
+      "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/UI/EndGame.cs"
     ],
     [
       "C:/GitRepos/test_3d/LunaTemp/stage3/processed-scripts/Assets/Scripts/UI/BakeHelper.cs"

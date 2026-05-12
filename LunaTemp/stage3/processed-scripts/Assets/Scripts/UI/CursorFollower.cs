@@ -5,14 +5,19 @@ public class CursorFollower : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float fadeDuration = 0.2f;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private SpriteRenderer shadowRenderer;
+    [SerializeField] private SpriteRenderer[] mainRenderers;
+    [SerializeField] private SpriteRenderer[] shadowRenderers;
     [SerializeField] private Animator animator;
+
+    [Header("Pivot Settings")]
+    [SerializeField] private float pivotOffsetX;
+    [SerializeField] private float pivotOffsetY;
 
     private Coroutine fadeCoroutine;
     private bool isVisible = false;
+    private bool isTutorialActive = false;
 
-    private const float SHADOW_MAX_ALPHA = 0.63f; // 160/255
+    private const float SHADOW_MAX_ALPHA = 0.63f;
 
     private void Awake()
     {
@@ -24,6 +29,21 @@ public class CursorFollower : MonoBehaviour
 
         if (mainCamera == null)
             Debug.LogError("[CursorFollower] Main Camera not found!");
+
+        HideInstantlyCursor();
+    }
+
+    private void HideInstantlyCursor()
+    {
+        foreach (var main in mainRenderers)
+        {
+            SetAlpha(main, 0);
+        }
+
+        foreach (var shadow in shadowRenderers)
+        {
+            SetAlpha(shadow, 0);
+        }
     }
 
     private void Update()
@@ -36,14 +56,18 @@ public class CursorFollower : MonoBehaviour
             mousePos.x > Screen.width || mousePos.y > Screen.height)
             return;
 
-        mousePos.z = -10;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-
-        transform.position = worldPos;
+        if (!isTutorialActive)
+        {
+            mousePos.z = -10;
+            Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
+            transform.position = new Vector3(worldPos.x + pivotOffsetX, worldPos.y + pivotOffsetY, worldPos.z);
+        }
     }
 
     public void PlayGrabAnimation()
     {
+        if (isTutorialActive) return;
+
         SetVisibility(true);
         if (animator != null)
         {
@@ -53,6 +77,8 @@ public class CursorFollower : MonoBehaviour
 
     public void PlayReleaseAnimation()
     {
+        if (isTutorialActive) return;
+
         if (animator != null)
         {
             animator.Play("CursorRelease");
@@ -62,6 +88,16 @@ public class CursorFollower : MonoBehaviour
     public void TriggerChainReactionFade()
     {
         SetVisibility(false);
+    }
+
+    public void SetTutorialActive(bool active)
+    {
+        isTutorialActive = active;
+
+        if (active)
+        {
+            SetVisibility(false);
+        }
     }
 
     public void SetVisibility(bool visible)
@@ -75,10 +111,25 @@ public class CursorFollower : MonoBehaviour
 
     private IEnumerator FadeCoroutine(bool targetVisible)
     {
-        if (spriteRenderer == null) yield break;
+        if (mainRenderers == null || mainRenderers.Length == 0) yield break;
 
-        float startAlphaMain = spriteRenderer.color.a;
-        float startAlphaShadow = shadowRenderer != null ? shadowRenderer.color.a : 0f;
+        float[] startAlphaMain = new float[mainRenderers.Length];
+        float[] startAlphaShadow = new float[shadowRenderers != null ? shadowRenderers.Length : 0];
+
+        for (int i = 0; i < mainRenderers.Length; i++)
+        {
+            if (mainRenderers[i] != null)
+                startAlphaMain[i] = mainRenderers[i].color.a;
+        }
+
+        if (shadowRenderers != null)
+        {
+            for (int i = 0; i < shadowRenderers.Length; i++)
+            {
+                if (shadowRenderers[i] != null)
+                    startAlphaShadow[i] = shadowRenderers[i].color.a;
+            }
+        }
 
         float targetAlphaMain = targetVisible ? 1f : 0f;
         float targetAlphaShadow = targetVisible ? SHADOW_MAX_ALPHA : 0f;
@@ -90,22 +141,43 @@ public class CursorFollower : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / fadeDuration;
 
-            float currentAlphaMain = Mathf.Lerp(startAlphaMain, targetAlphaMain, t);
-            SetAlpha(spriteRenderer, currentAlphaMain);
-
-            if (shadowRenderer != null)
+            for (int i = 0; i < mainRenderers.Length; i++)
             {
-                float currentAlphaShadow = Mathf.Lerp(startAlphaShadow, targetAlphaShadow, t);
-                SetAlpha(shadowRenderer, currentAlphaShadow);
+                if (mainRenderers[i] != null)
+                {
+                    float currentAlphaMain = Mathf.Lerp(startAlphaMain[i], targetAlphaMain, t);
+                    SetAlpha(mainRenderers[i], currentAlphaMain);
+                }
+            }
+
+            if (shadowRenderers != null)
+            {
+                for (int i = 0; i < shadowRenderers.Length; i++)
+                {
+                    if (shadowRenderers[i] != null)
+                    {
+                        float currentAlphaShadow = Mathf.Lerp(startAlphaShadow[i], targetAlphaShadow, t);
+                        SetAlpha(shadowRenderers[i], currentAlphaShadow);
+                    }
+                }
             }
 
             yield return null;
         }
 
-        SetAlpha(spriteRenderer, targetAlphaMain);
-        if (shadowRenderer != null)
+        for (int i = 0; i < mainRenderers.Length; i++)
         {
-            SetAlpha(shadowRenderer, targetAlphaShadow);
+            if (mainRenderers[i] != null)
+                SetAlpha(mainRenderers[i], targetAlphaMain);
+        }
+
+        if (shadowRenderers != null)
+        {
+            for (int i = 0; i < shadowRenderers.Length; i++)
+            {
+                if (shadowRenderers[i] != null)
+                    SetAlpha(shadowRenderers[i], targetAlphaShadow);
+            }
         }
     }
 

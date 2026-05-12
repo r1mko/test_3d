@@ -1,11 +1,159 @@
-if ( TRACE ) { TRACE( JSON.parse( '["CursorFollower#init","CursorFollower#init","CursorFollower#Awake","CursorFollower#Update","CursorFollower#PlayGrabAnimation","CursorFollower#PlayReleaseAnimation","CursorFollower#TriggerChainReactionFade","CursorFollower#SetVisibility","CursorFollower#FadeCoroutine","CursorFollower#SetAlpha","DragAndDrop#init","DragAndDrop#Awake","DragAndDrop#OnMouseDown","DragAndDrop#OnMouseUp","DragAndDrop#Update","DragAndDrop#PlayUnavailableAnimation","FillStack#init","FillStack#GenerateBlocks","FillStack#GetSmartRandomColor","FillStack#GetExistingColorsFromField","FillStack#GetRandomColor","FillStack#GetRandomColorExcept","GroundPlatform#init","GroundPlatform#init","GroundPlatform#Awake","GroundPlatform#Start","GroundPlatform#ScanForNeighborsAtStart","GroundPlatform#InitializeColorsInContainer","GroundPlatform#ForceInitializeColorsInContainer","GroundPlatform#GetTopHexagon","GroundPlatform#GetBlocksToTransfer","GroundPlatform#GetColorCount","GroundPlatform#GetTopContinuousBlocks","GroundPlatform#GetBlockCount","GroundPlatform#CheckAndClearMatch","GroundPlatform#ClearHexagonsSequentially","GroundPlatform#PlayRemoveAnimation","GroundPlatform#PlayFinalRemoveEffect","GroundPlatform#StartTransferAnimation","GroundPlatform#PlaySequentialJump","GroundPlatform#GetActiveNeighbors","GroundPlatform#SetGlow","GroundPlatform#RemoveGlow","GroundPlatform#AnimateScale","GroundPlatform#IsAvailable","GroundPlatform#DebugLogBoardState","Hexagon#init","Hexagon#Awake","Hexagon#Init","Hexagon#IdentifyColorByMaterial","Hexagon#GetColor","Hexagon#IsInitialized","Hexagon#PlayJumpAnimation","Hexagon#JumpCoroutine","Hexagon#PlayRemoveAnimation","Hexagon#RemoveCoroutine","Hexagon.ColorMaterialPair#getDefaultValue","Hexagon.ColorMaterialPair#ctor","Hexagon.ColorMaterialPair#getHashCode","Hexagon.ColorMaterialPair#equals","Hexagon.ColorMaterialPair#$clone","PlatformManager#init","PlatformManager#IsBusy#get","PlatformManager#init","PlatformManager#Awake","PlatformManager#OnDestroy","PlatformManager#IncrementPendingRemovals","PlatformManager#DecrementPendingRemovals","PlatformManager#StartChainReaction","PlatformManager#ProcessChainReactionGlobal","PlatformManager#SyncAllPlatformsColors","PlatformManager#FindBestGlobalMove","PlatformManager#EvaluateMoveGlobal","PlatformManager#EvaluateNeighborChainPotential","PlatformManager#EvaluateFutureMatchPotential","PlatformManager#GetNextHexagonAfterTransfer","PlatformManager#GetUnderHexagon","PlatformManager.MoveDecision#getDefaultValue","PlatformManager.MoveDecision#ctor","PlatformManager.MoveDecision#getHashCode","PlatformManager.MoveDecision#equals","PlatformManager.MoveDecision#$clone","Stack#init","Stack#IsDisabled#get","Stack#init","Stack#Awake","Stack#Update","Stack#CheckHover","Stack#DebugRaycast","Stack#Drop","Stack#SetDisabled","Stack#SmoothReturnToOriginal","Stack#MoveToContainerAndTransfer","Stack#ReturnAndRefill","Stack#MoveChildrenToContainer","Stack#NotifyManagerIfEmpty","StackManager#init","StackManager#Awake","StackManager#OnStackEmptied","StackManager#HandleRefill","StackManager#WaitForChainReactionAndRefill","StackManager#AreAllStacksEmpty","StackManager#RefillAllStacks"]' ) ); }
+if ( TRACE ) { TRACE( JSON.parse( '["BakeHelper#init","BakeHelper#BakeStartGroup","BakeHelper#BakeEndGroup","BakeHelper#ApplyStartGroup","BakeHelper#ApplyEndGroup","BakeHelper.TransformData#init","CursorFollower#init","CursorFollower#init","CursorFollower#Awake","CursorFollower#HideInstantlyCursor","CursorFollower#Update","CursorFollower#PlayGrabAnimation","CursorFollower#PlayReleaseAnimation","CursorFollower#TriggerChainReactionFade","CursorFollower#SetTutorialActive","CursorFollower#SetVisibility","CursorFollower#FadeCoroutine","CursorFollower#SetAlpha","DragAndDrop#init","DragAndDrop#init","DragAndDrop#Awake","DragAndDrop#OnMouseDown","DragAndDrop#OnMouseUp","DragAndDrop#Update","DragAndDrop#PlayUnavailableAnimation","EndGame#init","EndGame#Awake","EndGame#Start","EndGame#OnDestroy","EndGame#TriggerEndGame","EndGame#TriggerPackshot","EndGame#FinalEndGame","EndGame#RefButton","FillStack#init","FillStack#GenerateBlocks","FillStack#GetSmartRandomColor","FillStack#GetExistingColorsFromField","FillStack#GetRandomColor","GroundPlatform#init","GroundPlatform#init","GroundPlatform#Awake","GroundPlatform#Start","GroundPlatform#ScanForNeighborsAtStart","GroundPlatform#InitializeColorsInContainer","GroundPlatform#ForceInitializeColorsInContainer","GroundPlatform#GetTopHexagon","GroundPlatform#GetBlocksToTransfer","GroundPlatform#GetColorCount","GroundPlatform#GetTopContinuousBlocks","GroundPlatform#GetBlockCount","GroundPlatform#CheckAndClearMatch","GroundPlatform#ClearHexagonsSequentially","GroundPlatform#PlayRemoveAnimation","GroundPlatform#PlayFinalRemoveEffect","GroundPlatform#StartTransferAnimation","GroundPlatform#PlaySequentialJump","GroundPlatform#GetActiveNeighbors","GroundPlatform#SetGlow","GroundPlatform#RemoveGlow","GroundPlatform#AnimateScale","GroundPlatform#IsAvailable","GroundPlatform#DebugLogBoardState","Hexagon#init","Hexagon#Awake","Hexagon#Init","Hexagon#IdentifyColorByMaterial","Hexagon#GetColor","Hexagon#IsInitialized","Hexagon#PlayJumpAnimation","Hexagon#JumpCoroutine","Hexagon#PlayRemoveAnimation","Hexagon#RemoveCoroutine","Hexagon.ColorMaterialPair#getDefaultValue","Hexagon.ColorMaterialPair#ctor","Hexagon.ColorMaterialPair#getHashCode","Hexagon.ColorMaterialPair#equals","Hexagon.ColorMaterialPair#$clone","PlatformManager#init","PlatformManager#IsBusy#get","PlatformManager#init","PlatformManager#Awake","PlatformManager#OnDestroy","PlatformManager#IncrementPendingRemovals","PlatformManager#DecrementPendingRemovals","PlatformManager#StartChainReaction","PlatformManager#ProcessChainReactionGlobal","PlatformManager#SyncAllPlatformsColors","PlatformManager#FindBestGlobalMove","PlatformManager#EvaluateMoveGlobal","PlatformManager#EvaluateNeighborChainPotential","PlatformManager#EvaluateFutureMatchPotential","PlatformManager#GetNextHexagonAfterTransfer","PlatformManager#GetUnderHexagon","PlatformManager.MoveDecision#getDefaultValue","PlatformManager.MoveDecision#ctor","PlatformManager.MoveDecision#getHashCode","PlatformManager.MoveDecision#equals","PlatformManager.MoveDecision#$clone","Stack#init","Stack#IsDisabled#get","Stack#init","Stack#Awake","Stack#Update","Stack#CheckHover","Stack#DebugRaycast","Stack#Drop","Stack#SetDisabled","Stack#SmoothReturnToOriginal","Stack#MoveToContainerAndTransfer","Stack#ReturnAndRefill","Stack#MoveChildrenToContainer","Stack#NotifyManagerIfEmpty","StackManager#init","StackManager#Awake","StackManager#OnStackEmptied","StackManager#HandleRefill","StackManager#WaitForChainReactionAndRefill","StackManager#AreAllStacksEmpty","StackManager#RefillAllStacks","TimeManager#init","TimeManager#Awake","TimeManager#StartGame","TimeManager#StopGame","TimeManager#ResetBorders","TimeManager#RunTimer","TimeManager#PulseLoop","TimeManager#DoPulse","TimeManager#OnTimerFinished","TimeManager#PlayAlarmAnimation","TutorialManager#init","TutorialManager#Awake","TutorialManager#Start","TutorialManager#StartTutorialWithDelay","TutorialManager#TutorialMainLoop","TutorialManager#WaitForGlobalCooldown","TutorialManager#WaitForIdleState","TutorialManager#OnHexagonPlacedSuccessfully","TutorialManager#InitializeMaterials","TutorialManager#ResetVisualsToZero","TutorialManager#InitializePoints","TutorialManager#StartTutorialAnimation","TutorialManager#AnimateTutorialCursor","TutorialManager#AnimatePointsSequence","TutorialManager#FadeBackgrounds","TutorialManager#FadeGlows","TutorialManager#SetMaterialAlpha"]' ) ); }
 /**
- * @version 1.0.9618.31913
+ * @version 1.0.9620.3652
  * @copyright anton
  * @compiler Bridge.NET 17.9.42-luna
  */
 Bridge.assembly("UnityScriptsCompiler", function ($asm, globals) {
     "use strict";
+
+    /*BakeHelper start.*/
+    Bridge.define("BakeHelper", {
+        inherits: [UnityEngine.MonoBehaviour],
+        fields: {
+            startGroup: null,
+            endGroup: null
+        },
+        ctors: {
+            init: function () {
+if ( TRACE ) { TRACE( "BakeHelper#init", this ); }
+
+                this.startGroup = new (System.Collections.Generic.List$1(BakeHelper.TransformData)).ctor();
+                this.endGroup = new (System.Collections.Generic.List$1(BakeHelper.TransformData)).ctor();
+            }
+        },
+        methods: {
+            /*BakeHelper.BakeStartGroup start.*/
+            BakeStartGroup: function () {
+if ( TRACE ) { TRACE( "BakeHelper#BakeStartGroup", this ); }
+
+                var $t;
+                var newData = new (System.Collections.Generic.List$1(BakeHelper.TransformData)).ctor();
+                $t = Bridge.getEnumerator(this.startGroup);
+                try {
+                    while ($t.moveNext()) {
+                        var data = $t.Current;
+                        if (UnityEngine.Component.op_Inequality(data.target, null)) {
+                            var newDataItem = new BakeHelper.TransformData();
+                            newDataItem.target = data.target;
+                            newDataItem.position = data.target.localPosition.$clone();
+                            newDataItem.rotation = data.target.localRotation.$clone();
+                            newDataItem.scale = data.target.localScale.$clone();
+                            newData.add(newDataItem);
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+                this.startGroup = newData;
+                UnityEngine.Debug.Log$1(System.String.format("Start group baked: {0} transforms", [Bridge.box(this.startGroup.Count, System.Int32)]));
+            },
+            /*BakeHelper.BakeStartGroup end.*/
+
+            /*BakeHelper.BakeEndGroup start.*/
+            BakeEndGroup: function () {
+if ( TRACE ) { TRACE( "BakeHelper#BakeEndGroup", this ); }
+
+                var $t;
+                var newData = new (System.Collections.Generic.List$1(BakeHelper.TransformData)).ctor();
+                $t = Bridge.getEnumerator(this.endGroup);
+                try {
+                    while ($t.moveNext()) {
+                        var data = $t.Current;
+                        if (UnityEngine.Component.op_Inequality(data.target, null)) {
+                            var newDataItem = new BakeHelper.TransformData();
+                            newDataItem.target = data.target;
+                            newDataItem.position = data.target.localPosition.$clone();
+                            newDataItem.rotation = data.target.localRotation.$clone();
+                            newDataItem.scale = data.target.localScale.$clone();
+                            newData.add(newDataItem);
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+                this.endGroup = newData;
+                UnityEngine.Debug.Log$1(System.String.format("End group baked: {0} transforms", [Bridge.box(this.endGroup.Count, System.Int32)]));
+            },
+            /*BakeHelper.BakeEndGroup end.*/
+
+            /*BakeHelper.ApplyStartGroup start.*/
+            ApplyStartGroup: function () {
+if ( TRACE ) { TRACE( "BakeHelper#ApplyStartGroup", this ); }
+
+                var $t;
+                $t = Bridge.getEnumerator(this.startGroup);
+                try {
+                    while ($t.moveNext()) {
+                        var data = $t.Current;
+                        if (UnityEngine.Component.op_Inequality(data.target, null)) {
+                            data.target.localPosition = data.position.$clone();
+                            data.target.localRotation = data.rotation.$clone();
+                            data.target.localScale = data.scale.$clone();
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+                UnityEngine.Debug.Log$1(System.String.format("Start group applied: {0} transforms", [Bridge.box(this.startGroup.Count, System.Int32)]));
+            },
+            /*BakeHelper.ApplyStartGroup end.*/
+
+            /*BakeHelper.ApplyEndGroup start.*/
+            ApplyEndGroup: function () {
+if ( TRACE ) { TRACE( "BakeHelper#ApplyEndGroup", this ); }
+
+                var $t;
+                $t = Bridge.getEnumerator(this.endGroup);
+                try {
+                    while ($t.moveNext()) {
+                        var data = $t.Current;
+                        if (UnityEngine.Component.op_Inequality(data.target, null)) {
+                            data.target.localPosition = data.position.$clone();
+                            data.target.localRotation = data.rotation.$clone();
+                            data.target.localScale = data.scale.$clone();
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+                UnityEngine.Debug.Log$1(System.String.format("End group applied: {0} transforms", [Bridge.box(this.endGroup.Count, System.Int32)]));
+            },
+            /*BakeHelper.ApplyEndGroup end.*/
+
+
+        }
+    });
+    /*BakeHelper end.*/
+
+    /*BakeHelper+TransformData start.*/
+    Bridge.define("BakeHelper.TransformData", {
+        $kind: 1002,
+        fields: {
+            target: null,
+            position: null,
+            rotation: null,
+            scale: null
+        },
+        ctors: {
+            init: function () {
+if ( TRACE ) { TRACE( "BakeHelper.TransformData#init", this ); }
+
+                this.position = new UnityEngine.Vector3();
+                this.rotation = new UnityEngine.Quaternion();
+                this.scale = new UnityEngine.Vector3();
+            }
+        }
+    });
+    /*BakeHelper+TransformData end.*/
 
     /*CursorFollower start.*/
     Bridge.define("CursorFollower", {
@@ -25,11 +173,14 @@ if ( TRACE ) { TRACE( "CursorFollower#init", this ); }
         fields: {
             mainCamera: null,
             fadeDuration: 0,
-            spriteRenderer: null,
-            shadowRenderer: null,
+            mainRenderers: null,
+            shadowRenderers: null,
             animator: null,
+            pivotOffsetX: 0,
+            pivotOffsetY: 0,
             fadeCoroutine: null,
-            isVisible: false
+            isVisible: false,
+            isTutorialActive: false
         },
         ctors: {
             init: function () {
@@ -37,6 +188,7 @@ if ( TRACE ) { TRACE( "CursorFollower#init", this ); }
 
                 this.fadeDuration = 0.2;
                 this.isVisible = false;
+                this.isTutorialActive = false;
             }
         },
         methods: {
@@ -55,8 +207,41 @@ if ( TRACE ) { TRACE( "CursorFollower#Awake", this ); }
                 if (UnityEngine.Component.op_Equality(this.mainCamera, null)) {
                     UnityEngine.Debug.LogError$2("[CursorFollower] Main Camera not found!");
                 }
+
+                this.HideInstantlyCursor();
             },
             /*CursorFollower.Awake end.*/
+
+            /*CursorFollower.HideInstantlyCursor start.*/
+            HideInstantlyCursor: function () {
+if ( TRACE ) { TRACE( "CursorFollower#HideInstantlyCursor", this ); }
+
+                var $t, $t1;
+                $t = Bridge.getEnumerator(this.mainRenderers);
+                try {
+                    while ($t.moveNext()) {
+                        var main = $t.Current;
+                        this.SetAlpha(main, 0);
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+
+                $t1 = Bridge.getEnumerator(this.shadowRenderers);
+                try {
+                    while ($t1.moveNext()) {
+                        var shadow = $t1.Current;
+                        this.SetAlpha(shadow, 0);
+                    }
+                } finally {
+                    if (Bridge.is($t1, System.IDisposable)) {
+                        $t1.System$IDisposable$Dispose();
+                    }
+                }
+            },
+            /*CursorFollower.HideInstantlyCursor end.*/
 
             /*CursorFollower.Update start.*/
             Update: function () {
@@ -72,16 +257,21 @@ if ( TRACE ) { TRACE( "CursorFollower#Update", this ); }
                     return;
                 }
 
-                mousePos.z = -10;
-                var worldPos = this.mainCamera.ScreenToWorldPoint(mousePos);
-
-                this.transform.position = worldPos.$clone();
+                if (!this.isTutorialActive) {
+                    mousePos.z = -10;
+                    var worldPos = this.mainCamera.ScreenToWorldPoint(mousePos);
+                    this.transform.position = new pc.Vec3( worldPos.x + this.pivotOffsetX, worldPos.y + this.pivotOffsetY, worldPos.z );
+                }
             },
             /*CursorFollower.Update end.*/
 
             /*CursorFollower.PlayGrabAnimation start.*/
             PlayGrabAnimation: function () {
 if ( TRACE ) { TRACE( "CursorFollower#PlayGrabAnimation", this ); }
+
+                if (this.isTutorialActive) {
+                    return;
+                }
 
                 this.SetVisibility(true);
                 if (UnityEngine.Component.op_Inequality(this.animator, null)) {
@@ -93,6 +283,10 @@ if ( TRACE ) { TRACE( "CursorFollower#PlayGrabAnimation", this ); }
             /*CursorFollower.PlayReleaseAnimation start.*/
             PlayReleaseAnimation: function () {
 if ( TRACE ) { TRACE( "CursorFollower#PlayReleaseAnimation", this ); }
+
+                if (this.isTutorialActive) {
+                    return;
+                }
 
                 if (UnityEngine.Component.op_Inequality(this.animator, null)) {
                     this.animator.Play$2("CursorRelease");
@@ -107,6 +301,18 @@ if ( TRACE ) { TRACE( "CursorFollower#TriggerChainReactionFade", this ); }
                 this.SetVisibility(false);
             },
             /*CursorFollower.TriggerChainReactionFade end.*/
+
+            /*CursorFollower.SetTutorialActive start.*/
+            SetTutorialActive: function (active) {
+if ( TRACE ) { TRACE( "CursorFollower#SetTutorialActive", this ); }
+
+                this.isTutorialActive = active;
+
+                if (active) {
+                    this.SetVisibility(false);
+                }
+            },
+            /*CursorFollower.SetTutorialActive end.*/
 
             /*CursorFollower.SetVisibility start.*/
             SetVisibility: function (visible) {
@@ -146,7 +352,7 @@ if ( TRACE ) { TRACE( "CursorFollower#FadeCoroutine", this ); }
                         for (;;) {
                             switch ($step) {
                                 case 0: {
-                                    if (UnityEngine.Component.op_Equality(this.spriteRenderer, null)) {
+                                    if (this.mainRenderers == null || this.mainRenderers.length === 0) {
                                             $step = 1;
                                             continue;
                                         } 
@@ -157,8 +363,22 @@ if ( TRACE ) { TRACE( "CursorFollower#FadeCoroutine", this ); }
                                     return false;
                                 }
                                 case 2: {
-                                    startAlphaMain = this.spriteRenderer.color.a;
-                                        startAlphaShadow = UnityEngine.Component.op_Inequality(this.shadowRenderer, null) ? this.shadowRenderer.color.a : 0.0;
+                                    startAlphaMain = System.Array.init(this.mainRenderers.length, 0, System.Single);
+                                        startAlphaShadow = System.Array.init(this.shadowRenderers != null ? this.shadowRenderers.length : 0, 0, System.Single);
+
+                                        for (var i = 0; i < this.mainRenderers.length; i = (i + 1) | 0) {
+                                            if (UnityEngine.Component.op_Inequality(this.mainRenderers[i], null)) {
+                                                startAlphaMain[i] = this.mainRenderers[i].color.a;
+                                            }
+                                        }
+
+                                        if (this.shadowRenderers != null) {
+                                            for (var i1 = 0; i1 < this.shadowRenderers.length; i1 = (i1 + 1) | 0) {
+                                                if (UnityEngine.Component.op_Inequality(this.shadowRenderers[i1], null)) {
+                                                    startAlphaShadow[i1] = this.shadowRenderers[i1].color.a;
+                                                }
+                                            }
+                                        }
 
                                         targetAlphaMain = targetVisible ? 1.0 : 0.0;
                                         targetAlphaShadow = targetVisible ? CursorFollower.SHADOW_MAX_ALPHA : 0.0;
@@ -179,12 +399,20 @@ if ( TRACE ) { TRACE( "CursorFollower#FadeCoroutine", this ); }
                                     elapsed += UnityEngine.Time.deltaTime;
                                         t = elapsed / this.fadeDuration;
 
-                                        currentAlphaMain = pc.math.lerp(startAlphaMain, targetAlphaMain, t);
-                                        this.SetAlpha(this.spriteRenderer, currentAlphaMain);
+                                        for (var i2 = 0; i2 < this.mainRenderers.length; i2 = (i2 + 1) | 0) {
+                                            if (UnityEngine.Component.op_Inequality(this.mainRenderers[i2], null)) {
+                                                currentAlphaMain = pc.math.lerp(startAlphaMain[i2], targetAlphaMain, t);
+                                                this.SetAlpha(this.mainRenderers[i2], currentAlphaMain);
+                                            }
+                                        }
 
-                                        if (UnityEngine.Component.op_Inequality(this.shadowRenderer, null)) {
-                                            currentAlphaShadow = pc.math.lerp(startAlphaShadow, targetAlphaShadow, t);
-                                            this.SetAlpha(this.shadowRenderer, currentAlphaShadow);
+                                        if (this.shadowRenderers != null) {
+                                            for (var i3 = 0; i3 < this.shadowRenderers.length; i3 = (i3 + 1) | 0) {
+                                                if (UnityEngine.Component.op_Inequality(this.shadowRenderers[i3], null)) {
+                                                    currentAlphaShadow = pc.math.lerp(startAlphaShadow[i3], targetAlphaShadow, t);
+                                                    this.SetAlpha(this.shadowRenderers[i3], currentAlphaShadow);
+                                                }
+                                            }
                                         }
 
                                         $enumerator.current = null;
@@ -197,9 +425,18 @@ if ( TRACE ) { TRACE( "CursorFollower#FadeCoroutine", this ); }
                                         continue;
                                 }
                                 case 6: {
-                                    this.SetAlpha(this.spriteRenderer, targetAlphaMain);
-                                        if (UnityEngine.Component.op_Inequality(this.shadowRenderer, null)) {
-                                            this.SetAlpha(this.shadowRenderer, targetAlphaShadow);
+                                    for (var i4 = 0; i4 < this.mainRenderers.length; i4 = (i4 + 1) | 0) {
+                                            if (UnityEngine.Component.op_Inequality(this.mainRenderers[i4], null)) {
+                                                this.SetAlpha(this.mainRenderers[i4], targetAlphaMain);
+                                            }
+                                        }
+
+                                        if (this.shadowRenderers != null) {
+                                            for (var i5 = 0; i5 < this.shadowRenderers.length; i5 = (i5 + 1) | 0) {
+                                                if (UnityEngine.Component.op_Inequality(this.shadowRenderers[i5], null)) {
+                                                    this.SetAlpha(this.shadowRenderers[i5], targetAlphaShadow);
+                                                }
+                                            }
                                         }
 
                                 }
@@ -237,6 +474,18 @@ if ( TRACE ) { TRACE( "CursorFollower#SetAlpha", this ); }
     /*DragAndDrop start.*/
     Bridge.define("DragAndDrop", {
         inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            fields: {
+                IsDraggingAny: false
+            },
+            ctors: {
+                init: function () {
+if ( TRACE ) { TRACE( "DragAndDrop#init", this ); }
+
+                    this.IsDraggingAny = false;
+                }
+            }
+        },
         fields: {
             mainCamera: null,
             smoothLiftCurve: null,
@@ -287,6 +536,11 @@ if ( TRACE ) { TRACE( "DragAndDrop#Awake", this ); }
             OnMouseDown: function () {
 if ( TRACE ) { TRACE( "DragAndDrop#OnMouseDown", this ); }
 
+                // Блокировка со стороны Туториала
+                if (UnityEngine.MonoBehaviour.op_Inequality(TutorialManager.Instance, null) && TutorialManager.Instance.IsInputBlocked) {
+                    return;
+                }
+
                 if (this.isAnimating) {
                     return;
                 }
@@ -302,6 +556,7 @@ if ( TRACE ) { TRACE( "DragAndDrop#OnMouseDown", this ); }
                 }
 
                 this.isDragging = true;
+                DragAndDrop.IsDraggingAny = true; // Обновляем глобальный статус
 
                 if (UnityEngine.MonoBehaviour.op_Inequality(this.cursorFollower, null)) {
                     this.cursorFollower.PlayGrabAnimation();
@@ -326,6 +581,8 @@ if ( TRACE ) { TRACE( "DragAndDrop#OnMouseUp", this ); }
                 }
 
                 this.isDragging = false;
+                DragAndDrop.IsDraggingAny = false; // Обновляем глобальный статус
+
                 this.stackComponent.Drop();
 
                 if (UnityEngine.MonoBehaviour.op_Inequality(this.cursorFollower, null)) {
@@ -530,6 +787,127 @@ if ( TRACE ) { TRACE( "DragAndDrop#PlayUnavailableAnimation", this ); }
     });
     /*DragAndDrop end.*/
 
+    /*EndGame start.*/
+    Bridge.define("EndGame", {
+        inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            fields: {
+                Instance: null
+            }
+        },
+        fields: {
+            GameEnded: false,
+            animator: null,
+            urlButtons: null
+        },
+        ctors: {
+            init: function () {
+if ( TRACE ) { TRACE( "EndGame#init", this ); }
+
+                this.GameEnded = false;
+            }
+        },
+        methods: {
+            /*EndGame.Awake start.*/
+            Awake: function () {
+if ( TRACE ) { TRACE( "EndGame#Awake", this ); }
+
+                if (UnityEngine.MonoBehaviour.op_Equality(EndGame.Instance, null)) {
+                    EndGame.Instance = this;
+                } else {
+                    UnityEngine.MonoBehaviour.Destroy(this.gameObject);
+                }
+                this.GameEnded = false;
+            },
+            /*EndGame.Awake end.*/
+
+            /*EndGame.Start start.*/
+            Start: function () {
+if ( TRACE ) { TRACE( "EndGame#Start", this ); }
+
+                var $t;
+                $t = Bridge.getEnumerator(this.urlButtons);
+                try {
+                    while ($t.moveNext()) {
+                        var button = $t.Current;
+                        button.onClick.AddListener(Bridge.fn.cacheBind(this, this.RefButton));
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+            },
+            /*EndGame.Start end.*/
+
+            /*EndGame.OnDestroy start.*/
+            OnDestroy: function () {
+if ( TRACE ) { TRACE( "EndGame#OnDestroy", this ); }
+
+                var $t;
+                $t = Bridge.getEnumerator(this.urlButtons);
+                try {
+                    while ($t.moveNext()) {
+                        var button = $t.Current;
+                        if (UnityEngine.MonoBehaviour.op_Inequality(button, null)) {
+                            button.onClick.RemoveAllListeners();
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+            },
+            /*EndGame.OnDestroy end.*/
+
+            /*EndGame.TriggerEndGame start.*/
+            TriggerEndGame: function () {
+if ( TRACE ) { TRACE( "EndGame#TriggerEndGame", this ); }
+
+                if (this.GameEnded) {
+                    return;
+                }
+
+                if (UnityEngine.Component.op_Inequality(this.animator, null)) {
+                    this.GameEnded = true;
+                    this.animator.Play$2("EndGameBackground");
+                }
+            },
+            /*EndGame.TriggerEndGame end.*/
+
+            /*EndGame.TriggerPackshot start.*/
+            TriggerPackshot: function () {
+if ( TRACE ) { TRACE( "EndGame#TriggerPackshot", this ); }
+
+                if (UnityEngine.Component.op_Inequality(this.animator, null)) {
+                    this.GameEnded = true;
+                    this.animator.Play$2("Packshot");
+                }
+            },
+            /*EndGame.TriggerPackshot end.*/
+
+            /*EndGame.FinalEndGame start.*/
+            FinalEndGame: function () {
+if ( TRACE ) { TRACE( "EndGame#FinalEndGame", this ); }
+
+                Luna.Unity.LifeCycle.GameEnded();
+            },
+            /*EndGame.FinalEndGame end.*/
+
+            /*EndGame.RefButton start.*/
+            RefButton: function () {
+if ( TRACE ) { TRACE( "EndGame#RefButton", this ); }
+
+                Luna.Unity.Playable.InstallFullGame();
+            },
+            /*EndGame.RefButton end.*/
+
+
+        }
+    });
+    /*EndGame end.*/
+
     /*FillStack start.*/
     Bridge.define("FillStack", {
         inherits: [UnityEngine.MonoBehaviour],
@@ -557,7 +935,7 @@ if ( TRACE ) { TRACE( "FillStack#GenerateBlocks", this ); }
                     UnityEngine.Object.DestroyImmediate(this.transform.GetChild(0).gameObject);
                 }
 
-                var count = UnityEngine.Random.Range(4, 10);
+                var count = UnityEngine.Random.Range(6, 10);
 
                 // 1. Выбираем первый цвет с учетом существующих на поле
                 var color1 = this.GetSmartRandomColor();
@@ -566,7 +944,7 @@ if ( TRACE ) { TRACE( "FillStack#GenerateBlocks", this ); }
 
                 // Шанс появления второго цвета (25%)
                 if (UnityEngine.Random.value < 0.25) {
-                    color2 = this.GetRandomColorExcept(color1);
+                    color2 = this.GetSmartRandomColor();
                 }
 
                 var splitIndex = count;
@@ -668,36 +1046,6 @@ if ( TRACE ) { TRACE( "FillStack#GetRandomColor", this ); }
                 return System.Nullable.getValue(Bridge.cast(Bridge.unbox(System.Array.get(values, UnityEngine.Random.Range(0, values.length)), Hexagon.HexagonColor), System.Int32));
             },
             /*FillStack.GetRandomColor end.*/
-
-            /*FillStack.GetRandomColorExcept start.*/
-            GetRandomColorExcept: function (exclude) {
-if ( TRACE ) { TRACE( "FillStack#GetRandomColorExcept", this ); }
-
-                var $t;
-                var values = System.Enum.getValues(Hexagon.HexagonColor);
-                var availableColors = new (System.Collections.Generic.List$1(Hexagon.HexagonColor)).ctor();
-
-                $t = Bridge.getEnumerator(values);
-                try {
-                    while ($t.moveNext()) {
-                        var c = Bridge.cast($t.Current, Hexagon.HexagonColor);
-                        if (c !== exclude) {
-                            availableColors.add(c);
-                        }
-                    }
-                } finally {
-                    if (Bridge.is($t, System.IDisposable)) {
-                        $t.System$IDisposable$Dispose();
-                    }
-                }
-
-                if (availableColors.Count > 0) {
-                    return availableColors.getItem(UnityEngine.Random.Range(0, availableColors.Count));
-                }
-
-                return exclude;
-            },
-            /*FillStack.GetRandomColorExcept end.*/
 
 
         }
@@ -2652,6 +3000,7 @@ if ( TRACE ) { TRACE( "Stack#Drop", this ); }
 
                 if (UnityEngine.MonoBehaviour.op_Inequality(this.currentHoveredPlatform, null) && UnityEngine.GameObject.op_Inequality(this.currentHoveredPlatform.Container, null)) {
                     var targetPlatform = this.currentHoveredPlatform;
+                    TutorialManager.Instance.OnHexagonPlacedSuccessfully();
                     this.moveCoroutine = this.StartCoroutine$1(this.MoveToContainerAndTransfer(targetPlatform, targetPlatform.Container));
                 } else {
                     this.moveCoroutine = this.StartCoroutine$1(this.SmoothReturnToOriginal());
@@ -3076,9 +3425,1773 @@ if ( TRACE ) { TRACE( "StackManager#RefillAllStacks", this ); }
     });
     /*StackManager end.*/
 
+    /*TimeManager start.*/
+    Bridge.define("TimeManager", {
+        inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            fields: {
+                Instance: null
+            }
+        },
+        fields: {
+            gameDuration: 0,
+            timeSlider: null,
+            sliderFillImage: null,
+            arrowParentRectTransform: null,
+            timerBorderImage: null,
+            sliderBorderImage: null,
+            arrowImage: null,
+            startColor: null,
+            midColor: null,
+            endColor: null,
+            pulseColor: null,
+            pulseThreshold: 0,
+            pulseDuration: 0,
+            pauseDuration: 0,
+            maxScaleMultiplier: 0,
+            alarmDuration: 0,
+            shakeAmount: 0,
+            shakeSpeed: 0,
+            shakeRotationAmount: 0,
+            _timerCoroutine: null,
+            _pulseCoroutine: null,
+            _alarmCoroutine: null,
+            _isRunning: false,
+            _origTimerPos: null,
+            _origTimerScale: null,
+            _origTimerRot: null,
+            _origArrowPos: null,
+            _origArrowScale: null,
+            _origArrowRot: null
+        },
+        ctors: {
+            init: function () {
+if ( TRACE ) { TRACE( "TimeManager#init", this ); }
+
+                this.startColor = new UnityEngine.Color();
+                this.midColor = new UnityEngine.Color();
+                this.endColor = new UnityEngine.Color();
+                this.pulseColor = new UnityEngine.Color();
+                this._origTimerPos = new UnityEngine.Vector3();
+                this._origTimerScale = new UnityEngine.Vector3();
+                this._origTimerRot = new UnityEngine.Vector3();
+                this._origArrowPos = new UnityEngine.Vector3();
+                this._origArrowScale = new UnityEngine.Vector3();
+                this._origArrowRot = new UnityEngine.Vector3();
+                this.gameDuration = 20.0;
+                this.pulseThreshold = 0.25;
+                this.pulseDuration = 0.2;
+                this.pauseDuration = 0.8;
+                this.maxScaleMultiplier = 1.15;
+                this.alarmDuration = 3.0;
+                this.shakeAmount = 10.0;
+                this.shakeSpeed = 20.0;
+                this.shakeRotationAmount = 3.0;
+            }
+        },
+        methods: {
+            /*TimeManager.Awake start.*/
+            Awake: function () {
+if ( TRACE ) { TRACE( "TimeManager#Awake", this ); }
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(TimeManager.Instance, null) && UnityEngine.MonoBehaviour.op_Inequality(TimeManager.Instance, this)) {
+                    UnityEngine.MonoBehaviour.Destroy(this.gameObject);
+                    return;
+                }
+
+                TimeManager.Instance = this;
+
+                if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                    this._origTimerPos = this.timerBorderImage.rectTransform.localPosition.$clone();
+                    this._origTimerScale = this.timerBorderImage.rectTransform.localScale.$clone();
+                    this._origTimerRot = this.timerBorderImage.rectTransform.localEulerAngles.$clone();
+                }
+                if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                    this._origArrowPos = this.arrowImage.rectTransform.localPosition.$clone();
+                    this._origArrowScale = this.arrowImage.rectTransform.localScale.$clone();
+                    this._origArrowRot = this.arrowImage.rectTransform.localEulerAngles.$clone();
+                }
+            },
+            /*TimeManager.Awake end.*/
+
+            /*TimeManager.StartGame start.*/
+            StartGame: function () {
+if ( TRACE ) { TRACE( "TimeManager#StartGame", this ); }
+
+                if (this._isRunning) {
+                    this.StopGame();
+                }
+                this._isRunning = true;
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.timeSlider, null)) {
+                    this.timeSlider.value = 1.0;
+                }
+                if (UnityEngine.Component.op_Inequality(this.arrowParentRectTransform, null)) {
+                    this.arrowParentRectTransform.localEulerAngles = pc.Vec3.ZERO.clone();
+                }
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.sliderFillImage, null)) {
+                    this.sliderFillImage.color = this.startColor.$clone();
+                }
+
+                this.ResetBorders();
+
+                if (this._timerCoroutine != null) {
+                    this.StopCoroutine$2(this._timerCoroutine);
+                }
+                this._timerCoroutine = this.StartCoroutine$1(this.RunTimer());
+            },
+            /*TimeManager.StartGame end.*/
+
+            /*TimeManager.StopGame start.*/
+            StopGame: function () {
+if ( TRACE ) { TRACE( "TimeManager#StopGame", this ); }
+
+                this._isRunning = false;
+
+                if (this._timerCoroutine != null) {
+                    this.StopCoroutine$2(this._timerCoroutine);
+                    this._timerCoroutine = null;
+                }
+                if (this._pulseCoroutine != null) {
+                    this.StopCoroutine$2(this._pulseCoroutine);
+                    this._pulseCoroutine = null;
+                }
+                if (this._alarmCoroutine != null) {
+                    this.StopCoroutine$2(this._alarmCoroutine);
+                    this._alarmCoroutine = null;
+                }
+
+                this.ResetBorders();
+            },
+            /*TimeManager.StopGame end.*/
+
+            /*TimeManager.ResetBorders start.*/
+            ResetBorders: function () {
+if ( TRACE ) { TRACE( "TimeManager#ResetBorders", this ); }
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.timerBorderImage, null)) {
+                    this.timerBorderImage.color = new pc.Color( 1, 1, 1, 1 );
+                    this.timerBorderImage.rectTransform.localScale = this._origTimerScale.$clone();
+                    this.timerBorderImage.rectTransform.localPosition = this._origTimerPos.$clone();
+                    this.timerBorderImage.rectTransform.localEulerAngles = this._origTimerRot.$clone();
+                }
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.sliderBorderImage, null)) {
+                    this.sliderBorderImage.color = new pc.Color( 1, 1, 1, 1 );
+                }
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.arrowImage, null)) {
+                    this.arrowImage.color = new pc.Color( 1, 1, 1, 1 );
+                    this.arrowImage.rectTransform.localScale = this._origArrowScale.$clone();
+                    this.arrowImage.rectTransform.localPosition = this._origArrowPos.$clone();
+                    this.arrowImage.rectTransform.localEulerAngles = this._origArrowRot.$clone();
+                }
+            },
+            /*TimeManager.ResetBorders end.*/
+
+            /*TimeManager.RunTimer start.*/
+            RunTimer: function () {
+if ( TRACE ) { TRACE( "TimeManager#RunTimer", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    elapsedTime,
+                    pulseStarted,
+                    progress,
+                    normalizedTime,
+                    angle,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    elapsedTime = 0.0;
+                                        pulseStarted = false;
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( elapsedTime < this.gameDuration && this._isRunning ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 2: {
+                                    elapsedTime += UnityEngine.Time.deltaTime;
+                                        progress = elapsedTime / this.gameDuration;
+                                        normalizedTime = 1.0 - progress;
+
+                                        if (UnityEngine.MonoBehaviour.op_Inequality(this.timeSlider, null)) {
+                                            this.timeSlider.value = normalizedTime;
+                                        }
+                                        if (UnityEngine.Component.op_Inequality(this.arrowParentRectTransform, null)) {
+                                            angle = progress * 360.0;
+                                            this.arrowParentRectTransform.localEulerAngles = new pc.Vec3( 0, 0, angle );
+                                        }
+                                        if (UnityEngine.MonoBehaviour.op_Inequality(this.sliderFillImage, null)) {
+                                            this.sliderFillImage.color = progress <= 0.5 ? pc.Color.lerp( this.startColor, this.midColor, progress * 2.0 ) : pc.Color.lerp( this.midColor, this.endColor, (progress - 0.5) * 2.0 );
+                                        }
+
+                                        if (normalizedTime <= this.pulseThreshold && !pulseStarted) {
+                                            pulseStarted = true;
+                                            this._pulseCoroutine = this.StartCoroutine$1(this.PulseLoop());
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 4: {
+                                    if (this._isRunning) {
+                                            this.OnTimerFinished();
+                                        }
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TimeManager.RunTimer end.*/
+
+            /*TimeManager.PulseLoop start.*/
+            PulseLoop: function () {
+if ( TRACE ) { TRACE( "TimeManager#PulseLoop", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    if ( this._isRunning ) {
+                                            $step = 1;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 1: {
+                                    $enumerator.current = this.StartCoroutine$1(this.DoPulse());
+                                        $step = 2;
+                                        return true;
+                                }
+                                case 2: {
+                                    $enumerator.current = new UnityEngine.WaitForSeconds(this.pauseDuration);
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    
+                                        $step = 0;
+                                        continue;
+                                }
+                                case 4: {
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TimeManager.PulseLoop end.*/
+
+            /*TimeManager.DoPulse start.*/
+            DoPulse: function () {
+if ( TRACE ) { TRACE( "TimeManager#DoPulse", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    elapsed,
+                    startBorderColor,
+                    startTimerBorderColor,
+                    startArrowColor,
+                    startTimerScale,
+                    startArrowScale,
+                    t,
+                    currentColor,
+                    t1,
+                    currentColor1,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    elapsed = 0.0;
+                                        startBorderColor = UnityEngine.Object.op_Implicit(this.sliderBorderImage) ? this.sliderBorderImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+                                        startTimerBorderColor = UnityEngine.Object.op_Implicit(this.timerBorderImage) ? this.timerBorderImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+                                        startArrowColor = UnityEngine.Object.op_Implicit(this.arrowImage) ? this.arrowImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+
+                                        startTimerScale = UnityEngine.Object.op_Implicit(this.timerBorderImage) ? this.timerBorderImage.rectTransform.localScale.$clone() : new pc.Vec3( 1, 1, 1 );
+                                        startArrowScale = UnityEngine.Object.op_Implicit(this.arrowImage) ? this.arrowImage.rectTransform.localScale.$clone() : new pc.Vec3( 1, 1, 1 );
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( elapsed < this.pulseDuration ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 2: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t = Math.max(0, Math.min(1, elapsed / this.pulseDuration));
+                                        currentColor = pc.Color.lerp( startBorderColor, this.pulseColor, t );
+
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = currentColor.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.color = currentColor.$clone();
+                                            this.timerBorderImage.rectTransform.localScale = new pc.Vec3().lerp( startTimerScale, new pc.Vec3( 1, 1, 1 ).clone().scale( this.maxScaleMultiplier ), t );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = currentColor.$clone();
+                                            this.arrowImage.rectTransform.localScale = new pc.Vec3().lerp( startArrowScale, new pc.Vec3( 1, 1, 1 ).clone().scale( this.maxScaleMultiplier ), t );
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 4: {
+                                    elapsed = 0.0;
+                                    $step = 5;
+                                    continue;
+                                }
+                                case 5: {
+                                    if ( elapsed < this.pulseDuration ) {
+                                            $step = 6;
+                                            continue;
+                                        } 
+                                        $step = 8;
+                                        continue;
+                                }
+                                case 6: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t1 = Math.max(0, Math.min(1, elapsed / this.pulseDuration));
+                                        currentColor1 = pc.Color.lerp( this.pulseColor, startBorderColor, t1 );
+
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = currentColor1.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.color = currentColor1.$clone();
+                                            this.timerBorderImage.rectTransform.localScale = new pc.Vec3().lerp( new pc.Vec3( 1, 1, 1 ).clone().scale( this.maxScaleMultiplier ), startTimerScale, t1 );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = currentColor1.$clone();
+                                            this.arrowImage.rectTransform.localScale = new pc.Vec3().lerp( new pc.Vec3( 1, 1, 1 ).clone().scale( this.maxScaleMultiplier ), startArrowScale, t1 );
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 7;
+                                        return true;
+                                }
+                                case 7: {
+                                    
+                                        $step = 5;
+                                        continue;
+                                }
+                                case 8: {
+                                    if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = startBorderColor.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.color = startTimerBorderColor.$clone();
+                                            this.timerBorderImage.rectTransform.localScale = startTimerScale.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = startArrowColor.$clone();
+                                            this.arrowImage.rectTransform.localScale = startArrowScale.$clone();
+                                        }
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TimeManager.DoPulse end.*/
+
+            /*TimeManager.OnTimerFinished start.*/
+            OnTimerFinished: function () {
+if ( TRACE ) { TRACE( "TimeManager#OnTimerFinished", this ); }
+
+                this._isRunning = false;
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.timeSlider, null)) {
+                    this.timeSlider.value = 0.0;
+                }
+                if (UnityEngine.Component.op_Inequality(this.arrowParentRectTransform, null)) {
+                    this.arrowParentRectTransform.localEulerAngles = pc.Vec3.ZERO.clone();
+                }
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.sliderFillImage, null)) {
+                    this.sliderFillImage.color = this.endColor.$clone();
+                }
+
+                if (this._pulseCoroutine != null) {
+                    this.StopCoroutine$2(this._pulseCoroutine);
+                    this._pulseCoroutine = null;
+                }
+
+                if (this._alarmCoroutine != null) {
+                    this.StopCoroutine$2(this._alarmCoroutine);
+                }
+                this._alarmCoroutine = this.StartCoroutine$1(this.PlayAlarmAnimation());
+            },
+            /*TimeManager.OnTimerFinished end.*/
+
+            /*TimeManager.PlayAlarmAnimation start.*/
+            PlayAlarmAnimation: function () {
+if ( TRACE ) { TRACE( "TimeManager#PlayAlarmAnimation", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    origTimerColor,
+                    origArrowColor,
+                    origSliderColor,
+                    scaleUpDuration,
+                    elapsed,
+                    t,
+                    shakeX,
+                    shakeY,
+                    shakeRotZ,
+                    actualCurrentPos,
+                    actualCurrentRot,
+                    alarmStartScale,
+                    alarmStartColor,
+                    restoreDuration,
+                    t1,
+                    smoothT,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    origTimerColor = UnityEngine.Object.op_Implicit(this.timerBorderImage) ? this.timerBorderImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+                                        origArrowColor = UnityEngine.Object.op_Implicit(this.arrowImage) ? this.arrowImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+                                        origSliderColor = UnityEngine.Object.op_Implicit(this.sliderBorderImage) ? this.sliderBorderImage.color.$clone() : new pc.Color( 1, 1, 1, 1 );
+
+                                        scaleUpDuration = 0.2;
+                                        elapsed = 0.0;
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( elapsed < scaleUpDuration ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 2: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t = Math.max(0, Math.min(1, elapsed / scaleUpDuration));
+
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.rectTransform.localScale = new pc.Vec3().lerp( this._origTimerScale, this._origTimerScale.$clone().clone().scale( this.maxScaleMultiplier ), t );
+                                            this.timerBorderImage.color = pc.Color.lerp( origTimerColor, this.pulseColor, t );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = pc.Color.lerp( origArrowColor, this.pulseColor, t );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = pc.Color.lerp( origSliderColor, this.pulseColor, t );
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 4: {
+                                    elapsed = 0.0;
+                                    $step = 5;
+                                    continue;
+                                }
+                                case 5: {
+                                    if ( elapsed < this.alarmDuration ) {
+                                            $step = 6;
+                                            continue;
+                                        } 
+                                        $step = 8;
+                                        continue;
+                                }
+                                case 6: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+
+                                        shakeX = Math.sin(elapsed * this.shakeSpeed) * this.shakeAmount;
+                                        shakeY = Math.cos(elapsed * this.shakeSpeed * 0.85) * (this.shakeAmount * 0.5);
+
+                                        shakeRotZ = Math.sin(elapsed * this.shakeSpeed * 1.2) * this.shakeRotationAmount;
+
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.rectTransform.localPosition = this._origTimerPos.$clone().add( new pc.Vec3( shakeX, shakeY, 0.0 ) );
+                                            this.timerBorderImage.rectTransform.localEulerAngles = new pc.Vec3( this._origTimerRot.x, this._origTimerRot.y, this._origTimerRot.z + shakeRotZ );
+                                            this.timerBorderImage.rectTransform.localScale = this._origTimerScale.$clone().clone().scale( this.maxScaleMultiplier );
+                                            this.timerBorderImage.color = this.pulseColor.$clone();
+                                        }
+
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = this.pulseColor.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = this.pulseColor.$clone();
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 7;
+                                        return true;
+                                }
+                                case 7: {
+                                    
+                                        $step = 5;
+                                        continue;
+                                }
+                                case 8: {
+                                    if (UnityEngine.MonoBehaviour.op_Inequality(EndGame.Instance, null)) {
+                                            EndGame.Instance.TriggerEndGame();
+
+                                        }
+
+                                        actualCurrentPos = UnityEngine.Object.op_Implicit(this.timerBorderImage) ? this.timerBorderImage.rectTransform.localPosition.$clone() : this._origTimerPos.$clone();
+                                        actualCurrentRot = UnityEngine.Object.op_Implicit(this.timerBorderImage) ? this.timerBorderImage.rectTransform.localEulerAngles.$clone() : this._origTimerRot.$clone();
+                                        alarmStartScale = this._origTimerScale.$clone().clone().scale( this.maxScaleMultiplier );
+                                        alarmStartColor = this.pulseColor.$clone();
+
+                                        elapsed = 0.0;
+                                        restoreDuration = 0.2;
+                                    $step = 9;
+                                    continue;
+                                }
+                                case 9: {
+                                    if ( elapsed < restoreDuration ) {
+                                            $step = 10;
+                                            continue;
+                                        } 
+                                        $step = 12;
+                                        continue;
+                                }
+                                case 10: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t1 = Math.max(0, Math.min(1, elapsed / restoreDuration));
+                                        smoothT = 1.0 - Math.pow(1.0 - t1, 3);
+
+                                        if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.rectTransform.localPosition = new pc.Vec3().lerp( actualCurrentPos, this._origTimerPos, smoothT );
+                                            this.timerBorderImage.rectTransform.localEulerAngles = new pc.Vec3().lerp( actualCurrentRot, this._origTimerRot, smoothT );
+                                            this.timerBorderImage.rectTransform.localScale = new pc.Vec3().lerp( alarmStartScale, this._origTimerScale, smoothT );
+                                            this.timerBorderImage.color = pc.Color.lerp( alarmStartColor, origTimerColor, smoothT );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = pc.Color.lerp( alarmStartColor, origArrowColor, smoothT );
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = pc.Color.lerp( alarmStartColor, origSliderColor, smoothT );
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 11;
+                                        return true;
+                                }
+                                case 11: {
+                                    
+                                        $step = 9;
+                                        continue;
+                                }
+                                case 12: {
+                                    if (UnityEngine.Object.op_Implicit(this.timerBorderImage)) {
+                                            this.timerBorderImage.rectTransform.localPosition = this._origTimerPos.$clone();
+                                            this.timerBorderImage.rectTransform.localEulerAngles = this._origTimerRot.$clone();
+                                            this.timerBorderImage.rectTransform.localScale = this._origTimerScale.$clone();
+                                            this.timerBorderImage.color = origTimerColor.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.arrowImage)) {
+                                            this.arrowImage.color = origArrowColor.$clone();
+                                        }
+                                        if (UnityEngine.Object.op_Implicit(this.sliderBorderImage)) {
+                                            this.sliderBorderImage.color = origSliderColor.$clone();
+                                        }
+
+                                        this._alarmCoroutine = null;
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TimeManager.PlayAlarmAnimation end.*/
+
+
+        }
+    });
+    /*TimeManager end.*/
+
+    /*TutorialManager start.*/
+    Bridge.define("TutorialManager", {
+        inherits: [UnityEngine.MonoBehaviour],
+        statics: {
+            fields: {
+                Instance: null
+            }
+        },
+        fields: {
+            cursorFollower: null,
+            tutorialPoints: null,
+            backgroundPlaneMaterial: null,
+            backgroundSpriteRenderer: null,
+            backgroundTimerImage: null,
+            glowMaterials: null,
+            tutorialCursorImage: null,
+            totalDuration: 0,
+            pauseDuration: 0,
+            cursorOffset: null,
+            cursorMoveSpeed: 0,
+            backgroundFadeDuration: 0,
+            glowFadeDuration: 0,
+            targetAlpha: 0,
+            globalCooldownDuration: 0,
+            releaseCheckDelay: 0,
+            IsInputBlocked: false,
+            HasPlacedSuccessfully: false,
+            originalSpriteColor: null,
+            originalGlowColors: null,
+            mainLoopCoroutine: null,
+            cursorLoopCoroutine: null
+        },
+        ctors: {
+            init: function () {
+if ( TRACE ) { TRACE( "TutorialManager#init", this ); }
+
+                this.cursorOffset = new UnityEngine.Vector2();
+                this.originalSpriteColor = new UnityEngine.Color();
+                this.totalDuration = 2.0;
+                this.pauseDuration = 1.0;
+                this.cursorOffset = new pc.Vec2( 60.0, -20.0 );
+                this.cursorMoveSpeed = 5.0;
+                this.backgroundFadeDuration = 1.0;
+                this.glowFadeDuration = 0.5;
+                this.targetAlpha = 0.784313738;
+                this.globalCooldownDuration = 5.0;
+                this.releaseCheckDelay = 0.5;
+                this.IsInputBlocked = true;
+                this.HasPlacedSuccessfully = false;
+            }
+        },
+        methods: {
+            /*TutorialManager.Awake start.*/
+            Awake: function () {
+if ( TRACE ) { TRACE( "TutorialManager#Awake", this ); }
+
+                TutorialManager.Instance = this;
+                this.InitializeMaterials();
+                this.InitializePoints();
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.tutorialCursorImage, null)) {
+                    this.tutorialCursorImage.gameObject.SetActive(false);
+                }
+            },
+            /*TutorialManager.Awake end.*/
+
+            /*TutorialManager.Start start.*/
+            Start: function () {
+if ( TRACE ) { TRACE( "TutorialManager#Start", this ); }
+
+                this.mainLoopCoroutine = this.StartCoroutine$1(this.StartTutorialWithDelay());
+            },
+            /*TutorialManager.Start end.*/
+
+            /*TutorialManager.StartTutorialWithDelay start.*/
+            StartTutorialWithDelay: function () {
+if ( TRACE ) { TRACE( "TutorialManager#StartTutorialWithDelay", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    this.IsInputBlocked = true;
+                                        this.cursorFollower.SetTutorialActive(true);
+                                        $enumerator.current = new UnityEngine.WaitForSeconds(1.0);
+                                        $step = 1;
+                                        return true;
+                                }
+                                case 1: {
+                                    $enumerator.current = this.StartCoroutine$1(this.TutorialMainLoop());
+                                        $step = 2;
+                                        return true;
+                                }
+                                case 2: {
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.StartTutorialWithDelay end.*/
+
+            /*TutorialManager.TutorialMainLoop start.*/
+            TutorialMainLoop: function () {
+if ( TRACE ) { TRACE( "TutorialManager#TutorialMainLoop", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    if ( !this.HasPlacedSuccessfully ) {
+                                            $step = 1;
+                                            continue;
+                                        } 
+                                        $step = 5;
+                                        continue;
+                                }
+                                case 1: {
+                                    this.IsInputBlocked = true;
+
+                                        this.cursorLoopCoroutine = this.StartCoroutine$1(this.AnimateTutorialCursor());
+                                        $enumerator.current = this.StartCoroutine$1(this.AnimatePointsSequence());
+                                        $step = 2;
+                                        return true;
+                                }
+                                case 2: {
+                                    this.cursorFollower.SetTutorialActive(false);
+
+                                        if (this.HasPlacedSuccessfully) {
+                                            $step = 5;
+                                            continue;
+                                        }
+
+                                        this.IsInputBlocked = false;
+
+                                        $enumerator.current = this.StartCoroutine$1(this.WaitForGlobalCooldown());
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 5;
+                                            continue;
+                                        }
+
+                                        $enumerator.current = this.StartCoroutine$1(this.WaitForIdleState());
+                                        $step = 4;
+                                        return true;
+                                }
+                                case 4: {
+                                    this.cursorFollower.SetTutorialActive(true);
+
+                                        $step = 0;
+                                        continue;
+                                }
+                                case 5: {
+                                    this.IsInputBlocked = false;
+                                        this.cursorFollower.SetTutorialActive(false);
+                                        if (UnityEngine.MonoBehaviour.op_Inequality(this.tutorialCursorImage, null)) {
+                                            this.tutorialCursorImage.gameObject.SetActive(false);
+                                        }
+
+                                        if (this.cursorLoopCoroutine != null) {
+                                            this.StopCoroutine$2(this.cursorLoopCoroutine);
+                                        }
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.TutorialMainLoop end.*/
+
+            /*TutorialManager.WaitForGlobalCooldown start.*/
+            WaitForGlobalCooldown: function () {
+if ( TRACE ) { TRACE( "TutorialManager#WaitForGlobalCooldown", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    timer,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    timer = 0.0;
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( timer < this.globalCooldownDuration ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 6;
+                                        continue;
+                                }
+                                case 2: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 3;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 3: {
+                                    return false;
+                                }
+                                case 4: {
+                                    timer += UnityEngine.Time.deltaTime;
+                                        $enumerator.current = null;
+                                        $step = 5;
+                                        return true;
+                                }
+                                case 5: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 6: {
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.WaitForGlobalCooldown end.*/
+
+            /*TutorialManager.WaitForIdleState start.*/
+            WaitForIdleState: function () {
+if ( TRACE ) { TRACE( "TutorialManager#WaitForIdleState", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    idleTimer,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    idleTimer = 0.0;
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( idleTimer < this.releaseCheckDelay ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 6;
+                                        continue;
+                                }
+                                case 2: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 3;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 3: {
+                                    return false;
+                                }
+                                case 4: {
+                                    if (DragAndDrop.IsDraggingAny) {
+                                            idleTimer = 0.0;
+                                        } else {
+                                            idleTimer += UnityEngine.Time.deltaTime;
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 5;
+                                        return true;
+                                }
+                                case 5: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 6: {
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.WaitForIdleState end.*/
+
+            /*TutorialManager.OnHexagonPlacedSuccessfully start.*/
+            OnHexagonPlacedSuccessfully: function () {
+if ( TRACE ) { TRACE( "TutorialManager#OnHexagonPlacedSuccessfully", this ); }
+
+                if (!this.HasPlacedSuccessfully) {
+                    TimeManager.Instance.StartGame();
+                } else {
+                    return;
+                }
+
+                this.HasPlacedSuccessfully = true;
+                this.IsInputBlocked = false;
+                this.cursorFollower.SetTutorialActive(false);
+
+                if (this.mainLoopCoroutine != null) {
+                    this.StopCoroutine$2(this.mainLoopCoroutine);
+                    this.mainLoopCoroutine = null;
+                }
+
+                if (this.cursorLoopCoroutine != null) {
+                    this.StopCoroutine$2(this.cursorLoopCoroutine);
+                    this.cursorLoopCoroutine = null;
+                }
+
+                this.ResetVisualsToZero();
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.tutorialCursorImage, null)) {
+                    this.tutorialCursorImage.gameObject.SetActive(false);
+                }
+            },
+            /*TutorialManager.OnHexagonPlacedSuccessfully end.*/
+
+            /*TutorialManager.InitializeMaterials start.*/
+            InitializeMaterials: function () {
+if ( TRACE ) { TRACE( "TutorialManager#InitializeMaterials", this ); }
+
+                if (this.backgroundPlaneMaterial != null) {
+                    this.SetMaterialAlpha(this.backgroundPlaneMaterial, "_TintColor", 0.0);
+                }
+
+                if (UnityEngine.Component.op_Inequality(this.backgroundSpriteRenderer, null)) {
+                    this.originalSpriteColor = this.backgroundSpriteRenderer.color.$clone();
+                    var c = this.originalSpriteColor.$clone();
+                    c.a = 0.0;
+                    this.backgroundSpriteRenderer.color = c.$clone();
+                }
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.backgroundTimerImage, null)) {
+                    var c1 = this.backgroundTimerImage.color.$clone();
+                    c1.a = 0.0;
+                    this.backgroundTimerImage.color = c1.$clone();
+                }
+
+                if (this.glowMaterials != null && this.glowMaterials.length > 0) {
+                    this.originalGlowColors = System.Array.init(this.glowMaterials.length, function (){
+                        return new UnityEngine.Color();
+                    }, UnityEngine.Color);
+                    for (var i = 0; i < this.glowMaterials.length; i = (i + 1) | 0) {
+                        if (this.glowMaterials[i] != null) {
+                            this.originalGlowColors[i] = this.glowMaterials[i].color.$clone();
+                            var c2 = this.originalGlowColors[i].$clone();
+                            c2.a = 0.0;
+                            this.glowMaterials[i].color = c2.$clone();
+                        }
+                    }
+                }
+            },
+            /*TutorialManager.InitializeMaterials end.*/
+
+            /*TutorialManager.ResetVisualsToZero start.*/
+            ResetVisualsToZero: function () {
+if ( TRACE ) { TRACE( "TutorialManager#ResetVisualsToZero", this ); }
+
+                var $t, $t1;
+                if (this.backgroundPlaneMaterial != null) {
+                    this.SetMaterialAlpha(this.backgroundPlaneMaterial, "_TintColor", 0.0);
+                }
+
+                if (UnityEngine.Component.op_Inequality(this.backgroundSpriteRenderer, null)) {
+                    var c = this.backgroundSpriteRenderer.color.$clone();
+                    c.a = 0.0;
+                    this.backgroundSpriteRenderer.color = c.$clone();
+                }
+
+                if (UnityEngine.MonoBehaviour.op_Inequality(this.backgroundTimerImage, null)) {
+                    var c1 = this.backgroundTimerImage.color.$clone();
+                    c1.a = 0.0;
+                    this.backgroundTimerImage.color = c1.$clone();
+                }
+
+                if (this.glowMaterials != null) {
+                    $t = Bridge.getEnumerator(this.glowMaterials);
+                    try {
+                        while ($t.moveNext()) {
+                            var m = $t.Current;
+                            if (m != null) {
+                                var c2 = m.color.$clone();
+                                c2.a = 0.0;
+                                m.color = c2.$clone();
+                            }
+                        }
+                    } finally {
+                        if (Bridge.is($t, System.IDisposable)) {
+                            $t.System$IDisposable$Dispose();
+                        }
+                    }
+                }
+
+                if (this.tutorialPoints != null) {
+                    $t1 = Bridge.getEnumerator(this.tutorialPoints);
+                    try {
+                        while ($t1.moveNext()) {
+                            var p = $t1.Current;
+                            if (UnityEngine.GameObject.op_Inequality(p, null)) {
+                                p.SetActive(false);
+                            }
+                        }
+                    } finally {
+                        if (Bridge.is($t1, System.IDisposable)) {
+                            $t1.System$IDisposable$Dispose();
+                        }
+                    }
+                }
+            },
+            /*TutorialManager.ResetVisualsToZero end.*/
+
+            /*TutorialManager.InitializePoints start.*/
+            InitializePoints: function () {
+if ( TRACE ) { TRACE( "TutorialManager#InitializePoints", this ); }
+
+                var $t;
+                if (this.tutorialPoints == null) {
+                    return;
+                }
+                $t = Bridge.getEnumerator(this.tutorialPoints);
+                try {
+                    while ($t.moveNext()) {
+                        var point = $t.Current;
+                        if (UnityEngine.GameObject.op_Inequality(point, null)) {
+                            point.SetActive(false);
+                        }
+                    }
+                } finally {
+                    if (Bridge.is($t, System.IDisposable)) {
+                        $t.System$IDisposable$Dispose();
+                    }
+                }
+            },
+            /*TutorialManager.InitializePoints end.*/
+
+            /*TutorialManager.StartTutorialAnimation start.*/
+            StartTutorialAnimation: function () {
+if ( TRACE ) { TRACE( "TutorialManager#StartTutorialAnimation", this ); }
+
+                this.StartCoroutine$1(this.AnimatePointsSequence());
+            },
+            /*TutorialManager.StartTutorialAnimation end.*/
+
+            /*TutorialManager.AnimateTutorialCursor start.*/
+            AnimateTutorialCursor: function () {
+if ( TRACE ) { TRACE( "TutorialManager#AnimateTutorialCursor", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    cycles,
+                    path,
+                    $t,
+                    point,
+                    rect,
+                    startPos,
+                    i,
+                    targetPos,
+                    journeyLength,
+                    startTime,
+                    segmentDuration,
+                    t,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    if (this.tutorialPoints == null || this.tutorialPoints.length === 0 || UnityEngine.MonoBehaviour.op_Equality(this.tutorialCursorImage, null)) {
+                                            $step = 1;
+                                            continue;
+                                        } 
+                                        $step = 2;
+                                        continue;
+                                }
+                                case 1: {
+                                    return false;
+                                }
+                                case 2: {
+                                    cycles = 0;
+                                    $step = 3;
+                                    continue;
+                                }
+                                case 3: {
+                                    if ( cycles < 2 && !this.HasPlacedSuccessfully ) {
+                                            $step = 4;
+                                            continue;
+                                        } 
+                                        $step = 24;
+                                        continue;
+                                }
+                                case 4: {
+                                    path = new (System.Collections.Generic.List$1(UnityEngine.Vector2)).ctor();
+                                        $t = Bridge.getEnumerator(this.tutorialPoints);
+                                        try {
+                                            while ($t.moveNext()) {
+                                                point = $t.Current;
+                                                if (UnityEngine.GameObject.op_Inequality(point, null)) {
+                                                    rect = point.GetComponent(UnityEngine.RectTransform);
+                                                    if (UnityEngine.Component.op_Inequality(rect, null)) {
+                                                        path.add(rect.anchoredPosition.$clone().add( this.cursorOffset ));
+                                                    }
+                                                }
+                                            }
+                                        } finally {
+                                            if (Bridge.is($t, System.IDisposable)) {
+                                                $t.System$IDisposable$Dispose();
+                                            }
+                                        }
+
+                                        if (path.Count === 0) {
+                                            $step = 5;
+                                            continue;
+                                        } 
+                                        $step = 6;
+                                        continue;
+                                }
+                                case 5: {
+                                    return false;
+                                }
+                                case 6: {
+                                    $enumerator.current = new UnityEngine.WaitUntil(Bridge.fn.bind(this, function () {
+                                            return (UnityEngine.GameObject.op_Inequality(this.tutorialPoints[0], null) && this.tutorialPoints[0].activeSelf) || this.HasPlacedSuccessfully;
+                                        }));
+                                        $step = 7;
+                                        return true;
+                                }
+                                case 7: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 8;
+                                            continue;
+                                        } 
+                                        $step = 9;
+                                        continue;
+                                }
+                                case 8: {
+                                    return false;
+                                }
+                                case 9: {
+                                    this.tutorialCursorImage.gameObject.SetActive(true);
+                                        this.tutorialCursorImage.rectTransform.anchoredPosition = path.getItem(0).$clone();
+
+                                        startPos = path.getItem(0).$clone();
+
+                                        i = 1;
+                                        $step = 10;
+                                        continue;
+                                }
+                                case 10: {
+                                    if ( i < path.Count ) {
+                                            $step = 11;
+                                            continue;
+                                        }
+                                    $step = 20;
+                                    continue;
+                                }
+                                case 11: {
+                                    targetPos = path.getItem(i).$clone();
+
+                                        journeyLength = startPos.$clone().sub( targetPos ).length();
+                                        startTime = UnityEngine.Time.time;
+
+                                        segmentDuration = journeyLength / this.cursorMoveSpeed;
+
+                                        if (segmentDuration > 0.001) {
+                                            $step = 12;
+                                            continue;
+                                        } 
+                                        $step = 16;
+                                        continue;
+                                }
+                                case 12: {
+                                    if ( UnityEngine.Time.time - startTime < segmentDuration && !this.HasPlacedSuccessfully ) {
+                                            $step = 13;
+                                            continue;
+                                        } 
+                                        $step = 15;
+                                        continue;
+                                }
+                                case 13: {
+                                    t = (UnityEngine.Time.time - startTime) / segmentDuration;
+                                        this.tutorialCursorImage.rectTransform.anchoredPosition = new pc.Vec2().lerp( startPos, targetPos, t );
+                                        $enumerator.current = null;
+                                        $step = 14;
+                                        return true;
+                                }
+                                case 14: {
+                                    
+                                        $step = 12;
+                                        continue;
+                                }
+                                case 15: {
+                                    $step = 16;
+                                    continue;
+                                }
+                                case 16: {
+                                    this.tutorialCursorImage.rectTransform.anchoredPosition = targetPos.$clone();
+                                        startPos = targetPos.$clone();
+
+                                        if (this.HasPlacedSuccessfully) {
+                                            $step = 17;
+                                            continue;
+                                        } 
+                                        $step = 18;
+                                        continue;
+                                }
+                                case 17: {
+                                    return false;
+                                }
+                                case 18: {
+                                    $step = 19;
+                                    continue;
+                                }
+                                case 19: {
+                                    i = (i + 1) | 0;
+                                    $step = 10;
+                                    continue;
+                                }
+                                case 20: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 21;
+                                            continue;
+                                        } 
+                                        $step = 22;
+                                        continue;
+                                }
+                                case 21: {
+                                    return false;
+                                }
+                                case 22: {
+                                    $enumerator.current = new UnityEngine.WaitUntil(Bridge.fn.bind(this, function () {
+                                            return (UnityEngine.GameObject.op_Inequality(this.tutorialPoints[0], null) && !this.tutorialPoints[0].activeSelf) || this.HasPlacedSuccessfully;
+                                        }));
+                                        $step = 23;
+                                        return true;
+                                }
+                                case 23: {
+                                    if (!this.HasPlacedSuccessfully) {
+                                            this.tutorialCursorImage.gameObject.SetActive(false);
+                                        }
+
+                                        cycles = (cycles + 1) | 0;
+
+                                        $step = 3;
+                                        continue;
+                                }
+                                case 24: {
+                                    this.tutorialCursorImage.gameObject.SetActive(false);
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.AnimateTutorialCursor end.*/
+
+            /*TutorialManager.AnimatePointsSequence start.*/
+            AnimatePointsSequence: function () {
+if ( TRACE ) { TRACE( "TutorialManager#AnimatePointsSequence", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    delayPerItem,
+                    cycles,
+                    i,
+                    $t,
+                    item,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    if (this.tutorialPoints == null || this.tutorialPoints.length === 0) {
+                                            $step = 1;
+                                            continue;
+                                        } 
+                                        $step = 2;
+                                        continue;
+                                }
+                                case 1: {
+                                    return false;
+                                }
+                                case 2: {
+                                    $enumerator.current = this.StartCoroutine$1(this.FadeBackgrounds(true));
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    $enumerator.current = this.StartCoroutine$1(this.FadeGlows(true));
+                                        $step = 4;
+                                        return true;
+                                }
+                                case 4: {
+                                    delayPerItem = this.totalDuration / this.tutorialPoints.length;
+                                        cycles = 0;
+                                    $step = 5;
+                                    continue;
+                                }
+                                case 5: {
+                                    if ( cycles < 2 && !this.HasPlacedSuccessfully ) {
+                                            $step = 6;
+                                            continue;
+                                        } 
+                                        $step = 18;
+                                        continue;
+                                }
+                                case 6: {
+                                    i = 0;
+                                        $step = 7;
+                                        continue;
+                                }
+                                case 7: {
+                                    if ( i < this.tutorialPoints.length ) {
+                                            $step = 8;
+                                            continue;
+                                        }
+                                    $step = 13;
+                                    continue;
+                                }
+                                case 8: {
+                                    if (UnityEngine.GameObject.op_Inequality(this.tutorialPoints[i], null)) {
+                                            this.tutorialPoints[i].SetActive(true);
+                                        }
+
+                                        $enumerator.current = new UnityEngine.WaitForSeconds(delayPerItem);
+                                        $step = 9;
+                                        return true;
+                                }
+                                case 9: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 10;
+                                            continue;
+                                        } 
+                                        $step = 11;
+                                        continue;
+                                }
+                                case 10: {
+                                    return false;
+                                }
+                                case 11: {
+                                    $step = 12;
+                                    continue;
+                                }
+                                case 12: {
+                                    i = (i + 1) | 0;
+                                    $step = 7;
+                                    continue;
+                                }
+                                case 13: {
+                                    if (this.HasPlacedSuccessfully) {
+                                            $step = 14;
+                                            continue;
+                                        } 
+                                        $step = 15;
+                                        continue;
+                                }
+                                case 14: {
+                                    return false;
+                                }
+                                case 15: {
+                                    $enumerator.current = new UnityEngine.WaitForSeconds(this.pauseDuration);
+                                        $step = 16;
+                                        return true;
+                                }
+                                case 16: {
+                                    $t = Bridge.getEnumerator(this.tutorialPoints);
+                                        try {
+                                            while ($t.moveNext()) {
+                                                item = $t.Current;
+                                                if (UnityEngine.GameObject.op_Inequality(item, null)) {
+                                                    item.SetActive(false);
+                                                }
+                                            }
+                                        } finally {
+                                            if (Bridge.is($t, System.IDisposable)) {
+                                                $t.System$IDisposable$Dispose();
+                                            }
+                                        }
+
+                                        $enumerator.current = new UnityEngine.WaitForSeconds(0.1);
+                                        $step = 17;
+                                        return true;
+                                }
+                                case 17: {
+                                    cycles = (cycles + 1) | 0;
+
+                                        $step = 5;
+                                        continue;
+                                }
+                                case 18: {
+                                    if (!this.HasPlacedSuccessfully) {
+                                            $step = 19;
+                                            continue;
+                                        } 
+                                        $step = 22;
+                                        continue;
+                                }
+                                case 19: {
+                                    $enumerator.current = this.StartCoroutine$1(this.FadeGlows(false));
+                                        $step = 20;
+                                        return true;
+                                }
+                                case 20: {
+                                    $enumerator.current = this.StartCoroutine$1(this.FadeBackgrounds(false));
+                                        $step = 21;
+                                        return true;
+                                }
+                                case 21: {
+                                    $step = 22;
+                                    continue;
+                                }
+                                case 22: {
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.AnimatePointsSequence end.*/
+
+            /*TutorialManager.FadeBackgrounds start.*/
+            FadeBackgrounds: function (fadeIn) {
+if ( TRACE ) { TRACE( "TutorialManager#FadeBackgrounds", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    elapsed,
+                    startPlaneColor,
+                    targetPlaneColor,
+                    startSpriteColor,
+                    targetSpriteColor,
+                    startTimerColor,
+                    targetTimerColor,
+                    t,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    elapsed = 0.0;
+
+                                        startPlaneColor = this.backgroundPlaneMaterial != null ? this.backgroundPlaneMaterial.GetColor$1("_TintColor") : new pc.Color( 0, 0, 0, 0 );
+                                        targetPlaneColor = startPlaneColor.$clone();
+                                        targetPlaneColor.a = fadeIn ? this.targetAlpha : 0.0;
+
+                                        startSpriteColor = UnityEngine.Component.op_Inequality(this.backgroundSpriteRenderer, null) ? this.backgroundSpriteRenderer.color.$clone() : new pc.Color( 0, 0, 0, 0 );
+                                        targetSpriteColor = startSpriteColor.$clone();
+                                        targetSpriteColor.a = fadeIn ? this.targetAlpha : 0.0;
+
+                                        startTimerColor = UnityEngine.MonoBehaviour.op_Inequality(this.backgroundTimerImage, null) ? this.backgroundTimerImage.color.$clone() : new pc.Color( 0, 0, 0, 0 );
+                                        targetTimerColor = startTimerColor.$clone();
+                                        targetTimerColor.a = fadeIn ? this.targetAlpha : 0.0;
+                                    $step = 1;
+                                    continue;
+                                }
+                                case 1: {
+                                    if ( elapsed < this.backgroundFadeDuration ) {
+                                            $step = 2;
+                                            continue;
+                                        } 
+                                        $step = 4;
+                                        continue;
+                                }
+                                case 2: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t = Math.max(0, Math.min(1, elapsed / this.backgroundFadeDuration));
+
+                                        if (this.backgroundPlaneMaterial != null) {
+                                            this.backgroundPlaneMaterial.SetColor$1("_TintColor", pc.Color.lerp( startPlaneColor, targetPlaneColor, t ));
+                                        }
+
+                                        if (UnityEngine.Component.op_Inequality(this.backgroundSpriteRenderer, null)) {
+                                            this.backgroundSpriteRenderer.color = pc.Color.lerp( startSpriteColor, targetSpriteColor, t );
+                                        }
+
+                                        if (UnityEngine.MonoBehaviour.op_Inequality(this.backgroundTimerImage, null)) {
+                                            this.backgroundTimerImage.color = pc.Color.lerp( startTimerColor, targetTimerColor, t );
+                                        }
+
+                                        $enumerator.current = null;
+                                        $step = 3;
+                                        return true;
+                                }
+                                case 3: {
+                                    
+                                        $step = 1;
+                                        continue;
+                                }
+                                case 4: {
+                                    if (this.backgroundPlaneMaterial != null) {
+                                            this.backgroundPlaneMaterial.SetColor$1("_TintColor", targetPlaneColor);
+                                        }
+
+                                        if (UnityEngine.Component.op_Inequality(this.backgroundSpriteRenderer, null)) {
+                                            this.backgroundSpriteRenderer.color = targetSpriteColor.$clone();
+                                        }
+
+                                        if (UnityEngine.MonoBehaviour.op_Inequality(this.backgroundTimerImage, null)) {
+                                            this.backgroundTimerImage.color = targetTimerColor.$clone();
+                                        }
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.FadeBackgrounds end.*/
+
+            /*TutorialManager.FadeGlows start.*/
+            FadeGlows: function (fadeIn) {
+if ( TRACE ) { TRACE( "TutorialManager#FadeGlows", this ); }
+
+                var $step = 0,
+                    $jumpFromFinally,
+                    $returnValue,
+                    elapsed,
+                    startColors,
+                    targetColors,
+                    t,
+                    $async_e;
+
+                var $enumerator = new Bridge.GeneratorEnumerator(Bridge.fn.bind(this, function () {
+                    try {
+                        for (;;) {
+                            switch ($step) {
+                                case 0: {
+                                    if (this.glowMaterials == null || this.glowMaterials.length === 0) {
+                                            $step = 1;
+                                            continue;
+                                        } 
+                                        $step = 2;
+                                        continue;
+                                }
+                                case 1: {
+                                    return false;
+                                }
+                                case 2: {
+                                    elapsed = 0.0;
+                                        startColors = System.Array.init(this.glowMaterials.length, function (){
+                                            return new UnityEngine.Color();
+                                        }, UnityEngine.Color);
+                                        targetColors = System.Array.init(this.glowMaterials.length, function (){
+                                            return new UnityEngine.Color();
+                                        }, UnityEngine.Color);
+
+                                        for (var i = 0; i < this.glowMaterials.length; i = (i + 1) | 0) {
+                                            if (this.glowMaterials[i] != null) {
+                                                startColors[i] = this.glowMaterials[i].color.$clone();
+                                                targetColors[i] = startColors[i].$clone();
+                                                targetColors[i].a = fadeIn ? this.targetAlpha : 0.0;
+                                            }
+                                        }
+                                    $step = 3;
+                                    continue;
+                                }
+                                case 3: {
+                                    if ( elapsed < this.glowFadeDuration ) {
+                                            $step = 4;
+                                            continue;
+                                        } 
+                                        $step = 6;
+                                        continue;
+                                }
+                                case 4: {
+                                    elapsed += UnityEngine.Time.deltaTime;
+                                        t = Math.max(0, Math.min(1, elapsed / this.glowFadeDuration));
+                                        for (var i1 = 0; i1 < this.glowMaterials.length; i1 = (i1 + 1) | 0) {
+                                            if (this.glowMaterials[i1] != null) {
+                                                this.glowMaterials[i1].color = pc.Color.lerp( startColors[i1], targetColors[i1], t );
+                                            }
+                                        }
+                                        $enumerator.current = null;
+                                        $step = 5;
+                                        return true;
+                                }
+                                case 5: {
+                                    
+                                        $step = 3;
+                                        continue;
+                                }
+                                case 6: {
+                                    for (var i2 = 0; i2 < this.glowMaterials.length; i2 = (i2 + 1) | 0) {
+                                            if (this.glowMaterials[i2] != null) {
+                                                this.glowMaterials[i2].color = targetColors[i2].$clone();
+                                            }
+                                        }
+
+                                }
+                                default: {
+                                    return false;
+                                }
+                            }
+                        }
+                    } catch($async_e1) {
+                        $async_e = System.Exception.create($async_e1);
+                        throw $async_e;
+                    }
+                }));
+                return $enumerator;
+            },
+            /*TutorialManager.FadeGlows end.*/
+
+            /*TutorialManager.SetMaterialAlpha start.*/
+            SetMaterialAlpha: function (mat, propName, alpha) {
+if ( TRACE ) { TRACE( "TutorialManager#SetMaterialAlpha", this ); }
+
+                if (mat == null) {
+                    return;
+                }
+                var c = mat.GetColor$1(propName);
+                c.a = alpha;
+                mat.SetColor$1(propName, c);
+            },
+            /*TutorialManager.SetMaterialAlpha end.*/
+
+
+        }
+    });
+    /*TutorialManager end.*/
+
     if ( MODULE_reflection ) {
     var $m = Bridge.setMetadata,
-        $n = ["System","UnityEngine","System.Collections","System.Collections.Generic"];
+        $n = ["System","UnityEngine","System.Collections","System.Collections.Generic","UnityEngine.UI"];
 
     /*Hexagon start.*/
     $m("Hexagon", function () { return {"nested":[Hexagon.HexagonColor,Hexagon.ColorMaterialPair],"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":2,"n":"GetColor","t":8,"sn":"GetColor","rt":Hexagon.HexagonColor,"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":2,"n":"IdentifyColorByMaterial","t":8,"sn":"IdentifyColorByMaterial","rt":$n[0].Void},{"a":2,"n":"Init","t":8,"pi":[{"n":"color","pt":Hexagon.HexagonColor,"ps":0}],"sn":"Init","rt":$n[0].Void,"p":[Hexagon.HexagonColor]},{"a":2,"n":"IsInitialized","t":8,"sn":"IsInitialized","rt":$n[0].Boolean,"box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"JumpCoroutine","t":8,"pi":[{"n":"targetPosition","pt":$n[1].Vector3,"ps":0},{"n":"targetRotation","pt":$n[1].Quaternion,"ps":1},{"n":"onComplete","pt":Function,"ps":2},{"n":"speedMultiplier","pt":$n[0].Single,"ps":3}],"sn":"JumpCoroutine","rt":$n[2].IEnumerator,"p":[$n[1].Vector3,$n[1].Quaternion,Function,$n[0].Single]},{"a":2,"n":"PlayJumpAnimation","t":8,"pi":[{"n":"targetPosition","pt":$n[1].Vector3,"ps":0},{"n":"targetRotation","pt":$n[1].Quaternion,"ps":1},{"n":"onComplete","dv":null,"o":true,"pt":Function,"ps":2},{"n":"speedMultiplier","dv":1.0,"o":true,"pt":$n[0].Single,"ps":3}],"sn":"PlayJumpAnimation","rt":$n[0].Void,"p":[$n[1].Vector3,$n[1].Quaternion,Function,$n[0].Single]},{"a":2,"n":"PlayRemoveAnimation","t":8,"pi":[{"n":"onComplete","dv":null,"o":true,"pt":Function,"ps":0}],"sn":"PlayRemoveAnimation","rt":$n[0].Void,"p":[Function]},{"a":1,"n":"RemoveCoroutine","t":8,"pi":[{"n":"onComplete","pt":Function,"ps":0}],"sn":"RemoveCoroutine","rt":$n[2].IEnumerator,"p":[Function]},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"anchors","t":4,"rt":System.Array.type(UnityEngine.Transform),"sn":"anchors"},{"a":2,"n":"colorMaterials","t":4,"rt":System.Array.type(Hexagon.ColorMaterialPair),"sn":"colorMaterials"},{"a":1,"n":"currentColor","t":4,"rt":Hexagon.HexagonColor,"sn":"currentColor","box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"hexRenderer","t":4,"rt":$n[1].Renderer,"sn":"hexRenderer"},{"a":1,"n":"isInitialized","t":4,"rt":$n[0].Boolean,"sn":"isInitialized","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"jumpCurve","t":4,"rt":pc.AnimationCurve,"sn":"jumpCurve"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"jumpDuration","t":4,"rt":$n[0].Single,"sn":"jumpDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"jumpHeight","t":4,"rt":$n[0].Single,"sn":"jumpHeight","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"removeCurve","t":4,"rt":pc.AnimationCurve,"sn":"removeCurve"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"removeScaleDuration","t":4,"rt":$n[0].Single,"sn":"removeScaleDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}}]}; }, $n);
@@ -3105,11 +5218,11 @@ if ( TRACE ) { TRACE( "StackManager#RefillAllStacks", this ); }
     /*PlatformManager+MoveDecision end.*/
 
     /*DragAndDrop start.*/
-    $m("DragAndDrop", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"OnMouseDown","t":8,"sn":"OnMouseDown","rt":$n[0].Void},{"a":1,"n":"OnMouseUp","t":8,"sn":"OnMouseUp","rt":$n[0].Void},{"a":1,"n":"PlayUnavailableAnimation","t":8,"sn":"PlayUnavailableAnimation","rt":$n[2].IEnumerator},{"a":1,"n":"Update","t":8,"sn":"Update","rt":$n[0].Void},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"clampMaxY","t":4,"rt":$n[0].Single,"sn":"clampMaxY","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"clampMinY","t":4,"rt":$n[0].Single,"sn":"clampMinY","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.HeaderAttribute("Cursor"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"cursorFollower","t":4,"rt":CursorFollower,"sn":"cursorFollower"},{"a":1,"n":"isAnimating","t":4,"rt":$n[0].Boolean,"sn":"isAnimating","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"isDragging","t":4,"rt":$n[0].Boolean,"sn":"isDragging","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"liftSpeed","t":4,"rt":$n[0].Single,"sn":"liftSpeed","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainCamera","t":4,"rt":$n[1].Camera,"sn":"mainCamera"},{"a":1,"n":"offset","t":4,"rt":$n[1].Vector3,"sn":"offset"},{"at":[new UnityEngine.HeaderAttribute("Unavailable Animation"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeAmount","t":4,"rt":$n[0].Single,"sn":"shakeAmount","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeDuration","t":4,"rt":$n[0].Single,"sn":"shakeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeSteps","t":4,"rt":$n[0].Int32,"sn":"shakeSteps","box":function ($v) { return Bridge.box($v, System.Int32);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"smoothLiftCurve","t":4,"rt":pc.AnimationCurve,"sn":"smoothLiftCurve"},{"a":1,"n":"stackComponent","t":4,"rt":Stack,"sn":"stackComponent"}]}; }, $n);
+    $m("DragAndDrop", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"OnMouseDown","t":8,"sn":"OnMouseDown","rt":$n[0].Void},{"a":1,"n":"OnMouseUp","t":8,"sn":"OnMouseUp","rt":$n[0].Void},{"a":1,"n":"PlayUnavailableAnimation","t":8,"sn":"PlayUnavailableAnimation","rt":$n[2].IEnumerator},{"a":1,"n":"Update","t":8,"sn":"Update","rt":$n[0].Void},{"a":2,"n":"IsDraggingAny","is":true,"t":16,"rt":$n[0].Boolean,"g":{"a":2,"n":"get_IsDraggingAny","t":8,"rt":$n[0].Boolean,"fg":"IsDraggingAny","is":true,"box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},"s":{"a":1,"n":"set_IsDraggingAny","t":8,"p":[$n[0].Boolean],"rt":$n[0].Void,"fs":"IsDraggingAny","is":true},"fn":"IsDraggingAny"},{"a":1,"n":"__Property__Initializer__IsDraggingAny","is":true,"t":4,"rt":$n[0].Boolean,"sn":"__Property__Initializer__IsDraggingAny","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"clampMaxY","t":4,"rt":$n[0].Single,"sn":"clampMaxY","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"clampMinY","t":4,"rt":$n[0].Single,"sn":"clampMinY","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.HeaderAttribute("Cursor"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"cursorFollower","t":4,"rt":CursorFollower,"sn":"cursorFollower"},{"a":1,"n":"isAnimating","t":4,"rt":$n[0].Boolean,"sn":"isAnimating","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"isDragging","t":4,"rt":$n[0].Boolean,"sn":"isDragging","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"liftSpeed","t":4,"rt":$n[0].Single,"sn":"liftSpeed","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainCamera","t":4,"rt":$n[1].Camera,"sn":"mainCamera"},{"a":1,"n":"offset","t":4,"rt":$n[1].Vector3,"sn":"offset"},{"at":[new UnityEngine.HeaderAttribute("Unavailable Animation"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeAmount","t":4,"rt":$n[0].Single,"sn":"shakeAmount","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeDuration","t":4,"rt":$n[0].Single,"sn":"shakeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeSteps","t":4,"rt":$n[0].Int32,"sn":"shakeSteps","box":function ($v) { return Bridge.box($v, System.Int32);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"smoothLiftCurve","t":4,"rt":pc.AnimationCurve,"sn":"smoothLiftCurve"},{"a":1,"n":"stackComponent","t":4,"rt":Stack,"sn":"stackComponent"},{"a":1,"backing":true,"n":"<IsDraggingAny>k__BackingField","is":true,"t":4,"rt":$n[0].Boolean,"sn":"IsDraggingAny","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}}]}; }, $n);
     /*DragAndDrop end.*/
 
     /*FillStack start.*/
-    $m("FillStack", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":2,"n":"GenerateBlocks","t":8,"sn":"GenerateBlocks","rt":$n[0].Void},{"a":1,"n":"GetExistingColorsFromField","t":8,"sn":"GetExistingColorsFromField","rt":$n[3].List$1(Hexagon.HexagonColor)},{"a":1,"n":"GetRandomColor","t":8,"sn":"GetRandomColor","rt":Hexagon.HexagonColor,"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":1,"n":"GetRandomColorExcept","t":8,"pi":[{"n":"exclude","pt":Hexagon.HexagonColor,"ps":0}],"sn":"GetRandomColorExcept","rt":Hexagon.HexagonColor,"p":[Hexagon.HexagonColor],"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":1,"n":"GetSmartRandomColor","t":8,"sn":"GetSmartRandomColor","rt":Hexagon.HexagonColor,"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":1,"n":"HeightStep","is":true,"t":4,"rt":$n[0].Single,"sn":"HeightStep","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"hexagonPrefab","t":4,"rt":$n[1].GameObject,"sn":"hexagonPrefab"}]}; }, $n);
+    $m("FillStack", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":2,"n":"GenerateBlocks","t":8,"sn":"GenerateBlocks","rt":$n[0].Void},{"a":1,"n":"GetExistingColorsFromField","t":8,"sn":"GetExistingColorsFromField","rt":$n[3].List$1(Hexagon.HexagonColor)},{"a":1,"n":"GetRandomColor","t":8,"sn":"GetRandomColor","rt":Hexagon.HexagonColor,"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":1,"n":"GetSmartRandomColor","t":8,"sn":"GetSmartRandomColor","rt":Hexagon.HexagonColor,"box":function ($v) { return Bridge.box($v, Hexagon.HexagonColor, System.Enum.toStringFn(Hexagon.HexagonColor));}},{"a":1,"n":"HeightStep","is":true,"t":4,"rt":$n[0].Single,"sn":"HeightStep","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"hexagonPrefab","t":4,"rt":$n[1].GameObject,"sn":"hexagonPrefab"}]}; }, $n);
     /*FillStack end.*/
 
     /*Stack start.*/
@@ -3120,9 +5233,29 @@ if ( TRACE ) { TRACE( "StackManager#RefillAllStacks", this ); }
     $m("StackManager", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"AreAllStacksEmpty","t":8,"sn":"AreAllStacksEmpty","rt":$n[0].Boolean,"box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"HandleRefill","t":8,"sn":"HandleRefill","rt":$n[0].Void},{"a":2,"n":"OnStackEmptied","t":8,"pi":[{"n":"stack","pt":Stack,"ps":0}],"sn":"OnStackEmptied","rt":$n[0].Void,"p":[Stack]},{"a":1,"n":"RefillAllStacks","t":8,"sn":"RefillAllStacks","rt":$n[0].Void},{"a":1,"n":"WaitForChainReactionAndRefill","t":8,"sn":"WaitForChainReactionAndRefill","rt":$n[2].IEnumerator},{"a":2,"n":"Instance","is":true,"t":16,"rt":StackManager,"g":{"a":2,"n":"get_Instance","t":8,"rt":StackManager,"fg":"Instance","is":true},"s":{"a":1,"n":"set_Instance","t":8,"p":[StackManager],"rt":$n[0].Void,"fs":"Instance","is":true},"fn":"Instance"},{"a":1,"n":"isRefilling","t":4,"rt":$n[0].Boolean,"sn":"isRefilling","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"stacks","t":4,"rt":$n[3].List$1(Stack),"sn":"stacks"},{"a":1,"backing":true,"n":"<Instance>k__BackingField","is":true,"t":4,"rt":StackManager,"sn":"Instance"}]}; }, $n);
     /*StackManager end.*/
 
+    /*TimeManager start.*/
+    $m("TimeManager", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"DoPulse","t":8,"sn":"DoPulse","rt":$n[2].IEnumerator},{"a":1,"n":"OnTimerFinished","t":8,"sn":"OnTimerFinished","rt":$n[0].Void},{"a":1,"n":"PlayAlarmAnimation","t":8,"sn":"PlayAlarmAnimation","rt":$n[2].IEnumerator},{"a":1,"n":"PulseLoop","t":8,"sn":"PulseLoop","rt":$n[2].IEnumerator},{"a":1,"n":"ResetBorders","t":8,"sn":"ResetBorders","rt":$n[0].Void},{"a":1,"n":"RunTimer","t":8,"sn":"RunTimer","rt":$n[2].IEnumerator},{"at":[new UnityEngine.ContextMenu.ctor("StartTimer")],"a":2,"n":"StartGame","t":8,"sn":"StartGame","rt":$n[0].Void},{"a":2,"n":"StopGame","t":8,"sn":"StopGame","rt":$n[0].Void},{"a":2,"n":"Instance","is":true,"t":16,"rt":TimeManager,"g":{"a":2,"n":"get_Instance","t":8,"rt":TimeManager,"fg":"Instance","is":true},"s":{"a":1,"n":"set_Instance","t":8,"p":[TimeManager],"rt":$n[0].Void,"fs":"Instance","is":true},"fn":"Instance"},{"a":1,"n":"_alarmCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"_alarmCoroutine"},{"a":1,"n":"_isRunning","t":4,"rt":$n[0].Boolean,"sn":"_isRunning","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"_origArrowPos","t":4,"rt":$n[1].Vector3,"sn":"_origArrowPos"},{"a":1,"n":"_origArrowRot","t":4,"rt":$n[1].Vector3,"sn":"_origArrowRot"},{"a":1,"n":"_origArrowScale","t":4,"rt":$n[1].Vector3,"sn":"_origArrowScale"},{"a":1,"n":"_origTimerPos","t":4,"rt":$n[1].Vector3,"sn":"_origTimerPos"},{"a":1,"n":"_origTimerRot","t":4,"rt":$n[1].Vector3,"sn":"_origTimerRot"},{"a":1,"n":"_origTimerScale","t":4,"rt":$n[1].Vector3,"sn":"_origTimerScale"},{"a":1,"n":"_pulseCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"_pulseCoroutine"},{"a":1,"n":"_timerCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"_timerCoroutine"},{"at":[new UnityEngine.HeaderAttribute("Alarm Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"alarmDuration","t":4,"rt":$n[0].Single,"sn":"alarmDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"arrowImage","t":4,"rt":$n[4].Image,"sn":"arrowImage"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"arrowParentRectTransform","t":4,"rt":$n[1].RectTransform,"sn":"arrowParentRectTransform"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"endColor","t":4,"rt":$n[1].Color,"sn":"endColor"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"gameDuration","t":4,"rt":$n[0].Single,"sn":"gameDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"maxScaleMultiplier","t":4,"rt":$n[0].Single,"sn":"maxScaleMultiplier","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"midColor","t":4,"rt":$n[1].Color,"sn":"midColor"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pauseDuration","t":4,"rt":$n[0].Single,"sn":"pauseDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pulseColor","t":4,"rt":$n[1].Color,"sn":"pulseColor"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pulseDuration","t":4,"rt":$n[0].Single,"sn":"pulseDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.HeaderAttribute("Pulse Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pulseThreshold","t":4,"rt":$n[0].Single,"sn":"pulseThreshold","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeAmount","t":4,"rt":$n[0].Single,"sn":"shakeAmount","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeRotationAmount","t":4,"rt":$n[0].Single,"sn":"shakeRotationAmount","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shakeSpeed","t":4,"rt":$n[0].Single,"sn":"shakeSpeed","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"sliderBorderImage","t":4,"rt":$n[4].Image,"sn":"sliderBorderImage"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"sliderFillImage","t":4,"rt":$n[4].Image,"sn":"sliderFillImage"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"startColor","t":4,"rt":$n[1].Color,"sn":"startColor"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"timeSlider","t":4,"rt":$n[4].Slider,"sn":"timeSlider"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"timerBorderImage","t":4,"rt":$n[4].Image,"sn":"timerBorderImage"},{"a":1,"backing":true,"n":"<Instance>k__BackingField","is":true,"t":4,"rt":TimeManager,"sn":"Instance"}]}; }, $n);
+    /*TimeManager end.*/
+
+    /*TutorialManager start.*/
+    $m("TutorialManager", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"AnimatePointsSequence","t":8,"sn":"AnimatePointsSequence","rt":$n[2].IEnumerator},{"a":1,"n":"AnimateTutorialCursor","t":8,"sn":"AnimateTutorialCursor","rt":$n[2].IEnumerator},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"FadeBackgrounds","t":8,"pi":[{"n":"fadeIn","pt":$n[0].Boolean,"ps":0}],"sn":"FadeBackgrounds","rt":$n[2].IEnumerator,"p":[$n[0].Boolean]},{"a":1,"n":"FadeGlows","t":8,"pi":[{"n":"fadeIn","pt":$n[0].Boolean,"ps":0}],"sn":"FadeGlows","rt":$n[2].IEnumerator,"p":[$n[0].Boolean]},{"a":1,"n":"InitializeMaterials","t":8,"sn":"InitializeMaterials","rt":$n[0].Void},{"a":1,"n":"InitializePoints","t":8,"sn":"InitializePoints","rt":$n[0].Void},{"a":2,"n":"OnHexagonPlacedSuccessfully","t":8,"sn":"OnHexagonPlacedSuccessfully","rt":$n[0].Void},{"a":1,"n":"ResetVisualsToZero","t":8,"sn":"ResetVisualsToZero","rt":$n[0].Void},{"a":1,"n":"SetMaterialAlpha","t":8,"pi":[{"n":"mat","pt":$n[1].Material,"ps":0},{"n":"propName","pt":$n[0].String,"ps":1},{"n":"alpha","pt":$n[0].Single,"ps":2}],"sn":"SetMaterialAlpha","rt":$n[0].Void,"p":[$n[1].Material,$n[0].String,$n[0].Single]},{"a":1,"n":"Start","t":8,"sn":"Start","rt":$n[0].Void},{"at":[new UnityEngine.ContextMenu.ctor("StartAnim")],"a":2,"n":"StartTutorialAnimation","t":8,"sn":"StartTutorialAnimation","rt":$n[0].Void},{"a":1,"n":"StartTutorialWithDelay","t":8,"sn":"StartTutorialWithDelay","rt":$n[2].IEnumerator},{"a":1,"n":"TutorialMainLoop","t":8,"sn":"TutorialMainLoop","rt":$n[2].IEnumerator},{"a":1,"n":"WaitForGlobalCooldown","t":8,"sn":"WaitForGlobalCooldown","rt":$n[2].IEnumerator},{"a":1,"n":"WaitForIdleState","t":8,"sn":"WaitForIdleState","rt":$n[2].IEnumerator},{"a":2,"n":"HasPlacedSuccessfully","t":16,"rt":$n[0].Boolean,"g":{"a":2,"n":"get_HasPlacedSuccessfully","t":8,"rt":$n[0].Boolean,"fg":"HasPlacedSuccessfully","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},"s":{"a":1,"n":"set_HasPlacedSuccessfully","t":8,"p":[$n[0].Boolean],"rt":$n[0].Void,"fs":"HasPlacedSuccessfully"},"fn":"HasPlacedSuccessfully"},{"a":2,"n":"Instance","is":true,"t":16,"rt":TutorialManager,"g":{"a":2,"n":"get_Instance","t":8,"rt":TutorialManager,"fg":"Instance","is":true},"s":{"a":1,"n":"set_Instance","t":8,"p":[TutorialManager],"rt":$n[0].Void,"fs":"Instance","is":true},"fn":"Instance"},{"a":2,"n":"IsInputBlocked","t":16,"rt":$n[0].Boolean,"g":{"a":2,"n":"get_IsInputBlocked","t":8,"rt":$n[0].Boolean,"fg":"IsInputBlocked","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},"s":{"a":1,"n":"set_IsInputBlocked","t":8,"p":[$n[0].Boolean],"rt":$n[0].Void,"fs":"IsInputBlocked"},"fn":"IsInputBlocked"},{"a":1,"n":"__Property__Initializer__HasPlacedSuccessfully","t":4,"rt":$n[0].Boolean,"sn":"__Property__Initializer__HasPlacedSuccessfully","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"__Property__Initializer__IsInputBlocked","t":4,"rt":$n[0].Boolean,"sn":"__Property__Initializer__IsInputBlocked","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.HeaderAttribute("Fade Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"backgroundFadeDuration","t":4,"rt":$n[0].Single,"sn":"backgroundFadeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"backgroundPlaneMaterial","t":4,"rt":$n[1].Material,"sn":"backgroundPlaneMaterial"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"backgroundSpriteRenderer","t":4,"rt":$n[1].SpriteRenderer,"sn":"backgroundSpriteRenderer"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"backgroundTimerImage","t":4,"rt":$n[4].Image,"sn":"backgroundTimerImage"},{"at":[new UnityEngine.HeaderAttribute("References"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"cursorFollower","t":4,"rt":CursorFollower,"sn":"cursorFollower"},{"a":1,"n":"cursorLoopCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"cursorLoopCoroutine"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"cursorMoveSpeed","t":4,"rt":$n[0].Single,"sn":"cursorMoveSpeed","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.HeaderAttribute("Cursor Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"cursorOffset","t":4,"rt":$n[1].Vector2,"sn":"cursorOffset"},{"at":[new UnityEngine.HeaderAttribute("Logic Timings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"globalCooldownDuration","t":4,"rt":$n[0].Single,"sn":"globalCooldownDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"glowFadeDuration","t":4,"rt":$n[0].Single,"sn":"glowFadeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"glowMaterials","t":4,"rt":System.Array.type(UnityEngine.Material),"sn":"glowMaterials"},{"a":1,"n":"mainLoopCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"mainLoopCoroutine"},{"a":1,"n":"originalGlowColors","t":4,"rt":System.Array.type(UnityEngine.Color),"sn":"originalGlowColors"},{"a":1,"n":"originalSpriteColor","t":4,"rt":$n[1].Color,"sn":"originalSpriteColor"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pauseDuration","t":4,"rt":$n[0].Single,"sn":"pauseDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"releaseCheckDelay","t":4,"rt":$n[0].Single,"sn":"releaseCheckDelay","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"targetAlpha","t":4,"rt":$n[0].Single,"sn":"targetAlpha","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.HeaderAttribute("Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"totalDuration","t":4,"rt":$n[0].Single,"sn":"totalDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"tutorialCursorImage","t":4,"rt":$n[4].RawImage,"sn":"tutorialCursorImage"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"tutorialPoints","t":4,"rt":System.Array.type(UnityEngine.GameObject),"sn":"tutorialPoints"},{"a":1,"backing":true,"n":"<HasPlacedSuccessfully>k__BackingField","t":4,"rt":$n[0].Boolean,"sn":"HasPlacedSuccessfully","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"backing":true,"n":"<Instance>k__BackingField","is":true,"t":4,"rt":TutorialManager,"sn":"Instance"},{"a":1,"backing":true,"n":"<IsInputBlocked>k__BackingField","t":4,"rt":$n[0].Boolean,"sn":"IsInputBlocked","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}}]}; }, $n);
+    /*TutorialManager end.*/
+
+    /*BakeHelper start.*/
+    $m("BakeHelper", function () { return {"nested":[BakeHelper.TransformData],"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"at":[new UnityEngine.ContextMenu.ctor("Apply End Group")],"a":2,"n":"ApplyEndGroup","t":8,"sn":"ApplyEndGroup","rt":$n[0].Void},{"at":[new UnityEngine.ContextMenu.ctor("Apply Start Group")],"a":2,"n":"ApplyStartGroup","t":8,"sn":"ApplyStartGroup","rt":$n[0].Void},{"at":[new UnityEngine.ContextMenu.ctor("Bake End Group")],"a":2,"n":"BakeEndGroup","t":8,"sn":"BakeEndGroup","rt":$n[0].Void},{"at":[new UnityEngine.ContextMenu.ctor("Bake Start Group")],"a":2,"n":"BakeStartGroup","t":8,"sn":"BakeStartGroup","rt":$n[0].Void},{"a":2,"n":"endGroup","t":4,"rt":$n[3].List$1(BakeHelper.TransformData),"sn":"endGroup"},{"a":2,"n":"startGroup","t":4,"rt":$n[3].List$1(BakeHelper.TransformData),"sn":"startGroup"}]}; }, $n);
+    /*BakeHelper end.*/
+
+    /*BakeHelper+TransformData start.*/
+    $m("BakeHelper.TransformData", function () { return {"td":BakeHelper,"att":1056770,"a":2,"at":[new System.SerializableAttribute()],"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":2,"n":"position","t":4,"rt":$n[1].Vector3,"sn":"position"},{"a":2,"n":"rotation","t":4,"rt":$n[1].Quaternion,"sn":"rotation"},{"a":2,"n":"scale","t":4,"rt":$n[1].Vector3,"sn":"scale"},{"a":2,"n":"target","t":4,"rt":$n[1].Transform,"sn":"target"}]}; }, $n);
+    /*BakeHelper+TransformData end.*/
+
     /*CursorFollower start.*/
-    $m("CursorFollower", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"FadeCoroutine","t":8,"pi":[{"n":"targetVisible","pt":$n[0].Boolean,"ps":0}],"sn":"FadeCoroutine","rt":$n[2].IEnumerator,"p":[$n[0].Boolean]},{"a":2,"n":"PlayGrabAnimation","t":8,"sn":"PlayGrabAnimation","rt":$n[0].Void},{"a":2,"n":"PlayReleaseAnimation","t":8,"sn":"PlayReleaseAnimation","rt":$n[0].Void},{"a":1,"n":"SetAlpha","t":8,"pi":[{"n":"renderer","pt":$n[1].SpriteRenderer,"ps":0},{"n":"alpha","pt":$n[0].Single,"ps":1}],"sn":"SetAlpha","rt":$n[0].Void,"p":[$n[1].SpriteRenderer,$n[0].Single]},{"a":2,"n":"SetVisibility","t":8,"pi":[{"n":"visible","pt":$n[0].Boolean,"ps":0}],"sn":"SetVisibility","rt":$n[0].Void,"p":[$n[0].Boolean]},{"a":2,"n":"TriggerChainReactionFade","t":8,"sn":"TriggerChainReactionFade","rt":$n[0].Void},{"a":1,"n":"Update","t":8,"sn":"Update","rt":$n[0].Void},{"a":1,"n":"SHADOW_MAX_ALPHA","is":true,"t":4,"rt":$n[0].Single,"sn":"SHADOW_MAX_ALPHA","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"animator","t":4,"rt":$n[1].Animator,"sn":"animator"},{"a":1,"n":"fadeCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"fadeCoroutine"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"fadeDuration","t":4,"rt":$n[0].Single,"sn":"fadeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"a":1,"n":"isVisible","t":4,"rt":$n[0].Boolean,"sn":"isVisible","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainCamera","t":4,"rt":$n[1].Camera,"sn":"mainCamera"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shadowRenderer","t":4,"rt":$n[1].SpriteRenderer,"sn":"shadowRenderer"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"spriteRenderer","t":4,"rt":$n[1].SpriteRenderer,"sn":"spriteRenderer"}]}; }, $n);
+    $m("CursorFollower", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":1,"n":"FadeCoroutine","t":8,"pi":[{"n":"targetVisible","pt":$n[0].Boolean,"ps":0}],"sn":"FadeCoroutine","rt":$n[2].IEnumerator,"p":[$n[0].Boolean]},{"a":1,"n":"HideInstantlyCursor","t":8,"sn":"HideInstantlyCursor","rt":$n[0].Void},{"a":2,"n":"PlayGrabAnimation","t":8,"sn":"PlayGrabAnimation","rt":$n[0].Void},{"a":2,"n":"PlayReleaseAnimation","t":8,"sn":"PlayReleaseAnimation","rt":$n[0].Void},{"a":1,"n":"SetAlpha","t":8,"pi":[{"n":"renderer","pt":$n[1].SpriteRenderer,"ps":0},{"n":"alpha","pt":$n[0].Single,"ps":1}],"sn":"SetAlpha","rt":$n[0].Void,"p":[$n[1].SpriteRenderer,$n[0].Single]},{"a":2,"n":"SetTutorialActive","t":8,"pi":[{"n":"active","pt":$n[0].Boolean,"ps":0}],"sn":"SetTutorialActive","rt":$n[0].Void,"p":[$n[0].Boolean]},{"a":2,"n":"SetVisibility","t":8,"pi":[{"n":"visible","pt":$n[0].Boolean,"ps":0}],"sn":"SetVisibility","rt":$n[0].Void,"p":[$n[0].Boolean]},{"a":2,"n":"TriggerChainReactionFade","t":8,"sn":"TriggerChainReactionFade","rt":$n[0].Void},{"a":1,"n":"Update","t":8,"sn":"Update","rt":$n[0].Void},{"a":1,"n":"SHADOW_MAX_ALPHA","is":true,"t":4,"rt":$n[0].Single,"sn":"SHADOW_MAX_ALPHA","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"animator","t":4,"rt":$n[1].Animator,"sn":"animator"},{"a":1,"n":"fadeCoroutine","t":4,"rt":$n[1].Coroutine,"sn":"fadeCoroutine"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"fadeDuration","t":4,"rt":$n[0].Single,"sn":"fadeDuration","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"a":1,"n":"isTutorialActive","t":4,"rt":$n[0].Boolean,"sn":"isTutorialActive","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"n":"isVisible","t":4,"rt":$n[0].Boolean,"sn":"isVisible","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainCamera","t":4,"rt":$n[1].Camera,"sn":"mainCamera"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"mainRenderers","t":4,"rt":System.Array.type(UnityEngine.SpriteRenderer),"sn":"mainRenderers"},{"at":[new UnityEngine.HeaderAttribute("Pivot Settings"),new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pivotOffsetX","t":4,"rt":$n[0].Single,"sn":"pivotOffsetX","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"pivotOffsetY","t":4,"rt":$n[0].Single,"sn":"pivotOffsetY","box":function ($v) { return Bridge.box($v, System.Single, System.Single.format, System.Single.getHashCode);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"shadowRenderers","t":4,"rt":System.Array.type(UnityEngine.SpriteRenderer),"sn":"shadowRenderers"}]}; }, $n);
     /*CursorFollower end.*/
+
+    /*EndGame start.*/
+    $m("EndGame", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"},{"a":1,"n":"Awake","t":8,"sn":"Awake","rt":$n[0].Void},{"a":2,"n":"FinalEndGame","t":8,"sn":"FinalEndGame","rt":$n[0].Void},{"a":1,"n":"OnDestroy","t":8,"sn":"OnDestroy","rt":$n[0].Void},{"a":1,"n":"RefButton","t":8,"sn":"RefButton","rt":$n[0].Void},{"a":1,"n":"Start","t":8,"sn":"Start","rt":$n[0].Void},{"a":2,"n":"TriggerEndGame","t":8,"sn":"TriggerEndGame","rt":$n[0].Void},{"a":2,"n":"TriggerPackshot","t":8,"sn":"TriggerPackshot","rt":$n[0].Void},{"a":2,"n":"GameEnded","t":16,"rt":$n[0].Boolean,"g":{"a":2,"n":"get_GameEnded","t":8,"rt":$n[0].Boolean,"fg":"GameEnded","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},"s":{"a":1,"n":"set_GameEnded","t":8,"p":[$n[0].Boolean],"rt":$n[0].Void,"fs":"GameEnded"},"fn":"GameEnded"},{"a":2,"n":"Instance","is":true,"t":16,"rt":EndGame,"g":{"a":2,"n":"get_Instance","t":8,"rt":EndGame,"fg":"Instance","is":true},"s":{"a":1,"n":"set_Instance","t":8,"p":[EndGame],"rt":$n[0].Void,"fs":"Instance","is":true},"fn":"Instance"},{"a":1,"n":"__Property__Initializer__GameEnded","t":4,"rt":$n[0].Boolean,"sn":"__Property__Initializer__GameEnded","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"animator","t":4,"rt":$n[1].Animator,"sn":"animator"},{"at":[new UnityEngine.SerializeFieldAttribute()],"a":1,"n":"urlButtons","t":4,"rt":System.Array.type(UnityEngine.UI.Button),"sn":"urlButtons"},{"a":1,"backing":true,"n":"<GameEnded>k__BackingField","t":4,"rt":$n[0].Boolean,"sn":"GameEnded","box":function ($v) { return Bridge.box($v, System.Boolean, System.Boolean.toString);}},{"a":1,"backing":true,"n":"<Instance>k__BackingField","is":true,"t":4,"rt":EndGame,"sn":"Instance"}]}; }, $n);
+    /*EndGame end.*/
 
     /*IAmAnEmptyScriptJustToMakeCodelessProjectsCompileProperty start.*/
     $m("IAmAnEmptyScriptJustToMakeCodelessProjectsCompileProperty", function () { return {"att":1048577,"a":2,"m":[{"a":2,"isSynthetic":true,"n":".ctor","t":1,"sn":"ctor"}]}; }, $n);
